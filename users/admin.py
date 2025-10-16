@@ -3,14 +3,14 @@ from .models import TelegramUser, TestResult, Workshop, WorkshopRegistration
 
 @admin.register(TelegramUser)
 class TelegramUserAdmin(admin.ModelAdmin):
-    list_display = ('id', 'first_name', 'last_name', 'username', 'email', 'workplace', 'position', 'data_processing_agreement', 'created_at', 'has_completed_test')
-    list_filter = ('data_processing_agreement', 'workplace', 'position', 'created_at')
-    search_fields = ('first_name', 'last_name', 'username', 'email', 'workplace', 'position')
-    readonly_fields = ('first_name', 'last_name', 'username', 'email', 'workplace', 'position', 'data_processing_agreement', 'created_at')
-    fields = ('first_name', 'last_name', 'username', 'email', 'workplace', 'position', 'data_processing_agreement', 'created_at')
+    list_display = ('id', 'telegram_id', 'first_name', 'last_name', 'username', 'email', 'workplace', 'position', 'is_expert', 'data_processing_agreement', 'created_at', 'has_completed_test')
+    list_filter = ('is_expert', 'data_processing_agreement', 'workplace', 'position', 'created_at')
+    search_fields = ('first_name', 'last_name', 'username', 'email', 'workplace', 'position', 'telegram_id')
+    readonly_fields = ('created_at',)
+    fields = ('telegram_id', 'first_name', 'last_name', 'username', 'email', 'workplace', 'position', 'is_expert', 'data_processing_agreement', 'created_at')
 
     def has_add_permission(self, request):
-        return False
+        return True
 
     def has_change_permission(self, request, obj=None):
         return True

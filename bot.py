@@ -55,6 +55,21 @@ def update_user(user, data):
 
 @dp.message(Command('start'))
 async def cmd_start(message: types.Message):
+    # Если уже есть эксперт — показываем приветствие и кнопку "Расписание"
+    tg_id = message.from_user.id
+    user = await sync_to_async(TelegramUser.objects.filter(telegram_id=tg_id).first)()
+    if user and user.is_expert:
+        first_name = (user.first_name or '').strip()
+        last_name = (user.last_name or '').strip()
+        full_name = (first_name + (' ' + last_name if last_name else '')).strip()
+        keyboard = ReplyKeyboardMarkup(
+            keyboard=[[KeyboardButton(text='Расписание')]],
+            resize_keyboard=True
+        )
+        await message.answer(f"Здравствуйте! Добро пожаловать, {full_name}.")
+        await message.answer("Используйте кнопку ниже, чтобы открыть расписание.", reply_markup=keyboard)
+        return
+
     user_state[message.from_user.id] = {'step': 0, 'data': {}}
     await message.answer("Здравствуйте! Для входа в приложение заполните несколько полей.")
     await message.answer(fields[0][1])
@@ -177,7 +192,18 @@ async def collect_data(message: types.Message):
                     inline_keyboard=[[InlineKeyboardButton(text='Открыть приложение', web_app=WebAppInfo(url=FRONTEND_BASE_URL))]]
                 )
                 await message.answer('Спасибо, регистрация завершена!', reply_markup=ReplyKeyboardRemove())
-                await message.answer('Нажмите кнопку ниже, чтобы открыть приложение:', reply_markup=ikb)
+                # Если пользователь эксперт — не даём доступ к мини-апп, показываем "Расписание"
+                if user.is_expert:
+                    first_name = (user.first_name or '').strip()
+                    last_name = (user.last_name or '').strip()
+                    full_name = (first_name + (' ' + last_name if last_name else '')).strip()
+                    keyboard = ReplyKeyboardMarkup(
+                        keyboard=[[KeyboardButton(text='Расписание')]],
+                        resize_keyboard=True
+                    )
+                    await message.answer(f'Здравствуйте! Добро пожаловать, {full_name}. Нажмите "Расписание" для просмотра.', reply_markup=keyboard)
+                else:
+                    await message.answer('Нажмите кнопку ниже, чтобы открыть приложение:', reply_markup=ikb)
             return
         else:
             keyboard = ReplyKeyboardMarkup(
@@ -228,21 +254,51 @@ async def collect_data(message: types.Message):
             inline_keyboard=[[InlineKeyboardButton(text='Открыть приложение', web_app=WebAppInfo(url=FRONTEND_BASE_URL))]]
         )
         await message.answer('Спасибо, регистрация завершена!', reply_markup=ReplyKeyboardRemove())
-        await message.answer('Нажмите кнопку ниже, чтобы открыть приложение:', reply_markup=ikb)
+        if user.is_expert:
+            first_name = (user.first_name or '').strip()
+            last_name = (user.last_name or '').strip()
+            full_name = (first_name + (' ' + last_name if last_name else '')).strip()
+            keyboard = ReplyKeyboardMarkup(
+                keyboard=[[KeyboardButton(text='Расписание')]],
+                resize_keyboard=True
+            )
+            await message.answer(f'Здравствуйте! Добро пожаловать, {full_name}. Нажмите "Расписание" для просмотра.', reply_markup=keyboard)
+        else:
+            await message.answer('Нажмите кнопку ниже, чтобы открыть приложение:', reply_markup=ikb)
 
 @dp.message(F.text == 'Открыть приложение')
 async def open_app(message: types.Message):
     # Если пользователь уже есть — выдадим WebApp кнопку
     tg_id = message.from_user.id
     user = await sync_to_async(TelegramUser.objects.filter(telegram_id=tg_id).first)()
-    if user:
+    if user and not user.is_expert:
         ikb = InlineKeyboardMarkup(
             inline_keyboard=[[InlineKeyboardButton(text='Открыть приложение', web_app=WebAppInfo(url=FRONTEND_BASE_URL))]]
         )
         await message.answer('Нажмите кнопку ниже, чтобы открыть приложение:', reply_markup=ikb)
         return
+    if user and user.is_expert:
+        first_name = (user.first_name or '').strip()
+        last_name = (user.last_name or '').strip()
+        full_name = (first_name + (' ' + last_name if last_name else '')).strip()
+        keyboard = ReplyKeyboardMarkup(
+            keyboard=[[KeyboardButton(text='Расписание')]],
+            resize_keyboard=True
+        )
+        await message.answer(f'Здравствуйте! Добро пожаловать, {full_name}. Нажмите "Расписание" для просмотра.', reply_markup=keyboard)
+        return
     # Если почему-то нет пользователя
     await message.answer("Начните с команды /start")
+
+@dp.message(F.text == 'Расписание')
+async def show_schedule(message: types.Message):
+    # Пока просто заглушка для экспертов
+    tg_id = message.from_user.id
+    user = await sync_to_async(TelegramUser.objects.filter(telegram_id=tg_id).first)()
+    if user and user.is_expert:
+        await message.answer("Скоро здесь появится расписание.")
+    else:
+        await message.answer("Эта функция доступна только экспертам.")
 
 if __name__ == '__main__':
     asyncio.run(dp.start_polling(bot))
