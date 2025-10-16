@@ -466,17 +466,27 @@ def consultations_book(request, slot_id):
         already = ConsultationSlot.objects.filter(booked_by=user, topic=topic, is_booked=True).exists()
         if already:
             return JsonResponse({'error': 'Already booked this topic'}, status=400)
-        exists = ConsultationSlot.objects.filter(expert=expert, start_time=st, end_time=et, is_booked=True).exists()
-        if exists:
-            return JsonResponse({'error': 'Slot already booked'}, status=400)
-        slot = ConsultationSlot.objects.create(
-            expert=expert,
-            topic=topic,
-            start_time=st,
-            end_time=et,
-            is_booked=True,
-            booked_by=user,
-        )
+        # Reuse existing unbooked slot record to avoid unique constraint conflicts
+        existing_slot = ConsultationSlot.objects.filter(expert=expert, start_time=st, end_time=et).first()
+        if existing_slot:
+            if existing_slot.is_booked:
+                return JsonResponse({'error': 'Slot already booked'}, status=400)
+            # Update and book existing slot
+            existing_slot.topic = topic
+            existing_slot.is_booked = True
+            existing_slot.booked_by = user
+            existing_slot.save()
+            slot = existing_slot
+        else:
+            # Create a new record if none exists yet
+            slot = ConsultationSlot.objects.create(
+                expert=expert,
+                topic=topic,
+                start_time=st,
+                end_time=et,
+                is_booked=True,
+                booked_by=user,
+            )
         # Notify expert
         try:
             expert_name = f"{slot.expert.first_name} {slot.expert.last_name or ''}".strip()
@@ -521,9 +531,8 @@ def consultations_cancel(request, slot_id):
             _send_telegram_message(slot.expert.telegram_id, text)
         except Exception:
             pass
-        slot.is_booked = False
-        slot.booked_by = None
-        slot.save()
+        # Delete the slot entirely so the same expert/time can be booked again later
+        slot.delete()
         return JsonResponse({'success': True})
     except json.JSONDecodeError:
         return JsonResponse({'error': 'Invalid JSON'}, status=400)
