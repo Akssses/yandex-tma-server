@@ -73,3 +73,28 @@ class WorkshopRegistration(models.Model):
 
     def __str__(self):
         return f"{self.user} -> {self.workshop}"
+
+
+class ConsultationTopic(models.Model):
+    name = models.CharField(max_length=255, unique=True)
+    experts = models.ManyToManyField('TelegramUser', related_name='expert_topics', blank=True, limit_choices_to={'is_expert': True})
+
+    def __str__(self):
+        return self.name
+
+
+class ConsultationSlot(models.Model):
+    expert = models.ForeignKey(TelegramUser, on_delete=models.CASCADE, related_name='consultation_slots')
+    topic = models.ForeignKey(ConsultationTopic, on_delete=models.CASCADE, related_name='slots')
+    start_time = models.DateTimeField()
+    end_time = models.DateTimeField()
+    is_booked = models.BooleanField(default=False)
+    booked_by = models.ForeignKey(TelegramUser, on_delete=models.SET_NULL, null=True, blank=True, related_name='consultations')
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['start_time']
+        unique_together = ('expert', 'start_time', 'end_time')
+
+    def __str__(self):
+        return f"{self.topic.name} with {self.expert.first_name} at {self.start_time}"

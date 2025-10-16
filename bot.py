@@ -13,7 +13,7 @@ import re
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'core.settings')
 django.setup()
 
-from users.models import TelegramUser
+from users.models import TelegramUser, ConsultationSlot
 
 TELEGRAM_BOT_TOKEN = '8429850519:AAHSSPY3TAhuyTJQEc0cqFQAelXPrD2qKAs'
 FRONTEND_BASE_URL = os.getenv('FRONTEND_URL', 'https://demisable-agueda-cloque.ngrok-free.dev')
@@ -296,9 +296,31 @@ async def show_schedule(message: types.Message):
     tg_id = message.from_user.id
     user = await sync_to_async(TelegramUser.objects.filter(telegram_id=tg_id).first)()
     if user and user.is_expert:
-        await message.answer("Скоро здесь появится расписание.")
+        # Build schedule text
+        def build_schedule_text(slots):
+            if not slots:
+                return "На сегодня слотов нет."
+            lines = [
+                "Ваше расписание:",
+                "\nМесто встречи: стойка информации на стенде Яндекса, 1 этаж",
+            ]
+            for s in slots:
+                time_str = f"{s.start_time.strftime('%H:%M')} - {s.end_time.strftime('%H:%M')}"
+                user_part = (
+                    f"; Пользователь: {s.booked_by.first_name} {s.booked_by.last_name or ''} (@{s.booked_by.username or '-'} )"
+                    if s.is_booked and s.booked_by else "; Свободен"
+                )
+                lines.append(f"ID {s.id} | {time_str} | {s.topic.name}{user_part}")
+            return "\n".join(lines)
+
+        slots = await sync_to_async(list)(
+            ConsultationSlot.objects.select_related('topic', 'booked_by').filter(expert=user).order_by('start_time')
+        )
+        await message.answer(build_schedule_text(slots))
     else:
         await message.answer("Эта функция доступна только экспертам.")
+
+# Установка локации больше не требуется: локация фиксированная
 
 if __name__ == '__main__':
     asyncio.run(dp.start_polling(bot))

@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import TelegramUser, TestResult, Workshop, WorkshopRegistration
+from .models import TelegramUser, TestResult, Workshop, WorkshopRegistration, ConsultationTopic, ConsultationSlot
 
 @admin.register(TelegramUser)
 class TelegramUserAdmin(admin.ModelAdmin):
@@ -54,3 +54,22 @@ class WorkshopRegistrationAdmin(admin.ModelAdmin):
     list_display = ('id', 'user', 'workshop', 'registered_at')
     list_filter = ('registered_at', 'workshop')
     search_fields = ('user__first_name', 'user__last_name', 'user__username', 'workshop__title')
+
+
+@admin.register(ConsultationTopic)
+class ConsultationTopicAdmin(admin.ModelAdmin):
+    list_display = ('id', 'name')
+    search_fields = ('name',)
+    filter_horizontal = ('experts',)
+
+
+@admin.register(ConsultationSlot)
+class ConsultationSlotAdmin(admin.ModelAdmin):
+    list_display = ('id', 'expert', 'topic', 'start_time', 'end_time', 'is_booked', 'booked_by')
+    list_filter = ('is_booked', 'topic', 'expert', 'start_time')
+    search_fields = ('expert__first_name', 'expert__last_name', 'topic__name', 'booked_by__first_name', 'booked_by__last_name')
+    readonly_fields = ('expert', 'topic', 'start_time', 'end_time', 'is_booked', 'booked_by', 'created_at')
+
+    def has_add_permission(self, request):
+        # Slots are generated in code and created only upon booking
+        return False
