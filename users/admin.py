@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import TelegramUser, TestResult
+from .models import TelegramUser, TestResult, Workshop, WorkshopRegistration
 
 @admin.register(TelegramUser)
 class TelegramUserAdmin(admin.ModelAdmin):
@@ -40,3 +40,17 @@ class TestResultAdmin(admin.ModelAdmin):
 
     def has_delete_permission(self, request, obj=None):
         return True
+
+
+@admin.register(Workshop)
+class WorkshopAdmin(admin.ModelAdmin):
+    list_display = ('id', 'title', 'tag', 'start_time', 'end_time', 'created_at')
+    search_fields = ('title', 'tag')
+    list_filter = ('start_time', 'end_time', 'created_at')
+
+
+@admin.register(WorkshopRegistration)
+class WorkshopRegistrationAdmin(admin.ModelAdmin):
+    list_display = ('id', 'user', 'workshop', 'registered_at')
+    list_filter = ('registered_at', 'workshop')
+    search_fields = ('user__first_name', 'user__last_name', 'user__username', 'workshop__title')

@@ -48,3 +48,27 @@ class TestResult(models.Model):
     
     def __str__(self):
         return f"{self.user.first_name} - {self.analyst_name}"
+
+
+class Workshop(models.Model):
+    title = models.CharField(max_length=255)
+    tag = models.CharField(max_length=255, blank=True, null=True)
+    description = models.TextField(blank=True, null=True)
+    start_time = models.DateTimeField(null=True, blank=True)
+    end_time = models.DateTimeField(null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.title} ({self.start_time} - {self.end_time})"
+
+
+class WorkshopRegistration(models.Model):
+    user = models.ForeignKey(TelegramUser, on_delete=models.CASCADE, related_name='workshop_registrations')
+    workshop = models.ForeignKey(Workshop, on_delete=models.CASCADE, related_name='registrations')
+    registered_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ('user', 'workshop')
+
+    def __str__(self):
+        return f"{self.user} -> {self.workshop}"

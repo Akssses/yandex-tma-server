@@ -6,4 +6,9 @@ urlpatterns = [
     path('test-status/', views.get_test_status, name='get_test_status'),
     path('save-test-result/', views.save_test_result, name='save_test_result'),
     path('confirm-gift/', views.confirm_gift, name='confirm_gift'),
+    # special
+    path('special/workshops/', views.list_workshops, name='list_workshops'),
+    path('special/my/', views.my_workshop_status, name='my_workshop_status'),
+    path('special/register/<int:workshop_id>/', views.register_workshop, name='register_workshop'),
+    path('special/cancel/<int:workshop_id>/', views.cancel_workshop, name='cancel_workshop'),
 ]
