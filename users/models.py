@@ -22,3 +22,29 @@ class TelegramUser(models.Model):
         self.auth_token = uuid.uuid4().hex
         self.save()
         return self.auth_token
+
+    def has_completed_test(self):
+        return hasattr(self, 'testresult')
+
+
+class TestResult(models.Model):
+    ANALYST_TYPES = [
+        ('EP', 'Аналитик-решала'),
+        ('EJ', 'Аналитик-суетолог'),
+        ('IP', 'Аналитик-вайбик'),
+        ('IJ', 'Аналитик-стратег'),
+    ]
+    
+    user = models.OneToOneField(TelegramUser, on_delete=models.CASCADE, related_name='testresult')
+    analyst_type = models.CharField(max_length=2, choices=ANALYST_TYPES)
+    analyst_name = models.CharField(max_length=255)
+    animal = models.CharField(max_length=255)
+    description = models.TextField()
+    tags = models.JSONField(default=list)
+    ei_score = models.IntegerField()
+    pj_score = models.IntegerField()
+    gift_received = models.BooleanField(default=False)
+    completed_at = models.DateTimeField(auto_now_add=True)
+    
+    def __str__(self):
+        return f"{self.user.first_name} - {self.analyst_name}"
