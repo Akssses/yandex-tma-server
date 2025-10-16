@@ -1,4 +1,5 @@
 from django.db import models
+import uuid
 
 # Create your models here.
 
@@ -12,6 +13,12 @@ class TelegramUser(models.Model):
     position = models.CharField(max_length=255, blank=True, null=True)
     data_processing_agreement = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
+    auth_token = models.CharField(max_length=64, blank=True, null=True, unique=True)
 
     def __str__(self):
         return f"{self.first_name} {self.last_name} (@{self.username})"
+
+    def generate_auth_token(self):
+        self.auth_token = uuid.uuid4().hex
+        self.save()
+        return self.auth_token

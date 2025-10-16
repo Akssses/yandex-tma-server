@@ -4,6 +4,8 @@ import asyncio
 from aiogram import Bot, Dispatcher, types, F
 from aiogram.filters import Command
 from aiogram.types import ReplyKeyboardMarkup, KeyboardButton, ReplyKeyboardRemove
+from aiogram.types import WebAppInfo
+from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 from asgiref.sync import sync_to_async
 import re
 
@@ -14,6 +16,7 @@ django.setup()
 from users.models import TelegramUser
 
 TELEGRAM_BOT_TOKEN = '8429850519:AAHSSPY3TAhuyTJQEc0cqFQAelXPrD2qKAs'
+FRONTEND_BASE_URL = os.getenv('FRONTEND_URL', 'https://demisable-agueda-cloque.ngrok-free.dev')
 
 bot = Bot(token=TELEGRAM_BOT_TOKEN)
 dp = Dispatcher()
@@ -61,7 +64,10 @@ async def collect_data(message: types.Message):
     user_id = message.from_user.id
     state = user_state.get(user_id)
     if not state:
-        await message.answer("Начните с команды /start")
+        # Игнорируем нажатие кнопки "Открыть приложение" здесь — есть отдельный хендлер
+        if message.text and message.text.strip() == 'Открыть приложение':
+            return
+        # Не шлём повторно подсказки, чтобы не спамить после завершения регистрации
         return
 
     step = state['step']
@@ -167,11 +173,11 @@ async def collect_data(message: types.Message):
                 if not created:
                     await update_user(user, data)
                 user_state.pop(user_id, None)
-                keyboard = ReplyKeyboardMarkup(
-                    keyboard=[[KeyboardButton(text='Открыть приложение')]],
-                    resize_keyboard=True
+                ikb = InlineKeyboardMarkup(
+                    inline_keyboard=[[InlineKeyboardButton(text='Открыть приложение', web_app=WebAppInfo(url=FRONTEND_BASE_URL))]]
                 )
-                await message.answer('Спасибо, регистрация завершена!', reply_markup=keyboard)
+                await message.answer('Спасибо, регистрация завершена!', reply_markup=ReplyKeyboardRemove())
+                await message.answer('Нажмите кнопку ниже, чтобы открыть приложение:', reply_markup=ikb)
             return
         else:
             keyboard = ReplyKeyboardMarkup(
@@ -218,15 +224,25 @@ async def collect_data(message: types.Message):
         if not created:
             await update_user(user, data)
         user_state.pop(user_id, None)
-        keyboard = ReplyKeyboardMarkup(
-            keyboard=[[KeyboardButton(text='Открыть приложение')]],
-            resize_keyboard=True
+        ikb = InlineKeyboardMarkup(
+            inline_keyboard=[[InlineKeyboardButton(text='Открыть приложение', web_app=WebAppInfo(url=FRONTEND_BASE_URL))]]
         )
-        await message.answer('Спасибо, регистрация завершена!', reply_markup=keyboard)
+        await message.answer('Спасибо, регистрация завершена!', reply_markup=ReplyKeyboardRemove())
+        await message.answer('Нажмите кнопку ниже, чтобы открыть приложение:', reply_markup=ikb)
 
 @dp.message(F.text == 'Открыть приложение')
 async def open_app(message: types.Message):
-    await message.answer("Для входа в приложение перейдите по ссылке: https://your-app-domain.com/")
+    # Если пользователь уже есть — выдадим WebApp кнопку
+    tg_id = message.from_user.id
+    user = await sync_to_async(TelegramUser.objects.filter(telegram_id=tg_id).first)()
+    if user:
+        ikb = InlineKeyboardMarkup(
+            inline_keyboard=[[InlineKeyboardButton(text='Открыть приложение', web_app=WebAppInfo(url=FRONTEND_BASE_URL))]]
+        )
+        await message.answer('Нажмите кнопку ниже, чтобы открыть приложение:', reply_markup=ikb)
+        return
+    # Если почему-то нет пользователя
+    await message.answer("Начните с команды /start")
 
 if __name__ == '__main__':
     asyncio.run(dp.start_polling(bot))
