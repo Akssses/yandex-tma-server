@@ -281,14 +281,20 @@ def my_workshop_status(request):
         if err:
             return err
         regs = WorkshopRegistration.objects.filter(user=user).select_related('workshop')
-        data = [
-            {
+        data = []
+        for r in regs:
+            # Build time string like in list_workshops()
+            try:
+                st = r.workshop.start_time.strftime('%H:%M') if r.workshop.start_time else ""
+                et = r.workshop.end_time.strftime('%H:%M') if r.workshop.end_time else ""
+                time_str = f"{st} - {et}" if st and et else ""
+            except Exception:
+                time_str = ""
+            data.append({
                 'id': r.workshop.id,
                 'title': r.workshop.title,
-                'time': r.workshop.time,
-            }
-            for r in regs
-        ]
+                'time': time_str,
+            })
         return JsonResponse({'success': True, 'registrations': data, 'count': regs.count()})
     except json.JSONDecodeError:
         return JsonResponse({'error': 'Invalid JSON'}, status=400)
