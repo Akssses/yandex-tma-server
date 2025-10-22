@@ -26,6 +26,9 @@ class TelegramUser(models.Model):
 
     def has_completed_test(self):
         return hasattr(self, 'testresult')
+    
+    def has_completed_quiz(self):
+        return hasattr(self, 'quizresult')
 
 
 class TestResult(models.Model):
@@ -49,6 +52,17 @@ class TestResult(models.Model):
     
     def __str__(self):
         return f"{self.user.first_name} - {self.analyst_name}"
+
+
+class QuizResult(models.Model):
+    user = models.OneToOneField(TelegramUser, on_delete=models.CASCADE, related_name='quizresult')
+    correct_answers = models.IntegerField()
+    total_questions = models.IntegerField()
+    answers = models.JSONField(default=list)  # Список ответов пользователя
+    completed_at = models.DateTimeField(auto_now_add=True)
+    
+    def __str__(self):
+        return f"{self.user.first_name} - {self.correct_answers}/{self.total_questions}"
 
 
 class Workshop(models.Model):

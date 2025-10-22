@@ -74,6 +74,79 @@ async def cmd_start(message: types.Message):
     await message.answer("Здравствуйте! Для входа в приложение заполните несколько полей.")
     await message.answer(fields[0][1])
 
+@dp.message(F.text == 'Открыть приложение')
+async def open_app(message: types.Message):
+    # Если пользователь уже есть — выдадим WebApp кнопку
+    tg_id = message.from_user.id
+    user = await sync_to_async(TelegramUser.objects.filter(telegram_id=tg_id).first)()
+    if user and not user.is_expert:
+        ikb = InlineKeyboardMarkup(
+            inline_keyboard=[[InlineKeyboardButton(text='Открыть приложение', web_app=WebAppInfo(url=FRONTEND_BASE_URL))]]
+        )
+        await message.answer('Нажмите кнопку ниже, чтобы открыть приложение:', reply_markup=ikb)
+        return
+    if user and user.is_expert:
+        first_name = (user.first_name or '').strip()
+        last_name = (user.last_name or '').strip()
+        full_name = (first_name + (' ' + last_name if last_name else '')).strip()
+        keyboard = ReplyKeyboardMarkup(
+            keyboard=[[KeyboardButton(text='Расписание')]],
+            resize_keyboard=True
+        )
+        await message.answer(f'Здравствуйте! Добро пожаловать, {full_name}. Нажмите "Расписание" для просмотра.', reply_markup=keyboard)
+        return
+    # Если почему-то нет пользователя
+    await message.answer("Начните с команды /start")
+
+@dp.message(F.text == 'Расписание')
+async def show_schedule(message: types.Message):
+    try:
+        print(f"Schedule button pressed by user {message.from_user.id}")
+        tg_id = message.from_user.id
+        user = await sync_to_async(TelegramUser.objects.filter(telegram_id=tg_id).first)()
+        print(f"User found: {user}, is_expert: {user.is_expert if user else 'No user'}")
+        if user and user.is_expert:
+            # Build schedule text
+            def build_schedule_text(slots):
+                if not slots:
+                    return "На сегодня записей на консультации нет."
+                lines = [
+                    "📅 Ваши забронированные консультации:",
+                    "",
+                ]
+                for s in slots:
+                    date_part = s.start_time.strftime('%d.%m.%Y')
+                    time_str = f"{s.start_time.strftime('%H:%M')} - {s.end_time.strftime('%H:%M')}"
+                    # Safely handle missing booked_by
+                    if s.booked_by:
+                        bn = s.booked_by
+                        user_name = f"{bn.first_name or ''} {bn.last_name or ''}".strip() or "Без имени"
+                        username = f"@{bn.username}" if bn.username else "без username"
+                    else:
+                        user_name = "—"
+                        username = "—"
+                    topic_name = getattr(getattr(s, 'topic', None), 'name', '—')
+                    lines.append(f"📆 {date_part} • 🕐 {time_str}")
+                    lines.append(f"👤 {user_name} ({username})")
+                    lines.append(f"📋 Тема: {topic_name}")
+                    lines.append("📍 Место встречи: стойка информации на стенде Яндекса, 1 этаж")
+                    lines.append("─" * 30)
+                return "\n".join(lines)
+
+            slots = await sync_to_async(list)(
+                ConsultationSlot.objects.select_related('topic', 'booked_by').filter(expert=user, is_booked=True).order_by('start_time')
+            )
+            print(f"Found {len(slots)} booked consultation slots for expert {user.id}")
+            schedule_text = build_schedule_text(slots)
+            print(f"Schedule text: {schedule_text}")
+            await message.answer(schedule_text)
+        else:
+            await message.answer("Эта функция доступна только экспертам.")
+    except Exception as e:
+        # Ensure bot responds even if there is an unexpected error
+        print(f"Error while building schedule: {e}")
+        await message.answer("Не удалось загрузить расписание. Попробуйте позже.")
+
 @dp.message()
 async def collect_data(message: types.Message):
     user_id = message.from_user.id
@@ -81,6 +154,9 @@ async def collect_data(message: types.Message):
     if not state:
         # Игнорируем нажатие кнопки "Открыть приложение" здесь — есть отдельный хендлер
         if message.text and message.text.strip() == 'Открыть приложение':
+            return
+        # Игнорируем нажатие кнопки "Расписание" здесь — есть отдельный хендлер
+        if message.text and message.text.strip() == 'Расписание':
             return
         # Не шлём повторно подсказки, чтобы не спамить после завершения регистрации
         return
@@ -265,62 +341,6 @@ async def collect_data(message: types.Message):
             await message.answer(f'Здравствуйте! Добро пожаловать, {full_name}. Нажмите "Расписание" для просмотра.', reply_markup=keyboard)
         else:
             await message.answer('Нажмите кнопку ниже, чтобы открыть приложение:', reply_markup=ikb)
-
-@dp.message(F.text == 'Открыть приложение')
-async def open_app(message: types.Message):
-    # Если пользователь уже есть — выдадим WebApp кнопку
-    tg_id = message.from_user.id
-    user = await sync_to_async(TelegramUser.objects.filter(telegram_id=tg_id).first)()
-    if user and not user.is_expert:
-        ikb = InlineKeyboardMarkup(
-            inline_keyboard=[[InlineKeyboardButton(text='Открыть приложение', web_app=WebAppInfo(url=FRONTEND_BASE_URL))]]
-        )
-        await message.answer('Нажмите кнопку ниже, чтобы открыть приложение:', reply_markup=ikb)
-        return
-    if user and user.is_expert:
-        first_name = (user.first_name or '').strip()
-        last_name = (user.last_name or '').strip()
-        full_name = (first_name + (' ' + last_name if last_name else '')).strip()
-        keyboard = ReplyKeyboardMarkup(
-            keyboard=[[KeyboardButton(text='Расписание')]],
-            resize_keyboard=True
-        )
-        await message.answer(f'Здравствуйте! Добро пожаловать, {full_name}. Нажмите "Расписание" для просмотра.', reply_markup=keyboard)
-        return
-    # Если почему-то нет пользователя
-    await message.answer("Начните с команды /start")
-
-@dp.message(F.text == 'Расписание')
-async def show_schedule(message: types.Message):
-    # Пока просто заглушка для экспертов
-    tg_id = message.from_user.id
-    user = await sync_to_async(TelegramUser.objects.filter(telegram_id=tg_id).first)()
-    if user and user.is_expert:
-        # Build schedule text
-        def build_schedule_text(slots):
-            if not slots:
-                return "На сегодня слотов нет."
-            lines = [
-                "Ваше расписание:",
-                "\nМесто встречи: стойка информации на стенде Яндекса, 1 этаж",
-            ]
-            for s in slots:
-                time_str = f"{s.start_time.strftime('%H:%M')} - {s.end_time.strftime('%H:%M')}"
-                user_part = (
-                    f"; Пользователь: {s.booked_by.first_name} {s.booked_by.last_name or ''} (@{s.booked_by.username or '-'} )"
-                    if s.is_booked and s.booked_by else "; Свободен"
-                )
-                lines.append(f"ID {s.id} | {time_str} | {s.topic.name}{user_part}")
-            return "\n".join(lines)
-
-        slots = await sync_to_async(list)(
-            ConsultationSlot.objects.select_related('topic', 'booked_by').filter(expert=user).order_by('start_time')
-        )
-        await message.answer(build_schedule_text(slots))
-    else:
-        await message.answer("Эта функция доступна только экспертам.")
-
-# Установка локации больше не требуется: локация фиксированная
 
 if __name__ == '__main__':
     asyncio.run(dp.start_polling(bot))

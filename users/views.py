@@ -2,7 +2,7 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_http_methods
 import json
-from .models import TelegramUser, TestResult, Workshop, WorkshopRegistration, ConsultationTopic, ConsultationSlot
+from .models import TelegramUser, TestResult, QuizResult, Workshop, WorkshopRegistration, ConsultationTopic, ConsultationSlot
 from .telegram_auth import verify_telegram_webapp_data, get_user_from_telegram_data
 
 TELEGRAM_BOT_TOKEN = '7986098041:AAG7kR2rxwICzBRvP53yyUMtYonbceyW2Rg'
@@ -245,6 +245,147 @@ def confirm_gift(request):
     except json.JSONDecodeError:
         return JsonResponse({'error': 'Invalid JSON'}, status=400)
     except Exception as e:
+        return JsonResponse({'error': str(e)}, status=500)
+
+
+@csrf_exempt
+@require_http_methods(["POST"])
+def get_quiz_status(request):
+    """
+    Проверяет, проходил ли пользователь квиз
+    """
+    try:
+        data = json.loads(request.body)
+        init_data = data.get('initData')
+        
+        print(f"Quiz status check - initData: {init_data[:50] if init_data else 'None'}...")
+        
+        if not init_data:
+            return JsonResponse({'error': 'No initData provided'}, status=400)
+        
+        # Проверяем подпись Telegram
+        telegram_data = verify_telegram_webapp_data(init_data, TELEGRAM_BOT_TOKEN)
+        
+        if not telegram_data:
+            print("Quiz status check - Invalid Telegram signature")
+            return JsonResponse({'error': 'Invalid Telegram signature'}, status=401)
+        
+        # Извлекаем telegram_id
+        telegram_id = get_user_from_telegram_data(telegram_data)
+        
+        if not telegram_id:
+            print("Quiz status check - No telegram_id in data")
+            return JsonResponse({'error': 'No telegram_id in data'}, status=400)
+        
+        print(f"Quiz status check - telegram_id: {telegram_id}")
+        
+        try:
+            user = TelegramUser.objects.get(telegram_id=telegram_id)
+            print(f"Quiz status check - user found: {user.first_name}")
+            
+            if user.has_completed_quiz():
+                quiz_result = user.quizresult
+                print(f"Quiz status check - quiz completed: {quiz_result.correct_answers}/{quiz_result.total_questions}")
+                return JsonResponse({
+                    'success': True,
+                    'has_completed': True,
+                    'quiz_result': {
+                        'correct_answers': quiz_result.correct_answers,
+                        'total_questions': quiz_result.total_questions,
+                        'answers': quiz_result.answers,
+                        'completed_at': quiz_result.completed_at.isoformat(),
+                    }
+                })
+            else:
+                print("Quiz status check - quiz not completed")
+                return JsonResponse({
+                    'success': True,
+                    'has_completed': False
+                })
+                
+        except TelegramUser.DoesNotExist:
+            print("Quiz status check - User not registered")
+            return JsonResponse({'error': 'User not registered'}, status=403)
+            
+    except json.JSONDecodeError:
+        print("Quiz status check - Invalid JSON")
+        return JsonResponse({'error': 'Invalid JSON'}, status=400)
+    except Exception as e:
+        print(f"Quiz status check - Exception: {str(e)}")
+        return JsonResponse({'error': str(e)}, status=500)
+
+
+@csrf_exempt
+@require_http_methods(["POST"])
+def save_quiz_result(request):
+    """
+    Сохраняет результат квиза
+    """
+    try:
+        data = json.loads(request.body)
+        init_data = data.get('initData')
+        quiz_data = data.get('quizResult')
+        
+        print(f"Save quiz result - initData: {init_data[:50] if init_data else 'None'}...")
+        print(f"Save quiz result - quizData: {quiz_data}")
+        
+        if not init_data:
+            return JsonResponse({'error': 'No initData provided'}, status=400)
+        
+        # Проверяем подпись Telegram
+        telegram_data = verify_telegram_webapp_data(init_data, TELEGRAM_BOT_TOKEN)
+        
+        if not telegram_data:
+            print("Save quiz result - Invalid Telegram signature")
+            return JsonResponse({'error': 'Invalid Telegram signature'}, status=401)
+        
+        # Извлекаем telegram_id
+        telegram_id = get_user_from_telegram_data(telegram_data)
+        
+        if not telegram_id:
+            print("Save quiz result - No telegram_id in data")
+            return JsonResponse({'error': 'No telegram_id in data'}, status=400)
+        
+        print(f"Save quiz result - telegram_id: {telegram_id}")
+        
+        try:
+            user = TelegramUser.objects.get(telegram_id=telegram_id)
+            print(f"Save quiz result - user found: {user.first_name}")
+            
+            # Проверяем, не проходил ли уже квиз
+            if user.has_completed_quiz():
+                print("Save quiz result - Quiz already completed")
+                return JsonResponse({'error': 'Quiz already completed'}, status=400)
+            
+            # Получаем данные результата
+            if not quiz_data:
+                print("Save quiz result - No quiz result data provided")
+                return JsonResponse({'error': 'No quiz result data provided'}, status=400)
+            
+            # Создаем результат квиза
+            quiz_result = QuizResult.objects.create(
+                user=user,
+                correct_answers=quiz_data['correct_answers'],
+                total_questions=quiz_data['total_questions'],
+                answers=quiz_data['answers']
+            )
+            
+            print(f"Save quiz result - Quiz result created: {quiz_result}")
+            
+            return JsonResponse({
+                'success': True,
+                'message': 'Quiz result saved successfully'
+            })
+                
+        except TelegramUser.DoesNotExist:
+            print("Save quiz result - User not registered")
+            return JsonResponse({'error': 'User not registered'}, status=403)
+            
+    except json.JSONDecodeError:
+        print("Save quiz result - Invalid JSON")
+        return JsonResponse({'error': 'Invalid JSON'}, status=400)
+    except Exception as e:
+        print(f"Save quiz result - Exception: {str(e)}")
         return JsonResponse({'error': str(e)}, status=500)
 
 
