@@ -5,7 +5,7 @@ import json
 from .models import TelegramUser, TestResult, Workshop, WorkshopRegistration, ConsultationTopic, ConsultationSlot
 from .telegram_auth import verify_telegram_webapp_data, get_user_from_telegram_data
 
-TELEGRAM_BOT_TOKEN = '8429850519:AAHSSPY3TAhuyTJQEc0cqFQAelXPrD2qKAs'
+TELEGRAM_BOT_TOKEN = '7986098041:AAG7kR2rxwICzBRvP53yyUMtYonbceyW2Rg'
 TELEGRAM_API_BASE = 'https://api.telegram.org'
 
 def _send_telegram_message(chat_id: int, text: str) -> None:

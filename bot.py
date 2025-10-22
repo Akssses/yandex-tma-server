@@ -15,7 +15,7 @@ django.setup()
 
 from users.models import TelegramUser, ConsultationSlot
 
-TELEGRAM_BOT_TOKEN = '8429850519:AAHSSPY3TAhuyTJQEc0cqFQAelXPrD2qKAs'
+TELEGRAM_BOT_TOKEN = '7986098041:AAG7kR2rxwICzBRvP53yyUMtYonbceyW2Rg'
 FRONTEND_BASE_URL = os.getenv('FRONTEND_URL', 'https://demisable-agueda-cloque.ngrok-free.dev')
 
 bot = Bot(token=TELEGRAM_BOT_TOKEN)
