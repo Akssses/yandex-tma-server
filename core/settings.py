@@ -134,3 +134,12 @@ CORS_ALLOWED_ORIGINS = [
 ]
 
 CORS_ALLOW_CREDENTIALS = True
+
+# CSRF trusted origins
+CSRF_TRUSTED_ORIGINS = [
+    "https://yandextmaserver.ngrok.app",
+    "https://demisable-agueda-cloque.ngrok-free.dev",
+    "https://d0be66ba4906.ngrok-free.app",
+    "http://localhost:3000",
+    "http://127.0.0.1:3000",
+]
