@@ -51,9 +51,9 @@ def _user_to_row(u: TelegramUser):
         u.last_name or '',
         u.workplace or '',
         u.position or '',
-        f\"@{u.username}\" if u.username else '',
+        f"@{u.username}" if u.username else '',
         u.email or '',
-        'Да' if False else 'Нет',  # вакансии: поля нет
+        'Да' if u.is_expert else 'Нет',
         'Да' if u.has_completed_test() else 'Нет',
         'Да' if u.has_completed_quiz() else 'Нет',
         expert_name,
