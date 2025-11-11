@@ -252,7 +252,7 @@ def export_users_to_sheets(request):
                 u.position or '',
                 f"@{u.username}" if u.username else '',
                 u.email or '',
-                'Да' if False else 'Нет',  # нет отдельного поля под "Вакансии"
+                'Да' if (u.vacancies_interest is True) else ('Нет' if (u.vacancies_interest is False) else ''),
                 'Да' if u.has_completed_test() else 'Нет',
                 'Да' if u.has_completed_quiz() else 'Нет',
                 expert_name,

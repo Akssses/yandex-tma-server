@@ -54,6 +54,7 @@ def get_or_create_user(tg_id, data):
             'position': data.get('position'),
             # Пользователь проходит явное согласие до регистрации
             'data_processing_agreement': True,
+            'vacancies_interest': data.get('vacancies_interest'),
         }
     )
 
@@ -156,13 +157,21 @@ async def show_schedule(message: types.Message):
             print(f"Found {len(slots)} booked consultation slots for expert {user.id}")
             schedule_text = build_schedule_text(slots)
             print(f"Schedule text: {schedule_text}")
-            await message.answer(schedule_text)
+            keyboard = ReplyKeyboardMarkup(
+                keyboard=[[KeyboardButton(text='Расписание')]],
+                resize_keyboard=True
+            )
+            await message.answer(schedule_text, reply_markup=keyboard)
         else:
-            await message.answer("Эта функция доступна только экспертам.")
+            await message.answer("Эта функция доступна только экспертам.", reply_markup=ReplyKeyboardRemove())
     except Exception as e:
         # Ensure bot responds even if there is an unexpected error
         print(f"Error while building schedule: {e}")
-        await message.answer("Не удалось загрузить расписание. Попробуйте позже.")
+        keyboard = ReplyKeyboardMarkup(
+            keyboard=[[KeyboardButton(text='Расписание')]],
+            resize_keyboard=True
+        )
+        await message.answer("Не удалось загрузить расписание. Попробуйте позже.", reply_markup=keyboard)
 
 @dp.message(F.text == 'Старт')
 async def start_consent_flow(message: types.Message):
@@ -213,16 +222,53 @@ async def vacancies_consent(message: types.Message):
     await message.answer("Подтвердите, пожалуйста:", reply_markup=kb)
 
 async def proceed_to_registration(message: types.Message):
-    user_state[message.from_user.id] = {'step': 0, 'data': {}}
+    user_id = message.from_user.id
+    # Сохраняем vacancies_interest из предыдущего состояния, если оно есть
+    old_state = user_state.get(user_id, {})
+    old_data = old_state.get('data', {})
+    vacancies_interest = old_data.get('vacancies_interest')
+    
+    user_state[user_id] = {'step': 0, 'data': {}}
+    if vacancies_interest is not None:
+        user_state[user_id]['data']['vacancies_interest'] = vacancies_interest
+    
     await message.answer("Здравствуйте! Для входа в приложение заполните несколько полей.", reply_markup=ReplyKeyboardRemove())
     await message.answer(fields[0][1])
 
 @dp.message(F.text == 'Даю согласие')
 async def proceed_after_vacancy_consent(message: types.Message):
+    # Сохраняем выбор о вакансиях
+    tg_id = message.from_user.id
+    user = await sync_to_async(TelegramUser.objects.filter(telegram_id=tg_id).first)()
+    if user:
+        user.vacancies_interest = True
+        await sync_to_async(user.save)()
+    else:
+        # Если пользователя еще нет, сохраним в user_state для сохранения при регистрации
+        if tg_id not in user_state:
+            user_state[tg_id] = {'step': -1, 'data': {}}
+        user_state[tg_id]['data']['vacancies_interest'] = True
+    
+    # Явно удаляем клавиатуру перед переходом к регистрации
+    await message.answer("Спасибо!", reply_markup=ReplyKeyboardRemove())
     await proceed_to_registration(message)
 
 @dp.message(F.text == 'Нет, я просто хочу запустить бота')
 async def proceed_without_vacancies(message: types.Message):
+    # Сохраняем выбор о вакансиях
+    tg_id = message.from_user.id
+    user = await sync_to_async(TelegramUser.objects.filter(telegram_id=tg_id).first)()
+    if user:
+        user.vacancies_interest = False
+        await sync_to_async(user.save)()
+    else:
+        # Если пользователя еще нет, сохраним в user_state для сохранения при регистрации
+        if tg_id not in user_state:
+            user_state[tg_id] = {'step': -1, 'data': {}}
+        user_state[tg_id]['data']['vacancies_interest'] = False
+    
+    # Явно удаляем клавиатуру перед переходом к регистрации
+    await message.answer("Хорошо!", reply_markup=ReplyKeyboardRemove())
     await proceed_to_registration(message)
 
 @dp.message(~F.text.startswith('/'))
@@ -256,7 +302,7 @@ async def collect_data(message: types.Message):
     # FIRST_NAME validation
     if field == 'first_name':
         if not (len(value) >= 2 and value.isalpha()):
-            await message.answer("Имя должно содержать минимум 2 буквы и только буквы. Попробуйте ещё раз:")
+            await message.answer("Имя должно содержать минимум 2 буквы и только буквы. Попробуйте ещё раз:", reply_markup=ReplyKeyboardRemove())
             return
         data[field] = value
         step += 1
@@ -267,7 +313,7 @@ async def collect_data(message: types.Message):
     # LAST_NAME validation
     if field == 'last_name':
         if not (len(value) >= 2 and value.isalpha()):
-            await message.answer("Фамилия должна содержать минимум 2 буквы и только буквы. Попробуйте ещё раз:")
+            await message.answer("Фамилия должна содержать минимум 2 буквы и только буквы. Попробуйте ещё раз:", reply_markup=ReplyKeyboardRemove())
             return
         data[field] = value
         step += 1
@@ -308,7 +354,7 @@ async def collect_data(message: types.Message):
     if field == 'email':
         EMAIL_PATTERN = r'^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$'
         if not re.fullmatch(EMAIL_PATTERN, value):
-            await message.answer("Пожалуйста, введите корректный email, например user@email.com")
+            await message.answer("Пожалуйста, введите корректный email, например user@email.com", reply_markup=ReplyKeyboardRemove())
             return
         data[field] = value
         step += 1
@@ -319,7 +365,7 @@ async def collect_data(message: types.Message):
     # WORKPLACE validation
     if field == 'workplace':
         if len(value) < 2:
-            await message.answer("Место работы должно быть не короче 2 символов. Попробуйте снова:")
+            await message.answer("Место работы должно быть не короче 2 символов. Попробуйте снова:", reply_markup=ReplyKeyboardRemove())
             return
         data[field] = value
         step += 1
@@ -330,7 +376,7 @@ async def collect_data(message: types.Message):
     # POSITION validation
     if field == 'position':
         if len(value) < 2:
-            await message.answer("Должность должна быть не короче 2 символов. Попробуйте снова:")
+            await message.answer("Должность должна быть не короче 2 символов. Попробуйте снова:", reply_markup=ReplyKeyboardRemove())
             return
         data[field] = value
         step += 1

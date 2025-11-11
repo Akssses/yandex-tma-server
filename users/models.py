@@ -15,6 +15,7 @@ class TelegramUser(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     auth_token = models.CharField(max_length=64, blank=True, null=True, unique=True)
     is_expert = models.BooleanField(default=False)
+    vacancies_interest = models.BooleanField(default=False, null=True, blank=True)  # True если интересны вакансии, False если нет, None если не выбрано
 
     def __str__(self):
         return f"{self.first_name} {self.last_name} (@{self.username})"

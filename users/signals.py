@@ -53,7 +53,7 @@ def _user_to_row(u: TelegramUser):
         u.position or '',
         f"@{u.username}" if u.username else '',
         u.email or '',
-        'Да' if u.is_expert else 'Нет',
+        'Да' if (u.vacancies_interest is True) else ('Нет' if (u.vacancies_interest is False) else ''),
         'Да' if u.has_completed_test() else 'Нет',
         'Да' if u.has_completed_quiz() else 'Нет',
         expert_name,
