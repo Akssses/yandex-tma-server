@@ -1,6 +1,7 @@
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_http_methods
+from django.conf import settings
 import json
 from .models import TelegramUser, TestResult, QuizResult, Workshop, WorkshopRegistration, ConsultationTopic, ConsultationSlot
 from .telegram_auth import verify_telegram_webapp_data, get_user_from_telegram_data
@@ -12,6 +13,22 @@ from rest_framework import status
 
 TELEGRAM_BOT_TOKEN = '8265126857:AAEhwVCOVVDZqmuZCbqLzOmb0dLp0zJ5n5c'
 TELEGRAM_API_BASE = 'https://api.telegram.org'
+
+def _add_cors_headers(response, request):
+    """Добавляет CORS заголовки к ответу на основе настроек"""
+    origin = request.META.get('HTTP_ORIGIN', '')
+    allowed_origins = getattr(settings, 'CORS_ALLOWED_ORIGINS', [])
+    
+    if origin in allowed_origins:
+        response['Access-Control-Allow-Origin'] = origin
+        response['Access-Control-Allow-Credentials'] = 'true'
+    elif allowed_origins:
+        # Если origin не в списке, но есть разрешенные origins, используем первый
+        response['Access-Control-Allow-Origin'] = allowed_origins[0]
+    
+    response['Access-Control-Allow-Methods'] = 'POST, OPTIONS'
+    response['Access-Control-Allow-Headers'] = 'Content-Type'
+    return response
 
 def _send_telegram_message(chat_id: int, text: str) -> None:
     try:
@@ -62,9 +79,7 @@ def verify_user(request):
     # Обработка CORS preflight запроса
     if request.method == 'OPTIONS':
         response = JsonResponse({})
-        response['Access-Control-Allow-Origin'] = '*'
-        response['Access-Control-Allow-Methods'] = 'POST, OPTIONS'
-        response['Access-Control-Allow-Headers'] = 'Content-Type'
+        _add_cors_headers(response, request)
         return response
     
     try:
@@ -78,24 +93,30 @@ def verify_user(request):
         init_data = data.get('initData')
         
         if not init_data:
-            return JsonResponse({'error': 'No initData provided'}, status=400)
+            response = JsonResponse({'error': 'No initData provided'}, status=400)
+            _add_cors_headers(response, request)
+            return response
         
         # Проверяем подпись Telegram
         telegram_data = verify_telegram_webapp_data(init_data, TELEGRAM_BOT_TOKEN)
         
         if not telegram_data:
-            return JsonResponse({'error': 'Invalid Telegram signature'}, status=401)
+            response = JsonResponse({'error': 'Invalid Telegram signature'}, status=401)
+            _add_cors_headers(response, request)
+            return response
         
         # Извлекаем telegram_id
         telegram_id = get_user_from_telegram_data(telegram_data)
         
         if not telegram_id:
-            return JsonResponse({'error': 'No telegram_id in data'}, status=400)
+            response = JsonResponse({'error': 'No telegram_id in data'}, status=400)
+            _add_cors_headers(response, request)
+            return response
         
         # Проверяем, зарегистрирован ли пользователь
         try:
             user = TelegramUser.objects.get(telegram_id=telegram_id)
-            return JsonResponse({
+            response = JsonResponse({
                 'success': True,
                 'user': {
                     'id': user.id,
@@ -107,13 +128,21 @@ def verify_user(request):
                     'position': user.position,
                 }
             })
+            _add_cors_headers(response, request)
+            return response
         except TelegramUser.DoesNotExist:
-            return JsonResponse({'error': 'User not registered'}, status=403)
+            response = JsonResponse({'error': 'User not registered'}, status=403)
+            _add_cors_headers(response, request)
+            return response
             
     except json.JSONDecodeError:
-        return JsonResponse({'error': 'Invalid JSON'}, status=400)
+        response = JsonResponse({'error': 'Invalid JSON'}, status=400)
+        _add_cors_headers(response, request)
+        return response
     except Exception as e:
-        return JsonResponse({'error': str(e)}, status=500)
+        response = JsonResponse({'error': str(e)}, status=500)
+        _add_cors_headers(response, request)
+        return response
 
 
 @csrf_exempt
