@@ -42,14 +42,6 @@ if _env_allowed_hosts:
     ALLOWED_HOSTS = [h.strip() for h in _env_allowed_hosts.split(',') if h.strip()]
 else:
     ALLOWED_HOSTS = [
-        'localhost',
-        '127.0.0.1',
-        # ngrok/dev hosts
-        'yandextmaserver.eu.ngrok.io',
-        'demisable-agueda-cloque.ngrok-free.dev',
-        # server IP (production)
-        '89.108.113.39',
-        # production domain
         'metamarketing.muza.team',
     ]
 
@@ -172,31 +164,17 @@ if _env_cors:
     CORS_ALLOWED_ORIGINS = [o.strip() for o in _env_cors.split(',') if o.strip()]
 else:
     CORS_ALLOWED_ORIGINS = [
-        "https://yandextmaserver.eu.ngrok.io",
-        "https://demisable-agueda-cloque.ngrok-free.dev",
-        "http://localhost:3000",
-        "http://127.0.0.1:3000",
-        "http://89.108.113.39",
-        "https://89.108.113.39",
-        "https://metamarketing.muza.team",
         "https://yandex-tma.vercel.app",
     ]
 
 CORS_ALLOW_CREDENTIALS = True
 
-# CSRF settings for ngrok and external domains
+# CSRF settings
 _env_csrf = os.getenv('CSRF_TRUSTED_ORIGINS')
 if _env_csrf:
     CSRF_TRUSTED_ORIGINS = [o.strip() for o in _env_csrf.split(',') if o.strip()]
 else:
     CSRF_TRUSTED_ORIGINS = [
-        "https://yandextmaserver.eu.ngrok.io",
-        "https://demisable-agueda-cloque.ngrok-free.dev",
-        "http://localhost:8000",
-        "http://127.0.0.1:8000",
-        "http://89.108.113.39",
-        "https://89.108.113.39",
-        "https://metamarketing.muza.team",
         "https://yandex-tma.vercel.app",
     ]
 
