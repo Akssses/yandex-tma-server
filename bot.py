@@ -214,7 +214,7 @@ async def vacancies_consent(message: types.Message):
 
 async def proceed_to_registration(message: types.Message):
     user_state[message.from_user.id] = {'step': 0, 'data': {}}
-    await message.answer("Здравствуйте! Для входа в приложение заполните несколько полей.")
+    await message.answer("Здравствуйте! Для входа в приложение заполните несколько полей.", reply_markup=ReplyKeyboardRemove())
     await message.answer(fields[0][1])
 
 @dp.message(F.text == 'Даю согласие')
