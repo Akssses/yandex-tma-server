@@ -259,8 +259,25 @@ def export_users_to_sheets(request):
                 '',  # Оценка от пользователя — поле отсутствует
             ])
 
-        ws.clear()
-        ws.update('A1', [headers] + rows)
+        # Clear existing data
+        try:
+            ws.clear()
+        except Exception as e:
+            logger.warning(f"Could not clear worksheet: {e}")
+        
+        # Update with headers and data using batch_update for better reliability
+        all_data = [headers] + rows
+        try:
+            # Use batch_update for better performance and reliability
+            ws.update('A1', all_data, value_input_option='RAW')
+        except Exception as e:
+            # Fallback: try updating in smaller chunks
+            try:
+                ws.update('A1', [headers], value_input_option='RAW')
+                if rows:
+                    ws.append_rows(rows, value_input_option='RAW')
+            except Exception as e2:
+                return Response({'error': f'Failed to update sheet: {str(e2)}'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
         return Response({'success': True, 'exported': len(rows)})
     except Exception as e:

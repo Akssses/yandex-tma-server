@@ -32,7 +32,7 @@ def _send_telegram_message(chat_id: int, text: str) -> None:
         pass
 
 @csrf_exempt
-@require_http_methods(["POST"])
+@require_http_methods(["POST", "OPTIONS"])
 @swagger_auto_schema(
     operation_description="Проверяет авторизацию пользователя через Telegram WebApp initData",
     request_body=openapi.Schema(
@@ -60,6 +60,14 @@ def verify_user(request):
     """
     Проверяет авторизацию пользователя через Telegram WebApp initData
     """
+    # Обработка CORS preflight запроса
+    if request.method == 'OPTIONS':
+        response = JsonResponse({})
+        response['Access-Control-Allow-Origin'] = '*'
+        response['Access-Control-Allow-Methods'] = 'POST, OPTIONS'
+        response['Access-Control-Allow-Headers'] = 'Content-Type'
+        return response
+    
     try:
         # Debug: print masked token tail to ensure env consistency (remove in production)
         try:
