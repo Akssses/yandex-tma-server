@@ -4,6 +4,11 @@ from django.views.decorators.http import require_http_methods
 import json
 from .models import TelegramUser, TestResult, QuizResult, Workshop, WorkshopRegistration, ConsultationTopic, ConsultationSlot
 from .telegram_auth import verify_telegram_webapp_data, get_user_from_telegram_data
+from drf_yasg.utils import swagger_auto_schema
+from drf_yasg import openapi
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from rest_framework import status
 
 TELEGRAM_BOT_TOKEN = '7986098041:AAG7kR2rxwICzBRvP53yyUMtYonbceyW2Rg'
 TELEGRAM_API_BASE = 'https://api.telegram.org'
@@ -27,6 +32,29 @@ def _send_telegram_message(chat_id: int, text: str) -> None:
 
 @csrf_exempt
 @require_http_methods(["POST"])
+@swagger_auto_schema(
+    operation_description="Проверяет авторизацию пользователя через Telegram WebApp initData",
+    request_body=openapi.Schema(
+        type=openapi.TYPE_OBJECT,
+        properties={
+            'initData': openapi.Schema(type=openapi.TYPE_STRING, description='Telegram WebApp initData'),
+        },
+        required=['initData']
+    ),
+    responses={
+        200: openapi.Response('Успешная авторизация', openapi.Schema(
+            type=openapi.TYPE_OBJECT,
+            properties={
+                'success': openapi.Schema(type=openapi.TYPE_BOOLEAN),
+                'user_id': openapi.Schema(type=openapi.TYPE_INTEGER),
+                'is_expert': openapi.Schema(type=openapi.TYPE_BOOLEAN),
+            }
+        )),
+        400: openapi.Response('Ошибка запроса'),
+        401: openapi.Response('Неверная подпись Telegram'),
+    },
+    tags=['Authentication']
+)
 def verify_user(request):
     """
     Проверяет авторизацию пользователя через Telegram WebApp initData
@@ -76,6 +104,29 @@ def verify_user(request):
 
 @csrf_exempt
 @require_http_methods(["POST"])
+@swagger_auto_schema(
+    operation_description="Проверяет, проходил ли пользователь тест",
+    request_body=openapi.Schema(
+        type=openapi.TYPE_OBJECT,
+        properties={
+            'initData': openapi.Schema(type=openapi.TYPE_STRING, description='Telegram WebApp initData'),
+        },
+        required=['initData']
+    ),
+    responses={
+        200: openapi.Response('Статус теста', openapi.Schema(
+            type=openapi.TYPE_OBJECT,
+            properties={
+                'success': openapi.Schema(type=openapi.TYPE_BOOLEAN),
+                'has_completed': openapi.Schema(type=openapi.TYPE_BOOLEAN),
+                'test_result': openapi.Schema(type=openapi.TYPE_OBJECT, description='Результат теста (если пройден)'),
+            }
+        )),
+        400: openapi.Response('Ошибка запроса'),
+        401: openapi.Response('Неверная подпись Telegram'),
+    },
+    tags=['Test']
+)
 def get_test_status(request):
     """
     Проверяет, проходил ли пользователь тест
@@ -250,6 +301,29 @@ def confirm_gift(request):
 
 @csrf_exempt
 @require_http_methods(["POST"])
+@swagger_auto_schema(
+    operation_description="Проверяет, проходил ли пользователь квиз",
+    request_body=openapi.Schema(
+        type=openapi.TYPE_OBJECT,
+        properties={
+            'initData': openapi.Schema(type=openapi.TYPE_STRING, description='Telegram WebApp initData'),
+        },
+        required=['initData']
+    ),
+    responses={
+        200: openapi.Response('Статус квиза', openapi.Schema(
+            type=openapi.TYPE_OBJECT,
+            properties={
+                'success': openapi.Schema(type=openapi.TYPE_BOOLEAN),
+                'has_completed': openapi.Schema(type=openapi.TYPE_BOOLEAN),
+                'quiz_result': openapi.Schema(type=openapi.TYPE_OBJECT, description='Результат квиза (если пройден)'),
+            }
+        )),
+        400: openapi.Response('Ошибка запроса'),
+        401: openapi.Response('Неверная подпись Telegram'),
+    },
+    tags=['Quiz']
+)
 def get_quiz_status(request):
     """
     Проверяет, проходил ли пользователь квиз

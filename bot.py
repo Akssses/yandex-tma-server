@@ -1,4 +1,5 @@
 import os
+from dotenv import load_dotenv
 import django
 import asyncio
 from aiogram import Bot, Dispatcher, types, F
@@ -10,13 +11,19 @@ from asgiref.sync import sync_to_async
 import re
 
 # Настройка Django окружения
+load_dotenv()
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'core.settings')
 django.setup()
 
-from users.models import TelegramUser, ConsultationSlot
+from users.models import TelegramUser, ConsultationSlot, QuizResult
 
-TELEGRAM_BOT_TOKEN = '7986098041:AAG7kR2rxwICzBRvP53yyUMtYonbceyW2Rg'
-FRONTEND_BASE_URL = os.getenv('FRONTEND_URL', 'https://demisable-agueda-cloque.ngrok-free.dev')
+TELEGRAM_BOT_TOKEN = os.getenv('TELEGRAM_BOT_TOKEN')
+# Prefer FRONTEND_BASE_URL, fallback to legacy FRONTEND_URL, then default demo URL
+FRONTEND_BASE_URL = (
+    os.getenv('FRONTEND_BASE_URL')
+    or os.getenv('FRONTEND_URL')
+    or 'https://demisable-agueda-cloque.ngrok-free.dev'
+)
 
 bot = Bot(token=TELEGRAM_BOT_TOKEN)
 dp = Dispatcher()
@@ -147,7 +154,7 @@ async def show_schedule(message: types.Message):
         print(f"Error while building schedule: {e}")
         await message.answer("Не удалось загрузить расписание. Попробуйте позже.")
 
-@dp.message()
+@dp.message(~F.text.startswith('/'))
 async def collect_data(message: types.Message):
     user_id = message.from_user.id
     state = user_state.get(user_id)
@@ -341,6 +348,41 @@ async def collect_data(message: types.Message):
             await message.answer(f'Здравствуйте! Добро пожаловать, {full_name}. Нажмите "Расписание" для просмотра.', reply_markup=keyboard)
         else:
             await message.answer('Нажмите кнопку ниже, чтобы открыть приложение:', reply_markup=ikb)
+
+@sync_to_async
+def get_quiz_winner():
+    winner = QuizResult.objects.order_by('-correct_answers', 'completed_at').select_related('user').first()
+    if not winner:
+        return None
+    user = winner.user
+    return {
+        "first_name": user.first_name,
+        "last_name": user.last_name,
+        "username": user.username,
+        "correct_answers": winner.correct_answers,
+        "total_questions": winner.total_questions,
+        "completed_at": winner.completed_at.strftime('%d.%m.%Y %H:%M')
+    }
+
+@dp.message(Command(commands=["quizwinner", "quiz-winner"], ignore_case=True, ignore_mention=True))
+async def quiz_winner(message: types.Message):
+    winner = await get_quiz_winner()
+    if not winner:
+        await message.answer("Пока никто не прошёл квиз 😢")
+        return
+
+    full_name = f"{winner['first_name']} {winner['last_name']}".strip()
+    username = f"@{winner['username']}" if winner['username'] else "—"
+
+    text = (
+        f"🏆 <b>Победитель квиза</b>\n\n"
+        f"👤 Имя: {full_name}\n"
+        f"🔗 Никнейм: {username}\n"
+        f"✅ Правильных ответов: {winner['correct_answers']} из {winner['total_questions']}\n"
+        f"🕒 Пройден: {winner['completed_at']}"
+    )
+    await message.answer(text, parse_mode="HTML")
+
 
 if __name__ == '__main__':
     asyncio.run(dp.start_polling(bot))

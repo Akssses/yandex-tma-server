@@ -11,9 +11,18 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 from pathlib import Path
+import os
+try:
+    from dotenv import load_dotenv
+except Exception:
+    load_dotenv = None
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+# Load environment variables from server/.env (if python-dotenv available)
+if load_dotenv is not None:
+    load_dotenv(os.path.join(BASE_DIR, '.env'))
 
 
 # Quick-start development settings - unsuitable for production
@@ -25,7 +34,7 @@ SECRET_KEY = 'django-insecure-f)p)6e!aslahh!e(i$!4n$*w8m%ey^*66my=zsnecs7d2l$m7x
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['yandextmaserver.ngrok.app', 'localhost', '127.0.0.1', 'demisable-agueda-cloque.ngrok-free.dev']
+ALLOWED_HOSTS = ['yandextmaserver.eu.ngrok.io', 'localhost', '127.0.0.1', 'demisable-agueda-cloque.ngrok-free.dev']
 
 
 # Application definition
@@ -38,6 +47,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'corsheaders',
+    'rest_framework',
+    'drf_yasg',
     'users',
 ]
 
@@ -126,8 +137,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # CORS settings
 CORS_ALLOWED_ORIGINS = [
-    "https://d0be66ba4906.ngrok-free.app",
-    "https://yandextmaserver.ngrok.app",
+    "https://yandextmaserver.eu.ngrok.io",
     "https://demisable-agueda-cloque.ngrok-free.dev",
     "http://localhost:3000",
     "http://127.0.0.1:3000",
@@ -137,9 +147,51 @@ CORS_ALLOW_CREDENTIALS = True
 
 # CSRF settings for ngrok and external domains
 CSRF_TRUSTED_ORIGINS = [
-    "https://yandextmaserver.ngrok.app",
+    "https://yandextmaserver.eu.ngrok.io",
     "https://demisable-agueda-cloque.ngrok-free.dev",
-    "https://d0be66ba4906.ngrok-free.app",
     "http://localhost:8000",
     "http://127.0.0.1:8000",
 ]
+
+# Django REST Framework settings
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.AllowAny',
+    ],
+    'DEFAULT_RENDERER_CLASSES': [
+        'rest_framework.renderers.JSONRenderer',
+    ],
+}
+
+# Swagger settings
+SWAGGER_SETTINGS = {
+    'SECURITY_DEFINITIONS': {
+        'Bearer': {
+            'type': 'apiKey',
+            'name': 'Authorization',
+            'in': 'header'
+        }
+    },
+    'USE_SESSION_AUTH': False,
+    'JSON_EDITOR': True,
+    'SUPPORTED_SUBMIT_METHODS': [
+        'get',
+        'post',
+        'put',
+        'delete',
+        'patch'
+    ],
+    'OPERATIONS_SORTER': 'alpha',
+    'TAGS_SORTER': 'alpha',
+    'DOC_EXPANSION': 'none',
+    'DEEP_LINKING': True,
+    'SHOW_EXTENSIONS': True,
+    'SHOW_COMMON_EXTENSIONS': True,
+    'VALIDATOR_URL': None,
+    'DEFAULT_MODEL_RENDERING': 'example',
+    'DEFAULT_MODEL_DEPTH': 3,
+}
+
+REDOC_SETTINGS = {
+    'LAZY_RENDERING': False,
+}

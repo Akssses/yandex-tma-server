@@ -1,5 +1,6 @@
 from django.urls import path
 from . import views
+from . import api_views
 
 urlpatterns = [
     path('verify-user/', views.verify_user, name='verify_user'),
@@ -21,4 +22,10 @@ urlpatterns = [
     path('consultations/my/', views.consultations_my, name='consultations_my'),
     path('consultations/expert/schedule/', views.expert_schedule, name='expert_schedule'),
     # no expert location editing; fixed location used
+    
+    # DRF API endpoints для Swagger
+    path('drf/users/', api_views.api_users_list, name='api_users_list'),
+    path('drf/test-status/', api_views.api_test_status, name='api_test_status'),
+    path('drf/statistics/', api_views.api_statistics, name='api_statistics'),
+    path('drf/export/users-to-sheets/', api_views.export_users_to_sheets, name='export_users_to_sheets'),
 ]
