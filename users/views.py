@@ -9,8 +9,9 @@ from drf_yasg import openapi
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
+import os
 
-TELEGRAM_BOT_TOKEN = '7986098041:AAG7kR2rxwICzBRvP53yyUMtYonbceyW2Rg'
+TELEGRAM_BOT_TOKEN = os.getenv('TELEGRAM_BOT_TOKEN', '')
 TELEGRAM_API_BASE = 'https://api.telegram.org'
 
 def _send_telegram_message(chat_id: int, text: str) -> None:

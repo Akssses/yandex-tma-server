@@ -7,7 +7,7 @@ from .models import TelegramUser
 from .telegram_auth import verify_telegram_webapp_data, get_user_from_telegram_data
 import os
 
-TELEGRAM_BOT_TOKEN = '7986098041:AAG7kR2rxwICzBRvP53yyUMtYonbceyW2Rg'
+TELEGRAM_BOT_TOKEN = os.getenv('TELEGRAM_BOT_TOKEN', '')
 
 
 @api_view(['GET'])

@@ -32,9 +32,25 @@ if load_dotenv is not None:
 SECRET_KEY = 'django-insecure-f)p)6e!aslahh!e(i$!4n$*w8m%ey^*66my=zsnecs7d2l$m7x'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+# Allow override via environment: DEBUG=true/false
+DEBUG = os.getenv('DJANGO_DEBUG', 'false').lower() in ('1', 'true', 'yes')
 
-ALLOWED_HOSTS = ['yandextmaserver.eu.ngrok.io', 'localhost', '127.0.0.1', 'demisable-agueda-cloque.ngrok-free.dev']
+# Hosts can be overridden via comma-separated env DJANGO_ALLOWED_HOSTS
+_env_allowed_hosts = os.getenv('DJANGO_ALLOWED_HOSTS')
+if _env_allowed_hosts:
+    ALLOWED_HOSTS = [h.strip() for h in _env_allowed_hosts.split(',') if h.strip()]
+else:
+    ALLOWED_HOSTS = [
+        'localhost',
+        '127.0.0.1',
+        # ngrok/dev hosts
+        'yandextmaserver.eu.ngrok.io',
+        'demisable-agueda-cloque.ngrok-free.dev',
+        # server IP (production)
+        '89.108.113.39',
+        # production domain
+        'metamarketing.muza.team',
+    ]
 
 
 # Application definition
@@ -129,6 +145,12 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
 STATIC_URL = 'static/'
+# Where collectstatic will place files (served by Nginx)
+STATIC_ROOT = BASE_DIR / 'static'
+
+# Optional media config if needed later
+MEDIA_URL = 'media/'
+MEDIA_ROOT = BASE_DIR / 'media'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
@@ -136,22 +158,38 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # CORS settings
-CORS_ALLOWED_ORIGINS = [
-    "https://yandextmaserver.eu.ngrok.io",
-    "https://demisable-agueda-cloque.ngrok-free.dev",
-    "http://localhost:3000",
-    "http://127.0.0.1:3000",
-]
+_env_cors = os.getenv('CORS_ALLOWED_ORIGINS')
+if _env_cors:
+    CORS_ALLOWED_ORIGINS = [o.strip() for o in _env_cors.split(',') if o.strip()]
+else:
+    CORS_ALLOWED_ORIGINS = [
+        "https://yandextmaserver.eu.ngrok.io",
+        "https://demisable-agueda-cloque.ngrok-free.dev",
+        "http://localhost:3000",
+        "http://127.0.0.1:3000",
+        "http://89.108.113.39",
+        "https://89.108.113.39",
+        "https://metamarketing.muza.team",
+        "https://yandex-tma.vercel.app",
+    ]
 
 CORS_ALLOW_CREDENTIALS = True
 
 # CSRF settings for ngrok and external domains
-CSRF_TRUSTED_ORIGINS = [
-    "https://yandextmaserver.eu.ngrok.io",
-    "https://demisable-agueda-cloque.ngrok-free.dev",
-    "http://localhost:8000",
-    "http://127.0.0.1:8000",
-]
+_env_csrf = os.getenv('CSRF_TRUSTED_ORIGINS')
+if _env_csrf:
+    CSRF_TRUSTED_ORIGINS = [o.strip() for o in _env_csrf.split(',') if o.strip()]
+else:
+    CSRF_TRUSTED_ORIGINS = [
+        "https://yandextmaserver.eu.ngrok.io",
+        "https://demisable-agueda-cloque.ngrok-free.dev",
+        "http://localhost:8000",
+        "http://127.0.0.1:8000",
+        "http://89.108.113.39",
+        "https://89.108.113.39",
+        "https://metamarketing.muza.team",
+        "https://yandex-tma.vercel.app",
+    ]
 
 # Django REST Framework settings
 REST_FRAMEWORK = {
