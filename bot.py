@@ -18,13 +18,8 @@ django.setup()
 
 from users.models import TelegramUser, ConsultationSlot, QuizResult
 
-TELEGRAM_BOT_TOKEN = os.getenv('TELEGRAM_BOT_TOKEN', '')
-# Prefer FRONTEND_BASE_URL, fallback to legacy FRONTEND_URL, then default demo URL
-FRONTEND_BASE_URL = (
-    os.getenv('FRONTEND_BASE_URL')
-    or os.getenv('FRONTEND_URL')
-    or 'https://demisable-agueda-cloque.ngrok-free.dev'
-)
+TELEGRAM_BOT_TOKEN = '8265126857:AAEhwVCOVVDZqmuZCbqLzOmb0dLp0zJ5n5c'
+FRONTEND_BASE_URL = 'https://yandex-tma.vercel.app'
 
 # Debug: print masked token tail to ensure env consistency (remove in production)
 try:
