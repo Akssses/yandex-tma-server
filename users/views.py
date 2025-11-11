@@ -61,6 +61,12 @@ def verify_user(request):
     Проверяет авторизацию пользователя через Telegram WebApp initData
     """
     try:
+        # Debug: print masked token tail to ensure env consistency (remove in production)
+        try:
+            _tt = TELEGRAM_BOT_TOKEN or ''
+            print(f"[API] TELEGRAM_BOT_TOKEN len={len(_tt)} tail={_tt[-6:]}")
+        except Exception:
+            pass
         data = json.loads(request.body)
         init_data = data.get('initData')
         

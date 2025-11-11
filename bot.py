@@ -11,19 +11,27 @@ from asgiref.sync import sync_to_async
 import re
 
 # Настройка Django окружения
-load_dotenv()
+# Force .env to override any pre-set env vars to avoid drift across processes
+load_dotenv(override=True)
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'core.settings')
 django.setup()
 
 from users.models import TelegramUser, ConsultationSlot, QuizResult
 
-TELEGRAM_BOT_TOKEN = os.getenv('TELEGRAM_BOT_TOKEN')
+TELEGRAM_BOT_TOKEN = os.getenv('TELEGRAM_BOT_TOKEN', '')
 # Prefer FRONTEND_BASE_URL, fallback to legacy FRONTEND_URL, then default demo URL
 FRONTEND_BASE_URL = (
     os.getenv('FRONTEND_BASE_URL')
     or os.getenv('FRONTEND_URL')
     or 'https://demisable-agueda-cloque.ngrok-free.dev'
 )
+
+# Debug: print masked token tail to ensure env consistency (remove in production)
+try:
+    _tt = TELEGRAM_BOT_TOKEN or ''
+    print(f"[BOT] TELEGRAM_BOT_TOKEN len={len(_tt)} tail={_tt[-6:]}")
+except Exception:
+    pass
 
 bot = Bot(token=TELEGRAM_BOT_TOKEN)
 dp = Dispatcher()
@@ -34,8 +42,7 @@ fields = [
     ('username', 'Введите ваш никнейм (Telegram username):'),
     ('email', 'Введите вашу почту:'),
     ('workplace', 'Введите место работы:'),
-    ('position', 'Введите вашу должность:'),
-    ('data_processing_agreement', 'Продолжая вы соглашаетесь на обработку данных'),
+    ('position', 'Введите ваше направление в аналитике:'),
 ]
 user_state = {}
 
@@ -50,7 +57,8 @@ def get_or_create_user(tg_id, data):
             'email': data.get('email'),
             'workplace': data.get('workplace'),
             'position': data.get('position'),
-            'data_processing_agreement': data.get('data_processing_agreement'),
+            # Пользователь проходит явное согласие до регистрации
+            'data_processing_agreement': True,
         }
     )
 
@@ -77,9 +85,16 @@ async def cmd_start(message: types.Message):
         await message.answer("Используйте кнопку ниже, чтобы открыть расписание.", reply_markup=keyboard)
         return
 
-    user_state[message.from_user.id] = {'step': 0, 'data': {}}
-    await message.answer("Здравствуйте! Для входа в приложение заполните несколько полей.")
-    await message.answer(fields[0][1])
+    # Стартовое приветствие и кнопка "Старт"
+    intro_text = (
+        "Это бот для участия в активностях стенда Yandex на конференции Metamarketing 2025! "
+        "Регистрация для входа в приложение займет меньше минуты. Нажмите кнопку «Старт», чтобы начать!"
+    )
+    keyboard = ReplyKeyboardMarkup(
+        keyboard=[[KeyboardButton(text='Старт')]],
+        resize_keyboard=True
+    )
+    await message.answer(intro_text, reply_markup=keyboard)
 
 @dp.message(F.text == 'Открыть приложение')
 async def open_app(message: types.Message):
@@ -154,6 +169,67 @@ async def show_schedule(message: types.Message):
         print(f"Error while building schedule: {e}")
         await message.answer("Не удалось загрузить расписание. Попробуйте позже.")
 
+@dp.message(F.text == 'Старт')
+async def start_consent_flow(message: types.Message):
+    # Сообщения согласия и кнопка подтверждения
+    await message.answer(
+        "Прежде чем мы начнём, просим вас ознакомиться с согласием на обработку персональных данных и подтвердить его. "
+        "Это нужно, чтобы мы могли связаться с вами, если вы войдёте в топ участников и получите свой приз!",
+        reply_markup=ReplyKeyboardRemove()
+    )
+    await message.answer("Политика конфиденциальности")
+    await message.answer(
+        "Я даю согласие ООО «Яндекс» (119021, Россия, г. Москва, ул. Льва Толстого, д. 16) и его аффилированным лицам "
+        "на обработку моих персональных данных в целях направления мне приглашений на мероприятия, проводимые Яндексом, "
+        "и иных сообщений рекламного характера."
+    )
+    kb = ReplyKeyboardMarkup(
+        keyboard=[[KeyboardButton(text='Я прочитал(а) и даю согласие')]],
+        resize_keyboard=True
+    )
+    await message.answer("Подтвердите, пожалуйста:", reply_markup=kb)
+
+@dp.message(F.text == 'Я прочитал(а) и даю согласие')
+async def vacancies_question(message: types.Message):
+    kb = ReplyKeyboardMarkup(
+        keyboard=[
+            [KeyboardButton(text='Да, мне интересны вакансии Яндекса')],
+            [KeyboardButton(text='Нет, я просто хочу запустить бота')],
+        ],
+        resize_keyboard=True
+    )
+    await message.answer(
+        "Мы в Яндексе всегда рады профессионалам, готовым присоединиться к нашей команде. "
+        "Хотели бы вы получать информацию о наших вакансиях?",
+        reply_markup=kb
+    )
+
+@dp.message(F.text == 'Да, мне интересны вакансии Яндекса')
+async def vacancies_consent(message: types.Message):
+    await message.answer(
+        "Я даю согласие ООО «Яндекс» (119021, Россия, г. Москва, ул. Льва Толстого, д. 16) и его аффилированным лицам "
+        "на обработку моих персональных данных в целях направления мне вакансий.",
+        reply_markup=ReplyKeyboardRemove()
+    )
+    kb = ReplyKeyboardMarkup(
+        keyboard=[[KeyboardButton(text='Даю согласие')]],
+        resize_keyboard=True
+    )
+    await message.answer("Подтвердите, пожалуйста:", reply_markup=kb)
+
+async def proceed_to_registration(message: types.Message):
+    user_state[message.from_user.id] = {'step': 0, 'data': {}}
+    await message.answer("Здравствуйте! Для входа в приложение заполните несколько полей.")
+    await message.answer(fields[0][1])
+
+@dp.message(F.text == 'Даю согласие')
+async def proceed_after_vacancy_consent(message: types.Message):
+    await proceed_to_registration(message)
+
+@dp.message(F.text == 'Нет, я просто хочу запустить бота')
+async def proceed_without_vacancies(message: types.Message):
+    await proceed_to_registration(message)
+
 @dp.message(~F.text.startswith('/'))
 async def collect_data(message: types.Message):
     user_id = message.from_user.id
@@ -164,6 +240,15 @@ async def collect_data(message: types.Message):
             return
         # Игнорируем нажатие кнопки "Расписание" здесь — есть отдельный хендлер
         if message.text and message.text.strip() == 'Расписание':
+            return
+        # Игнорируем кнопки онбординга
+        if message.text and message.text.strip() in {
+            'Старт',
+            'Я прочитал(а) и даю согласие',
+            'Да, мне интересны вакансии Яндекса',
+            'Даю согласие',
+            'Нет, я просто хочу запустить бота',
+        }:
             return
         # Не шлём повторно подсказки, чтобы не спамить после завершения регистрации
         return
@@ -255,49 +340,7 @@ async def collect_data(message: types.Message):
         data[field] = value
         step += 1
         state['step'] = step
-        # Следующий шаг обработает data_processing_agreement
-
-    # СОГЛАСИЕ
-    if field == 'data_processing_agreement':
-        if value == 'Продолжить':
-            data[field] = True
-            step += 1
-            state['step'] = step
-            if step < len(fields):
-                await message.answer(fields[step][1], reply_markup=ReplyKeyboardRemove())
-            else:
-                tg_id = user_id
-                user, created = await get_or_create_user(tg_id, data)
-                if not created:
-                    await update_user(user, data)
-                user_state.pop(user_id, None)
-                ikb = InlineKeyboardMarkup(
-                    inline_keyboard=[[InlineKeyboardButton(text='Открыть приложение', web_app=WebAppInfo(url=FRONTEND_BASE_URL))]]
-                )
-                await message.answer('Спасибо, регистрация завершена!', reply_markup=ReplyKeyboardRemove())
-                # Если пользователь эксперт — не даём доступ к мини-апп, показываем "Расписание"
-                if user.is_expert:
-                    first_name = (user.first_name or '').strip()
-                    last_name = (user.last_name or '').strip()
-                    full_name = (first_name + (' ' + last_name if last_name else '')).strip()
-                    keyboard = ReplyKeyboardMarkup(
-                        keyboard=[[KeyboardButton(text='Расписание')]],
-                        resize_keyboard=True
-                    )
-                    await message.answer(f'Здравствуйте! Добро пожаловать, {full_name}. Нажмите "Расписание" для просмотра.', reply_markup=keyboard)
-                else:
-                    await message.answer('Нажмите кнопку ниже, чтобы открыть приложение:', reply_markup=ikb)
-            return
-        else:
-            keyboard = ReplyKeyboardMarkup(
-                keyboard=[[KeyboardButton(text='Продолжить')]],
-                resize_keyboard=True
-            )
-            await message.answer(
-                'Продолжая вы соглашаетесь на обработку данных',
-                reply_markup=keyboard
-            )
-            return
+        # Дальше обработается общий переход к завершению
 
     # Следующий шаг для "средних" (без спец. клавиатуры)
     if step < len(fields):
@@ -315,16 +358,6 @@ async def collect_data(message: types.Message):
                     reply_markup=keyboard
                 )
                 return
-        elif next_field == 'data_processing_agreement':
-            keyboard = ReplyKeyboardMarkup(
-                keyboard=[[KeyboardButton(text='Продолжить')]],
-                resize_keyboard=True
-            )
-            await message.answer(
-                'Продолжая вы соглашаетесь на обработку данных',
-                reply_markup=keyboard
-            )
-            return
         else:
             await message.answer(next_prompt, reply_markup=ReplyKeyboardRemove())
     else:
