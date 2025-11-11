@@ -1,8 +1,35 @@
 from django.urls import path
+from django.http import JsonResponse
 from . import views
 from . import api_views
 
 urlpatterns = [
+    path('', lambda request: JsonResponse({
+        'ok': True,
+        'endpoints': {
+            'verify_user': '/api/verify-user/',
+            'test_status': '/api/test-status/',
+            'save_test_result': '/api/save-test-result/',
+            'confirm_gift': '/api/confirm-gift/',
+            'quiz_status': '/api/quiz-status/',
+            'save_quiz_result': '/api/save-quiz-result/',
+            'consultations': {
+                'topics': '/api/consultations/topics/',
+                'slots': '/api/consultations/slots/',
+                'book': '/api/consultations/book/<slot_id>/',
+                'cancel': '/api/consultations/cancel/<slot_id>/',
+                'my': '/api/consultations/my/',
+                'expert_schedule': '/api/consultations/expert/schedule/',
+            },
+            'drf': {
+                'users': '/api/drf/users/',
+                'test_status': '/api/drf/test-status/',
+                'statistics': '/api/drf/statistics/',
+                'export_users_to_sheets': '/api/drf/export/users-to-sheets/',
+            },
+            'docs': '/swagger/'
+        }
+    })),
     path('verify-user/', views.verify_user, name='verify_user'),
     path('test-status/', views.get_test_status, name='get_test_status'),
     path('save-test-result/', views.save_test_result, name='save_test_result'),
