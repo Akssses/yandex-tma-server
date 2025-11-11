@@ -32,8 +32,8 @@ if load_dotenv is not None:
 SECRET_KEY = 'django-insecure-f)p)6e!aslahh!e(i$!4n$*w8m%ey^*66my=zsnecs7d2l$m7x'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-# Allow override via environment: DEBUG=true/false
-DEBUG = os.getenv('DJANGO_DEBUG', 'false').lower() in ('1', 'true', 'yes')
+# Allow override via environment: DEBUG=true/false (default True for local development)
+DEBUG = os.getenv('DJANGO_DEBUG', 'true').lower() in ('1', 'true', 'yes')
 
 # Hosts can be overridden via comma-separated env DJANGO_ALLOWED_HOSTS
 _env_allowed_hosts = os.getenv('DJANGO_ALLOWED_HOSTS')
@@ -79,6 +79,14 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+# Optionally enable WhiteNoise if installed (production static serving)
+try:
+    import whitenoise  # noqa: F401
+    MIDDLEWARE.insert(1, 'whitenoise.middleware.WhiteNoiseMiddleware')
+    STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+except Exception:
+    # WhiteNoise not installed; Django will serve static in DEBUG and external server should handle in production
+    pass
 ROOT_URLCONF = 'core.urls'
 
 TEMPLATES = [
@@ -144,12 +152,12 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
 # Where collectstatic will place files (served by Nginx)
 STATIC_ROOT = BASE_DIR / 'static'
 
 # Optional media config if needed later
-MEDIA_URL = 'media/'
+MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
 # Default primary key field type
@@ -211,6 +219,8 @@ SWAGGER_SETTINGS = {
         }
     },
     'USE_SESSION_AUTH': False,
+    # Use CDN for swagger-ui assets to avoid local static issues
+    'USE_STATIC_URL': False,
     'JSON_EDITOR': True,
     'SUPPORTED_SUBMIT_METHODS': [
         'get',
