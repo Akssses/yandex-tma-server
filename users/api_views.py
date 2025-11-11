@@ -217,28 +217,46 @@ def export_users_to_sheets(request):
         except gspread.exceptions.WorksheetNotFound:
             ws = sh.add_worksheet(title=worksheet_name, rows=1000, cols=20)
 
+        # Desired header order per request
         headers = [
-            'id', 'telegram_id', 'first_name', 'last_name', 'username', 'email',
-            'workplace', 'position', 'data_processing_agreement', 'created_at',
-            'is_expert', 'has_completed_test', 'has_completed_quiz',
+            'Имя',
+            'Фамилия',
+            'Место работы',
+            'Направление',
+            'ТГ',
+            'Почта',
+            'Вакансии (Да/нет)',
+            'Прошел тест (Да/нет)',
+            'Прошел квиз (Да/нет)',
+            'Имя эксперта',
+            'Оценка от пользователя',
         ]
 
         rows = []
         for u in TelegramUser.objects.all().order_by('id'):
+            # Determine expert name from user's booked consultations, if any
+            expert_name = ''
+            try:
+                slot = u.consultations.order_by('-start_time').first()
+                if slot and slot.expert:
+                    expert_first = slot.expert.first_name or ''
+                    expert_last = slot.expert.last_name or ''
+                    expert_name = (expert_first + ' ' + expert_last).strip()
+            except Exception:
+                expert_name = ''
+
             rows.append([
-                u.id,
-                u.telegram_id,
                 u.first_name,
                 u.last_name or '',
-                u.username or '',
-                u.email or '',
                 u.workplace or '',
                 u.position or '',
-                'yes' if u.data_processing_agreement else 'no',
-                u.created_at.strftime('%Y-%m-%d %H:%M:%S'),
-                'yes' if u.is_expert else 'no',
-                'yes' if u.has_completed_test() else 'no',
-                'yes' if u.has_completed_quiz() else 'no',
+                f"@{u.username}" if u.username else '',
+                u.email or '',
+                'Да' if False else 'Нет',  # нет отдельного поля под "Вакансии"
+                'Да' if u.has_completed_test() else 'Нет',
+                'Да' if u.has_completed_quiz() else 'Нет',
+                expert_name,
+                '',  # Оценка от пользователя — поле отсутствует
             ])
 
         ws.clear()
