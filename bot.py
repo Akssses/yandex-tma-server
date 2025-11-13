@@ -37,7 +37,10 @@ fields = [
     ('username', 'Введите ваш никнейм (Telegram username):'),
     ('email', 'Введите вашу почту:'),
     ('workplace', 'Введите место работы:'),
-    ('position', 'Введите ваше направление в аналитике:'),
+    (
+        'position',
+        'Введите ваше направление в аналитике (дата-аналитика, продуктовая, BI или напишите свой вариант):',
+    ),
 ]
 user_state = {}
 
@@ -181,7 +184,10 @@ async def start_consent_flow(message: types.Message):
         "Это нужно, чтобы мы могли связаться с вами, если вы войдёте в топ участников и получите свой приз!",
         reply_markup=ReplyKeyboardRemove()
     )
-    await message.answer("Политика конфиденциальности")
+    await message.answer(
+        '<a href="https://yandex.ru/legal/hr_privacy/ru/">Политика конфиденциальности</a>',
+        parse_mode="HTML"
+    )
     await message.answer(
         "Я даю согласие ООО «Яндекс» (119021, Россия, г. Москва, ул. Льва Толстого, д. 16) и его аффилированным лицам "
         "на обработку моих персональных данных в целях направления мне приглашений на мероприятия, проводимые Яндексом, "
@@ -208,19 +214,6 @@ async def vacancies_question(message: types.Message):
         reply_markup=kb
     )
 
-@dp.message(F.text == 'Да, мне интересны вакансии Яндекса')
-async def vacancies_consent(message: types.Message):
-    await message.answer(
-        "Я даю согласие ООО «Яндекс» (119021, Россия, г. Москва, ул. Льва Толстого, д. 16) и его аффилированным лицам "
-        "на обработку моих персональных данных в целях направления мне вакансий.",
-        reply_markup=ReplyKeyboardRemove()
-    )
-    kb = ReplyKeyboardMarkup(
-        keyboard=[[KeyboardButton(text='Даю согласие')]],
-        resize_keyboard=True
-    )
-    await message.answer("Подтвердите, пожалуйста:", reply_markup=kb)
-
 async def proceed_to_registration(message: types.Message):
     user_id = message.from_user.id
     # Сохраняем vacancies_interest из предыдущего состояния, если оно есть
@@ -235,22 +228,21 @@ async def proceed_to_registration(message: types.Message):
     await message.answer("Здравствуйте! Для входа в приложение заполните несколько полей.", reply_markup=ReplyKeyboardRemove())
     await message.answer(fields[0][1])
 
-@dp.message(F.text == 'Даю согласие')
-async def proceed_after_vacancy_consent(message: types.Message):
-    # Сохраняем выбор о вакансиях
+@dp.message(F.text == 'Да, мне интересны вакансии Яндекса')
+async def vacancies_interest_yes(message: types.Message):
     tg_id = message.from_user.id
     user = await sync_to_async(TelegramUser.objects.filter(telegram_id=tg_id).first)()
     if user:
         user.vacancies_interest = True
         await sync_to_async(user.save)()
     else:
-        # Если пользователя еще нет, сохраним в user_state для сохранения при регистрации
         if tg_id not in user_state:
             user_state[tg_id] = {'step': -1, 'data': {}}
         user_state[tg_id]['data']['vacancies_interest'] = True
-    
-    # Явно удаляем клавиатуру перед переходом к регистрации
-    await message.answer("Спасибо!", reply_markup=ReplyKeyboardRemove())
+    await message.answer(
+        "Отлично! Мы будем присылать информацию о вакансиях.",
+        reply_markup=ReplyKeyboardRemove()
+    )
     await proceed_to_registration(message)
 
 @dp.message(F.text == 'Нет, я просто хочу запустить бота')
@@ -262,12 +254,10 @@ async def proceed_without_vacancies(message: types.Message):
         user.vacancies_interest = False
         await sync_to_async(user.save)()
     else:
-        # Если пользователя еще нет, сохраним в user_state для сохранения при регистрации
         if tg_id not in user_state:
             user_state[tg_id] = {'step': -1, 'data': {}}
         user_state[tg_id]['data']['vacancies_interest'] = False
     
-    # Явно удаляем клавиатуру перед переходом к регистрации
     await message.answer("Хорошо!", reply_markup=ReplyKeyboardRemove())
     await proceed_to_registration(message)
 
@@ -287,7 +277,6 @@ async def collect_data(message: types.Message):
             'Старт',
             'Я прочитал(а) и даю согласие',
             'Да, мне интересны вакансии Яндекса',
-            'Даю согласие',
             'Нет, я просто хочу запустить бота',
         }:
             return
@@ -424,38 +413,40 @@ async def collect_data(message: types.Message):
             await message.answer('Нажмите кнопку ниже, чтобы открыть приложение:', reply_markup=ikb)
 
 @sync_to_async
-def get_quiz_winner():
-    winner = QuizResult.objects.order_by('-correct_answers', 'completed_at').select_related('user').first()
-    if not winner:
-        return None
-    user = winner.user
-    return {
-        "first_name": user.first_name,
-        "last_name": user.last_name,
-        "username": user.username,
-        "correct_answers": winner.correct_answers,
-        "total_questions": winner.total_questions,
-        "completed_at": winner.completed_at.strftime('%d.%m.%Y %H:%M')
-    }
+def get_quiz_top(limit=10):
+    results = (
+        QuizResult.objects.select_related('user')
+        .order_by('-correct_answers', 'completed_at')[:limit]
+    )
+    top = []
+    for result in results:
+        user = result.user
+        top.append({
+            "first_name": user.first_name,
+            "last_name": user.last_name,
+            "username": user.username,
+            "correct_answers": result.correct_answers,
+            "total_questions": result.total_questions,
+            "completed_at": result.completed_at.strftime('%d.%m.%Y %H:%M'),
+        })
+    return top
 
 @dp.message(Command(commands=["quizwinner", "quiz-winner"], ignore_case=True, ignore_mention=True))
 async def quiz_winner(message: types.Message):
-    winner = await get_quiz_winner()
-    if not winner:
+    top_players = await get_quiz_top()
+    if not top_players:
         await message.answer("Пока никто не прошёл квиз 😢")
         return
 
-    full_name = f"{winner['first_name']} {winner['last_name']}".strip()
-    username = f"@{winner['username']}" if winner['username'] else "—"
+    lines = ["🏆 <b>ТОП-10 участников квиза</b>", ""]
+    for idx, player in enumerate(top_players, start=1):
+        full_name = f"{player['first_name']} {player['last_name']}".strip() or "—"
+        username = f"@{player['username']}" if player['username'] else "—"
+        lines.append(f"{idx}. {full_name} ({username})")
+        lines.append(f"   ✅ {player['correct_answers']} из {player['total_questions']} • 🕒 {player['completed_at']}")
+        lines.append("")
 
-    text = (
-        f"🏆 <b>Победитель квиза</b>\n\n"
-        f"👤 Имя: {full_name}\n"
-        f"🔗 Никнейм: {username}\n"
-        f"✅ Правильных ответов: {winner['correct_answers']} из {winner['total_questions']}\n"
-        f"🕒 Пройден: {winner['completed_at']}"
-    )
-    await message.answer(text, parse_mode="HTML")
+    await message.answer("\n".join(lines).strip(), parse_mode="HTML")
 
 
 if __name__ == '__main__':
