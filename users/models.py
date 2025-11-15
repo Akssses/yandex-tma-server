@@ -29,7 +29,7 @@ class TelegramUser(models.Model):
         return hasattr(self, 'testresult')
     
     def has_completed_quiz(self):
-        return hasattr(self, 'quizresult')
+        return self.quizresults.exists()
 
 
 class TestResult(models.Model):
@@ -56,14 +56,19 @@ class TestResult(models.Model):
 
 
 class QuizResult(models.Model):
-    user = models.OneToOneField(TelegramUser, on_delete=models.CASCADE, related_name='quizresult')
+    user = models.ForeignKey(TelegramUser, on_delete=models.CASCADE, related_name='quizresults')
+    quiz_date = models.DateField(db_index=True)
     correct_answers = models.IntegerField()
     total_questions = models.IntegerField()
     answers = models.JSONField(default=list)  # Список ответов пользователя
     completed_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ('user', 'quiz_date')
+        ordering = ['-completed_at']
     
     def __str__(self):
-        return f"{self.user.first_name} - {self.correct_answers}/{self.total_questions}"
+        return f"{self.user.first_name} - {self.correct_answers}/{self.total_questions} ({self.quiz_date})"
 
 
 class Workshop(models.Model):
@@ -98,6 +103,20 @@ class ConsultationTopic(models.Model):
         return self.name
 
 
+class TopicTimeSlot(models.Model):
+    topic = models.ForeignKey(ConsultationTopic, on_delete=models.CASCADE, related_name='time_slots')
+    start_time = models.DateTimeField()
+    end_time = models.DateTimeField()
+    experts = models.ManyToManyField('TelegramUser', related_name='topic_time_slots', blank=True, limit_choices_to={'is_expert': True})
+
+    class Meta:
+        ordering = ['start_time']
+        unique_together = ('topic', 'start_time', 'end_time')
+
+    def __str__(self):
+        return f"{self.topic.name} — {self.start_time.strftime('%d.%m %H:%M')}"
+
+
 class ConsultationSlot(models.Model):
     expert = models.ForeignKey(TelegramUser, on_delete=models.CASCADE, related_name='consultation_slots')
     topic = models.ForeignKey(ConsultationTopic, on_delete=models.CASCADE, related_name='slots')
@@ -106,6 +125,7 @@ class ConsultationSlot(models.Model):
     is_booked = models.BooleanField(default=False)
     booked_by = models.ForeignKey(TelegramUser, on_delete=models.SET_NULL, null=True, blank=True, related_name='consultations')
     created_at = models.DateTimeField(auto_now_add=True)
+    template = models.ForeignKey(TopicTimeSlot, on_delete=models.SET_NULL, null=True, blank=True, related_name='bookings')
 
     class Meta:
         ordering = ['start_time']

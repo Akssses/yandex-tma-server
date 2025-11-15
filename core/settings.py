@@ -45,6 +45,8 @@ else:
         'metamarketing.muza.team',
         'localhost',
         '127.0.0.1',
+        'yandextmaserver.eu.ngrok.io',
+        'demisable-agueda-cloque.ngrok-free.dev',
     ]
 
 
@@ -169,6 +171,8 @@ else:
         "https://yandex-tma.vercel.app",
         "http://localhost:3000",
         "http://127.0.0.1:3000",
+        "https://demisable-agueda-cloque.ngrok-free.dev",
+        "https://yandextmaserver.eu.ngrok.io",
     ]
 
 CORS_ALLOW_CREDENTIALS = True
@@ -182,6 +186,8 @@ else:
         "https://yandex-tma.vercel.app",
         "http://localhost:8000",
         "http://127.0.0.1:8000",
+        "https://demisable-agueda-cloque.ngrok-free.dev",
+        "https://yandextmaserver.eu.ngrok.io",
     ]
 
 # Django REST Framework settings

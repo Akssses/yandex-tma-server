@@ -3,7 +3,16 @@ from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_http_methods
 from django.conf import settings
 import json
-from .models import TelegramUser, TestResult, QuizResult, Workshop, WorkshopRegistration, ConsultationTopic, ConsultationSlot
+from .models import (
+    TelegramUser,
+    TestResult,
+    QuizResult,
+    Workshop,
+    WorkshopRegistration,
+    ConsultationTopic,
+    ConsultationSlot,
+    TopicTimeSlot,
+)
 from .telegram_auth import verify_telegram_webapp_data, get_user_from_telegram_data
 from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
@@ -12,6 +21,7 @@ from rest_framework.response import Response
 from rest_framework import status
 
 TELEGRAM_BOT_TOKEN = '8265126857:AAEhwVCOVVDZqmuZCbqLzOmb0dLp0zJ5n5c'
+# TELEGRAM_BOT_TOKEN = '7986098041:AAG7kR2rxwICzBRvP53yyUMtYonbceyW2Rg'
 TELEGRAM_API_BASE = 'https://api.telegram.org'
 
 def _add_cors_headers(response, request):
@@ -374,11 +384,14 @@ def get_quiz_status(request):
     try:
         data = json.loads(request.body)
         init_data = data.get('initData')
+        quiz_date = data.get('quizDate')
         
-        print(f"Quiz status check - initData: {init_data[:50] if init_data else 'None'}...")
+        print(f"Quiz status check - initData: {init_data[:50] if init_data else 'None'}..., quizDate={quiz_date}")
         
         if not init_data:
             return JsonResponse({'error': 'No initData provided'}, status=400)
+        if not quiz_date:
+            return JsonResponse({'error': 'No quizDate provided'}, status=400)
         
         # Проверяем подпись Telegram
         telegram_data = verify_telegram_webapp_data(init_data, TELEGRAM_BOT_TOKEN)
@@ -400,8 +413,8 @@ def get_quiz_status(request):
             user = TelegramUser.objects.get(telegram_id=telegram_id)
             print(f"Quiz status check - user found: {user.first_name}")
             
-            if user.has_completed_quiz():
-                quiz_result = user.quizresult
+            quiz_result = QuizResult.objects.filter(user=user, quiz_date=quiz_date).first()
+            if quiz_result:
                 print(f"Quiz status check - quiz completed: {quiz_result.correct_answers}/{quiz_result.total_questions}")
                 return JsonResponse({
                     'success': True,
@@ -442,12 +455,15 @@ def save_quiz_result(request):
         data = json.loads(request.body)
         init_data = data.get('initData')
         quiz_data = data.get('quizResult')
+        quiz_date = data.get('quizDate') or (quiz_data or {}).get('quiz_date')
         
         print(f"Save quiz result - initData: {init_data[:50] if init_data else 'None'}...")
         print(f"Save quiz result - quizData: {quiz_data}")
         
         if not init_data:
             return JsonResponse({'error': 'No initData provided'}, status=400)
+        if not quiz_date:
+            return JsonResponse({'error': 'No quizDate provided'}, status=400)
         
         # Проверяем подпись Telegram
         telegram_data = verify_telegram_webapp_data(init_data, TELEGRAM_BOT_TOKEN)
@@ -469,9 +485,10 @@ def save_quiz_result(request):
             user = TelegramUser.objects.get(telegram_id=telegram_id)
             print(f"Save quiz result - user found: {user.first_name}")
             
-            # Проверяем, не проходил ли уже квиз
-            if user.has_completed_quiz():
-                print("Save quiz result - Quiz already completed")
+            # Проверяем, не проходил ли уже квиз в эту дату
+            exists = QuizResult.objects.filter(user=user, quiz_date=quiz_date).exists()
+            if exists:
+                print("Save quiz result - Quiz already completed for this date")
                 return JsonResponse({'error': 'Quiz already completed'}, status=400)
             
             # Получаем данные результата
@@ -482,6 +499,7 @@ def save_quiz_result(request):
             # Создаем результат квиза
             quiz_result = QuizResult.objects.create(
                 user=user,
+                quiz_date=quiz_date,
                 correct_answers=quiz_data['correct_answers'],
                 total_questions=quiz_data['total_questions'],
                 answers=quiz_data['answers']
@@ -642,7 +660,6 @@ def _fmt_time(dt):
 @require_http_methods(["GET"])
 def consultations_slots(request):
     try:
-        from datetime import datetime, date, time, timedelta
         topic_id = request.GET.get('topic_id')
         if not topic_id:
             return JsonResponse({'success': True, 'slots': []})
@@ -651,49 +668,58 @@ def consultations_slots(request):
         except ConsultationTopic.DoesNotExist:
             return JsonResponse({'success': True, 'slots': []})
 
-        raw_slots = [
-            (11, 0), (11, 30), (12, 0), (12, 30), (13, 0), (13, 30),
-            (14, 0), (14, 30), (15, 0), (15, 30), (16, 0), (16, 30),
-            (17, 0), (17, 30),
-        ]
-        today = date.today()
-        generated = []
-        expert_ids = list(topic.experts.values_list('id', flat=True))
-        start_day = datetime.combine(today, time(0, 0))
-        end_day = datetime.combine(today, time(23, 59))
+        slots_qs = (
+            TopicTimeSlot.objects.filter(topic=topic)
+            .prefetch_related('experts')
+            .order_by('start_time')
+        )
+
+        if not slots_qs.exists():
+            return JsonResponse({'success': True, 'slots': []})
+
         bookings = ConsultationSlot.objects.select_related('expert').filter(
-            expert_id__in=expert_ids,
-            start_time__gte=start_day,
-            end_time__lte=end_day,
+            template__in=slots_qs,
             is_booked=True,
         )
-        booked_map = {}
-        for b in bookings:
-            booked_map.setdefault(b.expert_id, set()).add((b.start_time, b.end_time))
 
-        for expert_id in expert_ids:
-            try:
-                expert = TelegramUser.objects.get(id=expert_id)
-            except TelegramUser.DoesNotExist:
-                continue
-            for (hh, mm) in raw_slots:
-                st = datetime.combine(today, time(hh, mm))
-                et = st + timedelta(minutes=30)
-                if (st, et) in booked_map.get(expert_id, set()):
-                    continue
-                generated.append({
-                    'id': int(f"{expert_id}{hh:02d}{mm:02d}"),
-                    'expert': {
-                        'id': expert.id,
-                        'first_name': expert.first_name,
-                        'last_name': expert.last_name,
-                    },
-                    'topic': { 'id': topic.id, 'name': topic.name },
-                    'time': f"{_fmt_time(st)} - {_fmt_time(et)}",
-                    'st_iso': st.isoformat(),
-                    'et_iso': et.isoformat(),
+        booked_map = {}
+        for booking in bookings:
+            key = (
+                booking.expert_id,
+                booking.template_id or 0,
+                booking.start_time,
+                booking.end_time,
+            )
+            booked_map[key] = booking
+
+        slots_payload = []
+        for slot in slots_qs:
+            experts_payload = []
+            for expert in slot.experts.all():
+                key = (expert.id, slot.id, slot.start_time, slot.end_time)
+                booking = booked_map.get(key)
+                if booking is None:
+                    # fallback for legacy records without template reference
+                    legacy_key = (expert.id, 0, slot.start_time, slot.end_time)
+                    booking = booked_map.get(legacy_key)
+                experts_payload.append({
+                    'id': expert.id,
+                    'first_name': expert.first_name,
+                    'last_name': expert.last_name,
+                    'username': expert.username,
+                    'available': booking is None,
                 })
-        return JsonResponse({'success': True, 'slots': generated})
+
+            slots_payload.append({
+                'id': slot.id,
+                'topic_id': slot.topic_id,
+                'time': f"{_fmt_time(slot.start_time)} - {_fmt_time(slot.end_time)}",
+                'start_iso': slot.start_time.isoformat(),
+                'end_iso': slot.end_time.isoformat(),
+                'experts': experts_payload,
+            })
+
+        return JsonResponse({'success': True, 'slots': slots_payload})
     except Exception as e:
         return JsonResponse({'error': str(e)}, status=500)
 
@@ -706,45 +732,42 @@ def consultations_book(request, slot_id):
         if err:
             return err
         data = json.loads(request.body)
-        st_iso = data.get('st_iso')
-        et_iso = data.get('et_iso')
         expert_id = data.get('expert_id')
-        topic_id = data.get('topic_id')
-        from datetime import datetime
-        if not (st_iso and et_iso and expert_id and topic_id):
-            return JsonResponse({'error': 'Missing slot payload'}, status=400)
+        if not expert_id:
+            return JsonResponse({'error': 'Missing expert_id'}, status=400)
         try:
-            expert = TelegramUser.objects.get(id=expert_id, is_expert=True)
-            topic = ConsultationTopic.objects.get(id=topic_id)
-        except Exception:
-            return JsonResponse({'error': 'Invalid expert/topic'}, status=400)
-        st = datetime.fromisoformat(st_iso)
-        et = datetime.fromisoformat(et_iso)
+            template_slot = TopicTimeSlot.objects.select_related('topic').prefetch_related('experts').get(id=slot_id)
+        except TopicTimeSlot.DoesNotExist:
+            return JsonResponse({'error': 'Slot not found'}, status=404)
+
+        expert = template_slot.experts.filter(id=expert_id).first()
+        if not expert:
+            return JsonResponse({'error': 'Expert not assigned to this slot'}, status=400)
+
+        topic = template_slot.topic
         # Prevent double booking for the same topic by the same user
         already = ConsultationSlot.objects.filter(booked_by=user, topic=topic, is_booked=True).exists()
         if already:
             return JsonResponse({'error': 'Already booked this topic'}, status=400)
-        # Reuse existing unbooked slot record to avoid unique constraint conflicts
-        existing_slot = ConsultationSlot.objects.filter(expert=expert, start_time=st, end_time=et).first()
-        if existing_slot:
-            if existing_slot.is_booked:
-                return JsonResponse({'error': 'Slot already booked'}, status=400)
-            # Update and book existing slot
-            existing_slot.topic = topic
-            existing_slot.is_booked = True
-            existing_slot.booked_by = user
-            existing_slot.save()
-            slot = existing_slot
-        else:
-            # Create a new record if none exists yet
-            slot = ConsultationSlot.objects.create(
-                expert=expert,
-                topic=topic,
-                start_time=st,
-                end_time=et,
-                is_booked=True,
-                booked_by=user,
-            )
+
+        slot, created = ConsultationSlot.objects.get_or_create(
+            expert=expert,
+            start_time=template_slot.start_time,
+            end_time=template_slot.end_time,
+            defaults={
+                'topic': topic,
+                'is_booked': False,
+                'template': template_slot,
+            }
+        )
+        if not created and slot.is_booked:
+            return JsonResponse({'error': 'Slot already booked'}, status=400)
+
+        slot.topic = topic
+        slot.is_booked = True
+        slot.booked_by = user
+        slot.template = template_slot
+        slot.save()
         # Notify expert
         try:
             expert_name = f"{slot.expert.first_name} {slot.expert.last_name or ''}".strip()

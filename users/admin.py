@@ -1,5 +1,14 @@
 from django.contrib import admin
-from .models import TelegramUser, TestResult, QuizResult, Workshop, WorkshopRegistration, ConsultationTopic, ConsultationSlot
+from .models import (
+    TelegramUser,
+    TestResult,
+    QuizResult,
+    Workshop,
+    WorkshopRegistration,
+    ConsultationTopic,
+    ConsultationSlot,
+    TopicTimeSlot,
+)
 
 @admin.register(TelegramUser)
 class TelegramUserAdmin(admin.ModelAdmin):
@@ -49,12 +58,12 @@ class TestResultAdmin(admin.ModelAdmin):
 
 @admin.register(QuizResult)
 class QuizResultAdmin(admin.ModelAdmin):
-    list_display = ('id', 'user', 'correct_answers', 'total_questions', 'score_percentage', 'completed_at')
-    list_filter = ('completed_at', 'correct_answers', 'total_questions')
+    list_display = ('id', 'user', 'quiz_date', 'correct_answers', 'total_questions', 'score_percentage', 'completed_at')
+    list_filter = ('quiz_date', 'completed_at', 'correct_answers', 'total_questions')
     search_fields = ('user__first_name', 'user__last_name', 'user__username')
-    readonly_fields = ('user', 'correct_answers', 'total_questions', 'answers', 'completed_at')
-    fields = ('user', 'correct_answers', 'total_questions', 'answers', 'completed_at')
-    ordering = ('-correct_answers', '-completed_at')  # Сортировка по убыванию правильных ответов
+    readonly_fields = ('user', 'quiz_date', 'correct_answers', 'total_questions', 'answers', 'completed_at')
+    fields = ('user', 'quiz_date', 'correct_answers', 'total_questions', 'answers', 'completed_at')
+    ordering = ('-quiz_date', '-correct_answers', '-completed_at')
 
     def score_percentage(self, obj):
         if obj.total_questions > 0:
@@ -86,19 +95,27 @@ class WorkshopRegistrationAdmin(admin.ModelAdmin):
     search_fields = ('user__first_name', 'user__last_name', 'user__username', 'workshop__title')
 
 
+class TopicTimeSlotInline(admin.StackedInline):
+    model = TopicTimeSlot
+    extra = 1
+    filter_horizontal = ('experts',)
+    fields = ('start_time', 'end_time', 'experts')
+
+
 @admin.register(ConsultationTopic)
 class ConsultationTopicAdmin(admin.ModelAdmin):
     list_display = ('id', 'name')
     search_fields = ('name',)
     filter_horizontal = ('experts',)
+    inlines = [TopicTimeSlotInline]
 
 
 @admin.register(ConsultationSlot)
 class ConsultationSlotAdmin(admin.ModelAdmin):
-    list_display = ('id', 'expert', 'topic', 'start_time', 'end_time', 'is_booked', 'booked_by')
+    list_display = ('id', 'expert', 'topic', 'start_time', 'end_time', 'is_booked', 'booked_by', 'template')
     list_filter = ('is_booked', 'topic', 'expert', 'start_time')
     search_fields = ('expert__first_name', 'expert__last_name', 'topic__name', 'booked_by__first_name', 'booked_by__last_name')
-    readonly_fields = ('expert', 'topic', 'start_time', 'end_time', 'is_booked', 'booked_by', 'created_at')
+    readonly_fields = ('expert', 'topic', 'start_time', 'end_time', 'is_booked', 'booked_by', 'created_at', 'template')
 
     def has_add_permission(self, request):
         # Slots are generated in code and created only upon booking

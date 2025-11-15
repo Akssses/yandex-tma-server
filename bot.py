@@ -18,8 +18,12 @@ django.setup()
 
 from users.models import TelegramUser, ConsultationSlot, QuizResult
 
-TELEGRAM_BOT_TOKEN = '8265126857:AAEhwVCOVVDZqmuZCbqLzOmb0dLp0zJ5n5c'
-FRONTEND_BASE_URL = 'https://yandex-tma.vercel.app'
+# TELEGRAM_BOT_TOKEN = '8265126857:AAEhwVCOVVDZqmuZCbqLzOmb0dLp0zJ5n5c'
+# FRONTEND_BASE_URL = 'https://yandex-tma.vercel.app'
+
+TELEGRAM_BOT_TOKEN = '7986098041:AAG7kR2rxwICzBRvP53yyUMtYonbceyW2Rg'
+FRONTEND_BASE_URL = 'https://demisable-agueda-cloque.ngrok-free.dev'
+
 
 # Debug: print masked token tail to ensure env consistency (remove in production)
 try:
@@ -385,9 +389,9 @@ async def collect_data(message: types.Message):
                 )
                 await message.answer(
                     'Нажмите кнопку с вашим никнеймом для подтверждения:',
-                    reply_markup=keyboard
-                )
-                return
+                reply_markup=keyboard
+            )
+            return
         else:
             await message.answer(next_prompt, reply_markup=ReplyKeyboardRemove())
     else:
@@ -412,14 +416,23 @@ async def collect_data(message: types.Message):
         else:
             await message.answer('Нажмите кнопку ниже, чтобы открыть приложение:', reply_markup=ikb)
 
+QUIZ_COMMANDS = {
+    "quiz-20": "2025-11-20",
+    "quiz20": "2025-11-20",
+    "quiz-21": "2025-11-21",
+    "quiz21": "2025-11-21",
+}
+
+
 @sync_to_async
-def get_quiz_top(limit=10):
-    results = (
+def get_quiz_top_by_date(quiz_date: str, limit: int = 10):
+    queryset = (
         QuizResult.objects.select_related('user')
+        .filter(quiz_date=quiz_date)
         .order_by('-correct_answers', 'completed_at')[:limit]
     )
     top = []
-    for result in results:
+    for result in queryset:
         user = result.user
         top.append({
             "first_name": user.first_name,
@@ -431,22 +444,42 @@ def get_quiz_top(limit=10):
         })
     return top
 
-@dp.message(Command(commands=["quizwinner", "quiz-winner"], ignore_case=True, ignore_mention=True))
-async def quiz_winner(message: types.Message):
-    top_players = await get_quiz_top()
-    if not top_players:
-        await message.answer("Пока никто не прошёл квиз 😢")
-        return
 
-    lines = ["🏆 <b>ТОП-10 участников квиза</b>", ""]
-    for idx, player in enumerate(top_players, start=1):
+def _build_quiz_winner_text(quiz_date: str, players):
+    from datetime import datetime
+    formatted_date = datetime.fromisoformat(quiz_date).strftime('%d.%m.%Y')
+    header = f"🏆 <b>ТОП-10 участников квиза {formatted_date}</b>"
+    lines = [header, ""]
+    for idx, player in enumerate(players, start=1):
         full_name = f"{player['first_name']} {player['last_name']}".strip() or "—"
         username = f"@{player['username']}" if player['username'] else "—"
         lines.append(f"{idx}. {full_name} ({username})")
-        lines.append(f"   ✅ {player['correct_answers']} из {player['total_questions']} • 🕒 {player['completed_at']}")
+        lines.append(
+            f"   ✅ {player['correct_answers']} из {player['total_questions']} • 🕒 {player['completed_at']}"
+        )
         lines.append("")
+    return "\n".join(lines).strip()
 
-    await message.answer("\n".join(lines).strip(), parse_mode="HTML")
+
+async def _handle_quiz_top(message: types.Message, quiz_date: str) -> None:
+    top_players = await get_quiz_top_by_date(quiz_date)
+    if not top_players:
+        await message.answer("Пока никто не прошёл квиз 😢")
+        return
+    await message.answer(
+        _build_quiz_winner_text(quiz_date, top_players),
+        parse_mode="HTML"
+    )
+
+
+@dp.message(Command(commands=["quiz-20", "quiz20"], ignore_case=True, ignore_mention=True))
+async def quiz_20(message: types.Message):
+    await _handle_quiz_top(message, QUIZ_COMMANDS["quiz-20"])
+
+
+@dp.message(Command(commands=["quiz-21", "quiz21"], ignore_case=True, ignore_mention=True))
+async def quiz_21(message: types.Message):
+    await _handle_quiz_top(message, QUIZ_COMMANDS["quiz-21"])
 
 
 if __name__ == '__main__':
