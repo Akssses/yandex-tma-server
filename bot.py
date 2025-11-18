@@ -18,11 +18,11 @@ django.setup()
 
 from users.models import TelegramUser, ConsultationSlot, QuizResult
 
-# TELEGRAM_BOT_TOKEN = '8265126857:AAEhwVCOVVDZqmuZCbqLzOmb0dLp0zJ5n5c'
-# FRONTEND_BASE_URL = 'https://yandex-tma.vercel.app'
+TELEGRAM_BOT_TOKEN = '8265126857:AAEhwVCOVVDZqmuZCbqLzOmb0dLp0zJ5n5c'
+FRONTEND_BASE_URL = 'https://yandex-tma.vercel.app'
 
-TELEGRAM_BOT_TOKEN = '7986098041:AAG7kR2rxwICzBRvP53yyUMtYonbceyW2Rg'
-FRONTEND_BASE_URL = 'https://demisable-agueda-cloque.ngrok-free.dev'
+# TELEGRAM_BOT_TOKEN = '7986098041:AAG7kR2rxwICzBRvP53yyUMtYonbceyW2Rg'
+# FRONTEND_BASE_URL = 'https://demisable-agueda-cloque.ngrok-free.dev'
 
 
 # Debug: print masked token tail to ensure env consistency (remove in production)
