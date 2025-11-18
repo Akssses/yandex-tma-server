@@ -12,6 +12,7 @@ from .models import (
     ConsultationTopic,
     ConsultationSlot,
     TopicTimeSlot,
+    ProjectSettings,
 )
 from .telegram_auth import verify_telegram_webapp_data, get_user_from_telegram_data
 from drf_yasg.utils import swagger_auto_schema
@@ -20,8 +21,8 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
 
-TELEGRAM_BOT_TOKEN = '8265126857:AAEhwVCOVVDZqmuZCbqLzOmb0dLp0zJ5n5c'
-# TELEGRAM_BOT_TOKEN = '7986098041:AAG7kR2rxwICzBRvP53yyUMtYonbceyW2Rg'
+# TELEGRAM_BOT_TOKEN = '8265126857:AAEhwVCOVVDZqmuZCbqLzOmb0dLp0zJ5n5c'
+TELEGRAM_BOT_TOKEN = '7986098041:AAG7kR2rxwICzBRvP53yyUMtYonbceyW2Rg'
 TELEGRAM_API_BASE = 'https://api.telegram.org'
 
 def _add_cors_headers(response, request):
@@ -115,17 +116,17 @@ def verify_user(request):
             _add_cors_headers(response, request)
             return response
         
-        # Извлекаем telegram_id
-        telegram_id = get_user_from_telegram_data(telegram_data)
+        # Извлекаем username
+        username = get_user_from_telegram_data(telegram_data)
         
-        if not telegram_id:
-            response = JsonResponse({'error': 'No telegram_id in data'}, status=400)
+        if not username:
+            response = JsonResponse({'error': 'No username in data'}, status=400)
             _add_cors_headers(response, request)
             return response
         
         # Проверяем, зарегистрирован ли пользователь
         try:
-            user = TelegramUser.objects.get(telegram_id=telegram_id)
+            user = TelegramUser.objects.get(username=username)
             response = JsonResponse({
                 'success': True,
                 'user': {
@@ -197,14 +198,14 @@ def get_test_status(request):
         if not telegram_data:
             return JsonResponse({'error': 'Invalid Telegram signature'}, status=401)
         
-        # Извлекаем telegram_id
-        telegram_id = get_user_from_telegram_data(telegram_data)
+        # Извлекаем username
+        username = get_user_from_telegram_data(telegram_data)
         
-        if not telegram_id:
-            return JsonResponse({'error': 'No telegram_id in data'}, status=400)
+        if not username:
+            return JsonResponse({'error': 'No username in data'}, status=400)
         
         try:
-            user = TelegramUser.objects.get(telegram_id=telegram_id)
+            user = TelegramUser.objects.get(username=username)
             
             if user.has_completed_test():
                 test_result = user.testresult
@@ -257,14 +258,14 @@ def save_test_result(request):
         if not telegram_data:
             return JsonResponse({'error': 'Invalid Telegram signature'}, status=401)
         
-        # Извлекаем telegram_id
-        telegram_id = get_user_from_telegram_data(telegram_data)
+        # Извлекаем username
+        username = get_user_from_telegram_data(telegram_data)
         
-        if not telegram_id:
-            return JsonResponse({'error': 'No telegram_id in data'}, status=400)
+        if not username:
+            return JsonResponse({'error': 'No username in data'}, status=400)
         
         try:
-            user = TelegramUser.objects.get(telegram_id=telegram_id)
+            user = TelegramUser.objects.get(username=username)
             
             # Проверяем, не проходил ли уже тест
             if user.has_completed_test():
@@ -321,14 +322,14 @@ def confirm_gift(request):
         if not telegram_data:
             return JsonResponse({'error': 'Invalid Telegram signature'}, status=401)
         
-        # Извлекаем telegram_id
-        telegram_id = get_user_from_telegram_data(telegram_data)
+        # Извлекаем username
+        username = get_user_from_telegram_data(telegram_data)
         
-        if not telegram_id:
-            return JsonResponse({'error': 'No telegram_id in data'}, status=400)
+        if not username:
+            return JsonResponse({'error': 'No username in data'}, status=400)
         
         try:
-            user = TelegramUser.objects.get(telegram_id=telegram_id)
+            user = TelegramUser.objects.get(username=username)
             
             if not user.has_completed_test():
                 return JsonResponse({'error': 'Test not completed'}, status=400)
@@ -400,17 +401,17 @@ def get_quiz_status(request):
             print("Quiz status check - Invalid Telegram signature")
             return JsonResponse({'error': 'Invalid Telegram signature'}, status=401)
         
-        # Извлекаем telegram_id
-        telegram_id = get_user_from_telegram_data(telegram_data)
+        # Извлекаем username
+        username = get_user_from_telegram_data(telegram_data)
         
-        if not telegram_id:
-            print("Quiz status check - No telegram_id in data")
-            return JsonResponse({'error': 'No telegram_id in data'}, status=400)
+        if not username:
+            print("Quiz status check - No username in data")
+            return JsonResponse({'error': 'No username in data'}, status=400)
         
-        print(f"Quiz status check - telegram_id: {telegram_id}")
+        print(f"Quiz status check - username: {username}")
         
         try:
-            user = TelegramUser.objects.get(telegram_id=telegram_id)
+            user = TelegramUser.objects.get(username=username)
             print(f"Quiz status check - user found: {user.first_name}")
             
             quiz_result = QuizResult.objects.filter(user=user, quiz_date=quiz_date).first()
@@ -472,17 +473,17 @@ def save_quiz_result(request):
             print("Save quiz result - Invalid Telegram signature")
             return JsonResponse({'error': 'Invalid Telegram signature'}, status=401)
         
-        # Извлекаем telegram_id
-        telegram_id = get_user_from_telegram_data(telegram_data)
+        # Извлекаем username
+        username = get_user_from_telegram_data(telegram_data)
         
-        if not telegram_id:
-            print("Save quiz result - No telegram_id in data")
-            return JsonResponse({'error': 'No telegram_id in data'}, status=400)
+        if not username:
+            print("Save quiz result - No username in data")
+            return JsonResponse({'error': 'No username in data'}, status=400)
         
-        print(f"Save quiz result - telegram_id: {telegram_id}")
+        print(f"Save quiz result - username: {username}")
         
         try:
-            user = TelegramUser.objects.get(telegram_id=telegram_id)
+            user = TelegramUser.objects.get(username=username)
             print(f"Save quiz result - user found: {user.first_name}")
             
             # Проверяем, не проходил ли уже квиз в эту дату
@@ -534,11 +535,11 @@ def _get_user_by_init_data(request):
     telegram_data = verify_telegram_webapp_data(init_data, TELEGRAM_BOT_TOKEN)
     if not telegram_data:
         return None, JsonResponse({'error': 'Invalid Telegram signature'}, status=401)
-    telegram_id = get_user_from_telegram_data(telegram_data)
-    if not telegram_id:
-        return None, JsonResponse({'error': 'No telegram_id in data'}, status=400)
+    username = get_user_from_telegram_data(telegram_data)
+    if not username:
+        return None, JsonResponse({'error': 'No username in data'}, status=400)
     try:
-        user = TelegramUser.objects.get(telegram_id=telegram_id)
+        user = TelegramUser.objects.get(username=username)
         return user, None
     except TelegramUser.DoesNotExist:
         return None, JsonResponse({'error': 'User not registered'}, status=403)
@@ -668,8 +669,14 @@ def consultations_slots(request):
         except ConsultationTopic.DoesNotExist:
             return JsonResponse({'success': True, 'slots': []})
 
+        # Получаем глобальную дату события из настроек проекта
+        settings_obj = ProjectSettings.get_settings()
+        event_date = settings_obj.event_date
+
+        # Фильтруем слоты по дате события
         slots_qs = (
             TopicTimeSlot.objects.filter(topic=topic)
+            .filter(start_time__date=event_date)
             .prefetch_related('experts')
             .order_by('start_time')
         )
@@ -707,6 +714,7 @@ def consultations_slots(request):
                     'first_name': expert.first_name,
                     'last_name': expert.last_name,
                     'username': expert.username,
+                    'position': expert.position,
                     'available': booking is None,
                 })
 
@@ -720,6 +728,20 @@ def consultations_slots(request):
             })
 
         return JsonResponse({'success': True, 'slots': slots_payload})
+    except Exception as e:
+        return JsonResponse({'error': str(e)}, status=500)
+
+
+@csrf_exempt
+@require_http_methods(["GET"])
+def get_event_date(request):
+    """Получить текущую глобальную дату события"""
+    try:
+        settings_obj = ProjectSettings.get_settings()
+        return JsonResponse({
+            'success': True,
+            'event_date': settings_obj.event_date.isoformat(),
+        })
     except Exception as e:
         return JsonResponse({'error': str(e)}, status=500)
 
@@ -768,20 +790,22 @@ def consultations_book(request, slot_id):
         slot.booked_by = user
         slot.template = template_slot
         slot.save()
-        # Notify expert
-        try:
-            expert_name = f"{slot.expert.first_name} {slot.expert.last_name or ''}".strip()
-            user_name = f"{user.first_name} {user.last_name or ''}".strip()
-            text = (
-                f"Новая запись на консультацию\n"
-                f"Тема: <b>{slot.topic.name}</b>\n"
-                f"Время: <b>{_fmt_time(slot.start_time)} - {_fmt_time(slot.end_time)}</b>\n"
-                f"Пользователь: <b>{user_name}</b> (@{user.username or '-'})\n"
-                f"Место встречи: <b>стойка информации на стенде Яндекса, 1 этаж</b>\n"
-            )
-            _send_telegram_message(slot.expert.telegram_id, text)
-        except Exception:
-            pass
+        # Notify expert if chat_id is known
+        chat_id = getattr(slot.expert, 'telegram_id', None)
+        if chat_id:
+            try:
+                expert_name = f"{slot.expert.first_name} {slot.expert.last_name or ''}".strip()
+                user_name = f"{user.first_name} {user.last_name or ''}".strip()
+                text = (
+                    f"Новая запись на консультацию\n"
+                    f"Тема: <b>{slot.topic.name}</b>\n"
+                    f"Время: <b>{_fmt_time(slot.start_time)} - {_fmt_time(slot.end_time)}</b>\n"
+                    f"Пользователь: <b>{user_name}</b> (@{user.username or '-'})\n"
+                    f"Место встречи: <b>стойка информации на стенде Яндекса, 1 этаж</b>\n"
+                )
+                _send_telegram_message(chat_id, text)
+            except Exception:
+                pass
         return JsonResponse({'success': True, 'id': slot.id})
     except json.JSONDecodeError:
         return JsonResponse({'error': 'Invalid JSON'}, status=400)
@@ -801,17 +825,19 @@ def consultations_cancel(request, slot_id):
         except ConsultationSlot.DoesNotExist:
             return JsonResponse({'error': 'Booking not found'}, status=404)
         # Notify expert before clearing booking
-        try:
-            user_name = f"{user.first_name} {user.last_name or ''}".strip()
-            text = (
-                f"Отмена записи на консультацию\n"
-                f"Тема: <b>{slot.topic.name}</b>\n"
-                f"Время: <b>{_fmt_time(slot.start_time)} - {_fmt_time(slot.end_time)}</b>\n"
-                f"Пользователь: <b>{user_name}</b> (@{user.username or '-'})\n"
-            )
-            _send_telegram_message(slot.expert.telegram_id, text)
-        except Exception:
-            pass
+        chat_id = getattr(slot.expert, 'telegram_id', None)
+        if chat_id:
+            try:
+                user_name = f"{user.first_name} {user.last_name or ''}".strip()
+                text = (
+                    f"Отмена записи на консультацию\n"
+                    f"Тема: <b>{slot.topic.name}</b>\n"
+                    f"Время: <b>{_fmt_time(slot.start_time)} - {_fmt_time(slot.end_time)}</b>\n"
+                    f"Пользователь: <b>{user_name}</b> (@{user.username or '-'})\n"
+                )
+                _send_telegram_message(chat_id, text)
+            except Exception:
+                pass
         # Delete the slot entirely so the same expert/time can be booked again later
         slot.delete()
         return JsonResponse({'success': True})

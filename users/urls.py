@@ -48,6 +48,7 @@ urlpatterns = [
     path('consultations/cancel/<int:slot_id>/', views.consultations_cancel, name='consultations_cancel'),
     path('consultations/my/', views.consultations_my, name='consultations_my'),
     path('consultations/expert/schedule/', views.expert_schedule, name='expert_schedule'),
+    path('event-date/', views.get_event_date, name='get_event_date'),
     # no expert location editing; fixed location used
     
     # DRF API endpoints для Swagger

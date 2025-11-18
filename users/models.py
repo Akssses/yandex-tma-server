@@ -4,7 +4,7 @@ import uuid
 # Create your models here.
 
 class TelegramUser(models.Model):
-    telegram_id = models.BigIntegerField(unique=True)
+    telegram_id = models.BigIntegerField(unique=True, null=True, blank=True)
     first_name = models.CharField(max_length=255)
     last_name = models.CharField(max_length=255, blank=True, null=True)
     username = models.CharField(max_length=255, blank=True, null=True)
@@ -133,3 +133,32 @@ class ConsultationSlot(models.Model):
 
     def __str__(self):
         return f"{self.topic.name} with {self.expert.first_name} at {self.start_time}"
+
+
+class ProjectSettings(models.Model):
+    """
+    Singleton модель для глобальных настроек проекта.
+    Должна быть только одна запись.
+    """
+    event_date = models.DateField(
+        help_text="Глобальная дата события. Используется для фильтрации консультаций (20 или 21 ноября)"
+    )
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = "Настройки проекта"
+        verbose_name_plural = "Настройки проекта"
+
+    def __str__(self):
+        return f"Дата события: {self.event_date}"
+
+    def save(self, *args, **kwargs):
+        # Singleton: всегда сохраняем только одну запись
+        self.pk = 1
+        super().save(*args, **kwargs)
+
+    @classmethod
+    def get_settings(cls):
+        """Получить настройки проекта (singleton)"""
+        obj, created = cls.objects.get_or_create(pk=1, defaults={'event_date': '2025-11-20'})
+        return obj

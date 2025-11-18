@@ -7,8 +7,8 @@ from .models import TelegramUser
 from .telegram_auth import verify_telegram_webapp_data, get_user_from_telegram_data
 import os
 
-TELEGRAM_BOT_TOKEN = '8265126857:AAEhwVCOVVDZqmuZCbqLzOmb0dLp0zJ5n5c'
-# TELEGRAM_BOT_TOKEN = '7986098041:AAG7kR2rxwICzBRvP53yyUMtYonbceyW2Rg'
+# TELEGRAM_BOT_TOKEN = '8265126857:AAEhwVCOVVDZqmuZCbqLzOmb0dLp0zJ5n5c'
+TELEGRAM_BOT_TOKEN = '7986098041:AAG7kR2rxwICzBRvP53yyUMtYonbceyW2Rg'
 
 
 
@@ -89,14 +89,14 @@ def api_test_status(request):
         if not telegram_data:
             return Response({'error': 'Invalid Telegram signature'}, status=status.HTTP_401_UNAUTHORIZED)
         
-        # Извлекаем telegram_id
-        telegram_id = get_user_from_telegram_data(telegram_data)
+        # Извлекаем username
+        username = get_user_from_telegram_data(telegram_data)
         
-        if not telegram_id:
-            return Response({'error': 'No telegram_id in data'}, status=status.HTTP_400_BAD_REQUEST)
+        if not username:
+            return Response({'error': 'No username in data'}, status=status.HTTP_400_BAD_REQUEST)
         
         try:
-            user = TelegramUser.objects.get(telegram_id=telegram_id)
+            user = TelegramUser.objects.get(username=username)
             
             # Проверяем, проходил ли уже тест
             if user.has_completed_test():

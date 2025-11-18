@@ -61,12 +61,12 @@ def verify_telegram_webapp_data(init_data: str, bot_token: str) -> Optional[Dict
         print(f"Error verifying Telegram data: {e}")
         return None
 
-def get_user_from_telegram_data(telegram_data: Dict[str, Any]) -> Optional[int]:
+def get_user_from_telegram_data(telegram_data: Dict[str, Any]) -> Optional[str]:
     """
-    Извлекает telegram_id из данных Telegram
+    Извлекает username из данных Telegram
     """
     try:
         user_data = telegram_data.get('user', {})
-        return user_data.get('id')
+        return user_data.get('username')
     except Exception:
         return None

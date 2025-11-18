@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django.utils.translation import gettext_lazy as _
 from .models import (
     TelegramUser,
     TestResult,
@@ -8,15 +9,16 @@ from .models import (
     ConsultationTopic,
     ConsultationSlot,
     TopicTimeSlot,
+    ProjectSettings,
 )
 
 @admin.register(TelegramUser)
 class TelegramUserAdmin(admin.ModelAdmin):
-    list_display = ('id', 'telegram_id', 'first_name', 'last_name', 'username', 'email', 'workplace', 'position', 'is_expert', 'data_processing_agreement', 'created_at', 'has_completed_test', 'has_completed_quiz')
+    list_display = ('id', 'first_name', 'last_name', 'username', 'email', 'workplace', 'position', 'is_expert', 'data_processing_agreement', 'created_at', 'has_completed_test', 'has_completed_quiz')
     list_filter = ('is_expert', 'data_processing_agreement', 'workplace', 'position', 'created_at')
-    search_fields = ('first_name', 'last_name', 'username', 'email', 'workplace', 'position', 'telegram_id')
+    search_fields = ('first_name', 'last_name', 'username', 'email', 'workplace', 'position')
     readonly_fields = ('created_at',)
-    fields = ('telegram_id', 'first_name', 'last_name', 'username', 'email', 'workplace', 'position', 'is_expert', 'data_processing_agreement', 'created_at')
+    fields = ('first_name', 'last_name', 'username', 'email', 'workplace', 'position', 'is_expert', 'data_processing_agreement', 'created_at')
 
     def has_add_permission(self, request):
         return True
@@ -120,3 +122,33 @@ class ConsultationSlotAdmin(admin.ModelAdmin):
     def has_add_permission(self, request):
         # Slots are generated in code and created only upon booking
         return False
+
+
+@admin.register(ProjectSettings)
+class ProjectSettingsAdmin(admin.ModelAdmin):
+    """Singleton админка для настроек проекта"""
+    list_display = ('id', 'event_date', 'updated_at')
+    fields = ('event_date', 'updated_at')
+    readonly_fields = ('updated_at',)
+
+    def has_add_permission(self, request):
+        # Разрешаем добавление только если записей нет
+        return not ProjectSettings.objects.exists()
+
+    def has_delete_permission(self, request, obj=None):
+        # Не разрешаем удаление
+        return False
+
+    def changelist_view(self, request, extra_context=None):
+        """
+        Перенаправляем список на форму редактирования единственной записи.
+        ProjectSettings.get_settings() уже возвращает объект, а не (obj, created),
+        поэтому просто берём его и открываем changeform.
+        """
+        obj = ProjectSettings.get_settings()
+        return admin.ModelAdmin.changeform_view(
+            self,
+            request,
+            object_id=str(obj.pk),
+            extra_context=extra_context,
+        )

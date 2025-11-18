@@ -18,11 +18,11 @@ django.setup()
 
 from users.models import TelegramUser, ConsultationSlot, QuizResult
 
-TELEGRAM_BOT_TOKEN = '8265126857:AAEhwVCOVVDZqmuZCbqLzOmb0dLp0zJ5n5c'
-FRONTEND_BASE_URL = 'https://yandex-tma.vercel.app'
+# TELEGRAM_BOT_TOKEN = '8265126857:AAEhwVCOVVDZqmuZCbqLzOmb0dLp0zJ5n5c'
+# FRONTEND_BASE_URL = 'https://yandex-tma.vercel.app'
 
-# TELEGRAM_BOT_TOKEN = '7986098041:AAG7kR2rxwICzBRvP53yyUMtYonbceyW2Rg'
-# FRONTEND_BASE_URL = 'https://demisable-agueda-cloque.ngrok-free.dev'
+TELEGRAM_BOT_TOKEN = '7986098041:AAG7kR2rxwICzBRvP53yyUMtYonbceyW2Rg'
+FRONTEND_BASE_URL = 'https://demisable-agueda-cloque.ngrok-free.dev'
 
 
 # Debug: print masked token tail to ensure env consistency (remove in production)
@@ -34,6 +34,36 @@ except Exception:
 
 bot = Bot(token=TELEGRAM_BOT_TOKEN)
 dp = Dispatcher()
+
+
+@sync_to_async
+def _get_user_by_username_or_id(username=None, telegram_id=None):
+    query = TelegramUser.objects
+    if username:
+        user = query.filter(username=username).first()
+        if user:
+            return user
+    if telegram_id:
+        return query.filter(telegram_id=telegram_id).first()
+    return None
+
+
+async def _ensure_registered_user(message: types.Message):
+    """
+    Проверяет, что пользователь есть в БД. Если нет — просит пройти регистрацию.
+    Возвращает TelegramUser или None (если нужно прервать дальнейшую обработку).
+    """
+    user = await _get_user_by_username_or_id(
+        username=message.from_user.username,
+        telegram_id=message.from_user.id,
+    )
+    if not user:
+        await message.answer(
+            "Похоже, вы ещё не авторизованы. Нажмите /start и пройдите короткую регистрацию."
+        )
+        return None
+    return user
+
 
 fields = [
     ('first_name', 'Введите ваше имя:'),
@@ -49,13 +79,13 @@ fields = [
 user_state = {}
 
 @sync_to_async
-def get_or_create_user(tg_id, data):
+def get_or_create_user(username, data):
     return TelegramUser.objects.get_or_create(
-        telegram_id=tg_id,
+        username=username,
         defaults={
+            'telegram_id': data.get('telegram_id'),
             'first_name': data.get('first_name'),
             'last_name': data.get('last_name'),
-            'username': data.get('username'),
             'email': data.get('email'),
             'workplace': data.get('workplace'),
             'position': data.get('position'),
@@ -74,8 +104,9 @@ def update_user(user, data):
 @dp.message(Command('start'))
 async def cmd_start(message: types.Message):
     # Если уже есть эксперт — показываем приветствие и кнопку "Расписание"
+    username = message.from_user.username
     tg_id = message.from_user.id
-    user = await sync_to_async(TelegramUser.objects.filter(telegram_id=tg_id).first)()
+    user = await _get_user_by_username_or_id(username=username, telegram_id=tg_id)
     if user and user.is_expert:
         first_name = (user.first_name or '').strip()
         last_name = (user.last_name or '').strip()
@@ -102,8 +133,9 @@ async def cmd_start(message: types.Message):
 @dp.message(F.text == 'Открыть приложение')
 async def open_app(message: types.Message):
     # Если пользователь уже есть — выдадим WebApp кнопку
+    username = message.from_user.username
     tg_id = message.from_user.id
-    user = await sync_to_async(TelegramUser.objects.filter(telegram_id=tg_id).first)()
+    user = await _get_user_by_username_or_id(username=username, telegram_id=tg_id)
     if user and not user.is_expert:
         ikb = InlineKeyboardMarkup(
             inline_keyboard=[[InlineKeyboardButton(text='Открыть приложение', web_app=WebAppInfo(url=FRONTEND_BASE_URL))]]
@@ -127,8 +159,9 @@ async def open_app(message: types.Message):
 async def show_schedule(message: types.Message):
     try:
         print(f"Schedule button pressed by user {message.from_user.id}")
+        username = message.from_user.username
         tg_id = message.from_user.id
-        user = await sync_to_async(TelegramUser.objects.filter(telegram_id=tg_id).first)()
+        user = await _get_user_by_username_or_id(username=username, telegram_id=tg_id)
         print(f"User found: {user}, is_expert: {user.is_expert if user else 'No user'}")
         if user and user.is_expert:
             # Build schedule text
@@ -235,7 +268,8 @@ async def proceed_to_registration(message: types.Message):
 @dp.message(F.text == 'Да, мне интересны вакансии Яндекса')
 async def vacancies_interest_yes(message: types.Message):
     tg_id = message.from_user.id
-    user = await sync_to_async(TelegramUser.objects.filter(telegram_id=tg_id).first)()
+    username = message.from_user.username
+    user = await _get_user_by_username_or_id(username=username, telegram_id=tg_id)
     if user:
         user.vacancies_interest = True
         await sync_to_async(user.save)()
@@ -253,7 +287,8 @@ async def vacancies_interest_yes(message: types.Message):
 async def proceed_without_vacancies(message: types.Message):
     # Сохраняем выбор о вакансиях
     tg_id = message.from_user.id
-    user = await sync_to_async(TelegramUser.objects.filter(telegram_id=tg_id).first)()
+    username = message.from_user.username
+    user = await _get_user_by_username_or_id(username=username, telegram_id=tg_id)
     if user:
         user.vacancies_interest = False
         await sync_to_async(user.save)()
@@ -395,8 +430,9 @@ async def collect_data(message: types.Message):
         else:
             await message.answer(next_prompt, reply_markup=ReplyKeyboardRemove())
     else:
-        tg_id = user_id
-        user, created = await get_or_create_user(tg_id, data)
+        username = message.from_user.username
+        data['telegram_id'] = message.from_user.id
+        user, created = await get_or_create_user(username, data)
         if not created:
             await update_user(user, data)
         user_state.pop(user_id, None)
@@ -474,11 +510,17 @@ async def _handle_quiz_top(message: types.Message, quiz_date: str) -> None:
 
 @dp.message(Command(commands=["quiz-20", "quiz20"], ignore_case=True, ignore_mention=True))
 async def quiz_20(message: types.Message):
+    user = await _ensure_registered_user(message)
+    if not user:
+        return
     await _handle_quiz_top(message, QUIZ_COMMANDS["quiz-20"])
 
 
 @dp.message(Command(commands=["quiz-21", "quiz21"], ignore_case=True, ignore_mention=True))
 async def quiz_21(message: types.Message):
+    user = await _ensure_registered_user(message)
+    if not user:
+        return
     await _handle_quiz_top(message, QUIZ_COMMANDS["quiz-21"])
 
 
