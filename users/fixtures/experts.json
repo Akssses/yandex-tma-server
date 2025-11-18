@@ -1,0 +1,722 @@
+[
+  {
+    "model": "users.telegramuser",
+    "pk": 1,
+    "fields": {
+      "username": "kudaibergenv",
+      "first_name": "Akbar",
+      "last_name": "Kudaibergenov",
+      "position": "Developer",
+      "workplace": "Earth",
+      "is_expert": true,
+      "data_processing_agreement": true,
+      "vacancies_interest": null,
+      "email": null,
+      "created_at": "2025-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "users.telegramuser",
+    "pk": 2,
+    "fields": {
+      "username": "alchubukov",
+      "first_name": "Алексей",
+      "last_name": "Чубуков",
+      "position": "аналитик службы эффективности платформы",
+      "workplace": "Яндекс Такси",
+      "is_expert": true,
+      "data_processing_agreement": true,
+      "vacancies_interest": null,
+      "email": null,
+      "created_at": "2025-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "users.telegramuser",
+    "pk": 3,
+    "fields": {
+      "username": "katushiz",
+      "first_name": "Екатерина",
+      "last_name": "Бровикова",
+      "position": "Руководитель аналитики",
+      "workplace": "Яндекс 360",
+      "is_expert": true,
+      "data_processing_agreement": true,
+      "vacancies_interest": null,
+      "email": null,
+      "created_at": "2025-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "users.telegramuser",
+    "pk": 4,
+    "fields": {
+      "username": "cm335",
+      "first_name": "Алексей",
+      "last_name": "Гожев",
+      "position": "Руководитель службы аналитики",
+      "workplace": "Яндекс Путешествий",
+      "is_expert": true,
+      "data_processing_agreement": true,
+      "vacancies_interest": null,
+      "email": null,
+      "created_at": "2025-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "users.telegramuser",
+    "pk": 5,
+    "fields": {
+      "username": "antondiden",
+      "first_name": "Антон",
+      "last_name": "Диденко",
+      "position": "Руководитель команды платформенной аналитики",
+      "workplace": "Городские сервисы Яндекса",
+      "is_expert": true,
+      "data_processing_agreement": true,
+      "vacancies_interest": null,
+      "email": null,
+      "created_at": "2025-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "users.telegramuser",
+    "pk": 6,
+    "fields": {
+      "username": "Antoin34",
+      "first_name": "Антон",
+      "last_name": "Акимов",
+      "position": "Руководитель группы маркетинговой аналитики",
+      "workplace": "Яндекс Путешествий",
+      "is_expert": true,
+      "data_processing_agreement": true,
+      "vacancies_interest": null,
+      "email": null,
+      "created_at": "2025-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "users.telegramuser",
+    "pk": 7,
+    "fields": {
+      "username": "iiggy",
+      "first_name": "Игорь",
+      "last_name": "Каргин",
+      "position": "Руководитель службы аналитики Pay App, Pay Box и депозитов",
+      "workplace": "Финтех Яндекса",
+      "is_expert": true,
+      "data_processing_agreement": true,
+      "vacancies_interest": null,
+      "email": null,
+      "created_at": "2025-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "users.telegramuser",
+    "pk": 8,
+    "fields": {
+      "username": "a_andrew",
+      "first_name": "Андрей",
+      "last_name": "Арсеев",
+      "position": "Руководитель группы маркетинговой аналитики",
+      "workplace": "Яндекс Лавка",
+      "is_expert": true,
+      "data_processing_agreement": true,
+      "vacancies_interest": null,
+      "email": null,
+      "created_at": "2025-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "users.telegramuser",
+    "pk": 9,
+    "fields": {
+      "username": "degtevis",
+      "first_name": "Иван",
+      "last_name": "Дёгтев",
+      "position": "Руководитель аналитики",
+      "workplace": "AliceAI",
+      "is_expert": true,
+      "data_processing_agreement": true,
+      "vacancies_interest": null,
+      "email": null,
+      "created_at": "2025-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "users.telegramuser",
+    "pk": 10,
+    "fields": {
+      "username": "yemakhneva",
+      "first_name": "Елизавета",
+      "last_name": "Махнева",
+      "position": "Руководитель аналитики персонализации и монетизации продуктов",
+      "workplace": "Engagement / Яндекс",
+      "is_expert": true,
+      "data_processing_agreement": true,
+      "vacancies_interest": null,
+      "email": null,
+      "created_at": "2025-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "users.telegramuser",
+    "pk": 11,
+    "fields": {
+      "username": "se_maksimov",
+      "first_name": "Сергей",
+      "last_name": "Максимов",
+      "position": "Руководитель группы аналитики роста",
+      "workplace": "Яндекс Недвижимость",
+      "is_expert": true,
+      "data_processing_agreement": true,
+      "vacancies_interest": null,
+      "email": null,
+      "created_at": "2025-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "users.telegramuser",
+    "pk": 12,
+    "fields": {
+      "username": "ankatyandrey",
+      "first_name": "Екатерина",
+      "last_name": "Анашкина",
+      "position": "Руководитель группы продуктовой аналитики",
+      "workplace": "Яндекс Недвижимость",
+      "is_expert": true,
+      "data_processing_agreement": true,
+      "vacancies_interest": null,
+      "email": null,
+      "created_at": "2025-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "users.telegramuser",
+    "pk": 13,
+    "fields": {
+      "username": "akuptsov_ydx",
+      "first_name": "Александр",
+      "last_name": "Купцов",
+      "position": "Руководитель службы аналитики",
+      "workplace": "Яндекс Недвижимость",
+      "is_expert": true,
+      "data_processing_agreement": true,
+      "vacancies_interest": null,
+      "email": null,
+      "created_at": "2025-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "users.telegramuser",
+    "pk": 14,
+    "fields": {
+      "username": "freeman5355",
+      "first_name": "Денис",
+      "last_name": "Крживокольский",
+      "position": "Старший аналитик-разработчик",
+      "workplace": "группа спецпроектов качества поиска",
+      "is_expert": true,
+      "data_processing_agreement": true,
+      "vacancies_interest": null,
+      "email": null,
+      "created_at": "2025-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "users.telegramuser",
+    "pk": 15,
+    "fields": {
+      "username": "sdormidontov",
+      "first_name": "Сергей",
+      "last_name": "Дормидонтов",
+      "position": "Руководитель службы b2b аналитики",
+      "workplace": "Финтех Яндекса",
+      "is_expert": true,
+      "data_processing_agreement": true,
+      "vacancies_interest": null,
+      "email": null,
+      "created_at": "2025-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "users.telegramuser",
+    "pk": 16,
+    "fields": {
+      "username": "Ivan_Wasilievich",
+      "first_name": "Дмитрий",
+      "last_name": "Рычагов",
+      "position": "Руководитель группы аналитики",
+      "workplace": "Поисковые сервисы и ИИ Яндекса",
+      "is_expert": true,
+      "data_processing_agreement": true,
+      "vacancies_interest": null,
+      "email": null,
+      "created_at": "2025-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "users.telegramuser",
+    "pk": 17,
+    "fields": {
+      "username": "Eliseev_Ruslan",
+      "first_name": "Руслан",
+      "last_name": "Елисеев",
+      "position": "Старший аналитик-разработчик",
+      "workplace": "Поиск Яндекса",
+      "is_expert": true,
+      "data_processing_agreement": true,
+      "vacancies_interest": null,
+      "email": null,
+      "created_at": "2025-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "users.telegramuser",
+    "pk": 18,
+    "fields": {
+      "username": "antropaa",
+      "first_name": "Анна",
+      "last_name": "Антропова",
+      "position": "Руководитель группы аналитики продуктов для пользователей",
+      "workplace": "Яндекс Путешествий",
+      "is_expert": true,
+      "data_processing_agreement": true,
+      "vacancies_interest": null,
+      "email": null,
+      "created_at": "2025-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "users.telegramuser",
+    "pk": 19,
+    "fields": {
+      "username": "osa47",
+      "first_name": "Ольга",
+      "last_name": "Самоволик",
+      "position": "Руководитель группы аналитики основного продукта и ранжирования",
+      "workplace": "Авто.ру",
+      "is_expert": true,
+      "data_processing_agreement": true,
+      "vacancies_interest": null,
+      "email": null,
+      "created_at": "2025-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "users.telegramuser",
+    "pk": 20,
+    "fields": {
+      "username": "ekornilina",
+      "first_name": "Елена",
+      "last_name": "Корнилина",
+      "position": "Руководитель группы спецпроектов качества поиска",
+      "workplace": "Поиск Яндекса",
+      "is_expert": true,
+      "data_processing_agreement": true,
+      "vacancies_interest": null,
+      "email": null,
+      "created_at": "2025-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "users.telegramuser",
+    "pk": 21,
+    "fields": {
+      "username": "DeramerC",
+      "first_name": "Арсений",
+      "last_name": "Нестюк",
+      "position": "Аналитик-разработчик голосового ввода",
+      "workplace": "Яндекс",
+      "is_expert": true,
+      "data_processing_agreement": true,
+      "vacancies_interest": null,
+      "email": null,
+      "created_at": "2025-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "users.telegramuser",
+    "pk": 22,
+    "fields": {
+      "username": "Logixqt",
+      "first_name": "Муслим",
+      "last_name": "Бабаев",
+      "position": "Руководитель аналитики и монетизации",
+      "workplace": "Яндекс Плюс AdTech",
+      "is_expert": true,
+      "data_processing_agreement": true,
+      "vacancies_interest": null,
+      "email": null,
+      "created_at": "2025-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "users.telegramuser",
+    "pk": 23,
+    "fields": {
+      "username": "metro18g",
+      "first_name": "Гарник",
+      "last_name": "Амбарян",
+      "position": "Аналитик-разработчик",
+      "workplace": "аналитики рекламных продуктов и технологий",
+      "is_expert": true,
+      "data_processing_agreement": true,
+      "vacancies_interest": null,
+      "email": null,
+      "created_at": "2025-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "users.telegramuser",
+    "pk": 24,
+    "fields": {
+      "username": "revonenkod",
+      "first_name": "Дмитрий",
+      "last_name": "Ревоненко",
+      "position": "Руководитель отдела аналитики",
+      "workplace": "Плюс AdTech",
+      "is_expert": true,
+      "data_processing_agreement": true,
+      "vacancies_interest": null,
+      "email": null,
+      "created_at": "2025-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "users.telegramuser",
+    "pk": 25,
+    "fields": {
+      "username": "goo_olesya",
+      "first_name": "Олеся",
+      "last_name": "Гординская",
+      "position": "Руководитель аналитики",
+      "workplace": "Яндекс Музыка",
+      "is_expert": true,
+      "data_processing_agreement": true,
+      "vacancies_interest": null,
+      "email": null,
+      "created_at": "2025-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "users.telegramuser",
+    "pk": 26,
+    "fields": {
+      "username": "RealityWanderer",
+      "first_name": "Егор",
+      "last_name": "Гридасов",
+      "position": "Аналитик-разработчик",
+      "workplace": "аналитика продуктов для рекламодателей, Поисковые сервисы и ИИ",
+      "is_expert": true,
+      "data_processing_agreement": true,
+      "vacancies_interest": null,
+      "email": null,
+      "created_at": "2025-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "users.telegramuser",
+    "pk": 27,
+    "fields": {
+      "username": "irogov2",
+      "first_name": "Иван",
+      "last_name": "Рогов",
+      "position": "Руководитель группы аналитики экспериментальных продуктов",
+      "workplace": "Яндекс",
+      "is_expert": true,
+      "data_processing_agreement": true,
+      "vacancies_interest": null,
+      "email": null,
+      "created_at": "2025-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "users.telegramuser",
+    "pk": 28,
+    "fields": {
+      "username": "albertbariev",
+      "first_name": "Альберт",
+      "last_name": "Бариев",
+      "position": "Руководитель аналитики RAG-сценариев",
+      "workplace": "AliceAI",
+      "is_expert": true,
+      "data_processing_agreement": true,
+      "vacancies_interest": null,
+      "email": null,
+      "created_at": "2025-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "users.telegramuser",
+    "pk": 29,
+    "fields": {
+      "username": "alexander_osadchiy",
+      "first_name": "Александр",
+      "last_name": "Осадчий",
+      "position": "Аналитик-разработчик",
+      "workplace": "Яндекс Карты",
+      "is_expert": true,
+      "data_processing_agreement": true,
+      "vacancies_interest": null,
+      "email": null,
+      "created_at": "2025-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "users.telegramuser",
+    "pk": 30,
+    "fields": {
+      "username": "alenaaplotnikova",
+      "first_name": "Алена",
+      "last_name": "Плотникова",
+      "position": "Руководитель группы качества данных",
+      "workplace": "Поисковые сервисы и ИИ",
+      "is_expert": true,
+      "data_processing_agreement": true,
+      "vacancies_interest": null,
+      "email": null,
+      "created_at": "2025-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "users.telegramuser",
+    "pk": 31,
+    "fields": {
+      "username": "vik0ovka",
+      "first_name": "Виктория",
+      "last_name": "Овсюкова",
+      "position": "IT-рекрутер",
+      "workplace": "Яндекс Плюс / Финтех",
+      "is_expert": true,
+      "data_processing_agreement": true,
+      "vacancies_interest": null,
+      "email": null,
+      "created_at": "2025-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "users.telegramuser",
+    "pk": 32,
+    "fields": {
+      "username": "rusik_pusichka",
+      "first_name": "Руслан",
+      "last_name": "Ерофеев",
+      "position": "IT-рекрутер",
+      "workplace": "Вертикали Яндекса",
+      "is_expert": true,
+      "data_processing_agreement": true,
+      "vacancies_interest": null,
+      "email": null,
+      "created_at": "2025-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "users.telegramuser",
+    "pk": 33,
+    "fields": {
+      "username": "e_murochkina",
+      "first_name": "Елена",
+      "last_name": "Ковалева",
+      "position": "IT-рекрутер",
+      "workplace": "Городские сервисы",
+      "is_expert": true,
+      "data_processing_agreement": true,
+      "vacancies_interest": null,
+      "email": null,
+      "created_at": "2025-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "users.telegramuser",
+    "pk": 34,
+    "fields": {
+      "username": "anastasilex",
+      "first_name": "Анастасия",
+      "last_name": "Воробьева",
+      "position": "IT-рекрутер",
+      "workplace": "Городские сервисы",
+      "is_expert": true,
+      "data_processing_agreement": true,
+      "vacancies_interest": null,
+      "email": null,
+      "created_at": "2025-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "users.telegramuser",
+    "pk": 35,
+    "fields": {
+      "username": "ChekmaHR",
+      "first_name": "Екатерина",
+      "last_name": "Чекмарева",
+      "position": "IT-рекрутер",
+      "workplace": "Вертикали Яндекса",
+      "is_expert": true,
+      "data_processing_agreement": true,
+      "vacancies_interest": null,
+      "email": null,
+      "created_at": "2025-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "users.telegramuser",
+    "pk": 36,
+    "fields": {
+      "username": "vaakaaa",
+      "first_name": "Валерия",
+      "last_name": "Ангарова",
+      "position": "Старший рекрутер",
+      "workplace": "Поисковые сервисы и ИИ",
+      "is_expert": true,
+      "data_processing_agreement": true,
+      "vacancies_interest": null,
+      "email": null,
+      "created_at": "2025-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "users.telegramuser",
+    "pk": 37,
+    "fields": {
+      "username": "ingafas",
+      "first_name": "Инга",
+      "last_name": "Березникер",
+      "position": "Старший рекрутер",
+      "workplace": "Подразделение аналитики",
+      "is_expert": true,
+      "data_processing_agreement": true,
+      "vacancies_interest": null,
+      "email": null,
+      "created_at": "2025-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "users.telegramuser",
+    "pk": 38,
+    "fields": {
+      "username": "yanarooar",
+      "first_name": "Яна",
+      "last_name": "Арестова",
+      "position": "IT-рекрутер",
+      "workplace": "Яндекс 360",
+      "is_expert": true,
+      "data_processing_agreement": true,
+      "vacancies_interest": null,
+      "email": null,
+      "created_at": "2025-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "users.telegramuser",
+    "pk": 39,
+    "fields": {
+      "username": "rubyasti",
+      "first_name": "Дарья",
+      "last_name": "Астанкова",
+      "position": "IT-рекрутер",
+      "workplace": "Городские сервисы",
+      "is_expert": true,
+      "data_processing_agreement": true,
+      "vacancies_interest": null,
+      "email": null,
+      "created_at": "2025-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "users.telegramuser",
+    "pk": 40,
+    "fields": {
+      "username": "polino4",
+      "first_name": "Полина",
+      "last_name": "Потапочкина",
+      "position": "IT-рекрутер",
+      "workplace": "Финтех Яндекса",
+      "is_expert": true,
+      "data_processing_agreement": true,
+      "vacancies_interest": null,
+      "email": null,
+      "created_at": "2025-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "users.telegramuser",
+    "pk": 41,
+    "fields": {
+      "username": "Popovaelizaveta_hr",
+      "first_name": "Елизавета",
+      "last_name": "Попова",
+      "position": "IT-рекрутер",
+      "workplace": "Городские сервисы",
+      "is_expert": true,
+      "data_processing_agreement": true,
+      "vacancies_interest": null,
+      "email": null,
+      "created_at": "2025-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "users.telegramuser",
+    "pk": 42,
+    "fields": {
+      "username": "maydaily",
+      "first_name": "Анастасия",
+      "last_name": "Дедюлина",
+      "position": "IT-рекрутер",
+      "workplace": "Городские сервисы",
+      "is_expert": true,
+      "data_processing_agreement": true,
+      "vacancies_interest": null,
+      "email": null,
+      "created_at": "2025-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "users.telegramuser",
+    "pk": 43,
+    "fields": {
+      "username": "koroskotoh",
+      "first_name": "Дарья",
+      "last_name": "Цивань",
+      "position": "Рекрутер",
+      "workplace": "Яндекс Карты",
+      "is_expert": true,
+      "data_processing_agreement": true,
+      "vacancies_interest": null,
+      "email": null,
+      "created_at": "2025-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "users.telegramuser",
+    "pk": 44,
+    "fields": {
+      "username": "Nastyamaximowa",
+      "first_name": "Анастасия",
+      "last_name": "Максимова",
+      "position": "IT-рекрутер",
+      "workplace": "Финтех Яндекса",
+      "is_expert": true,
+      "data_processing_agreement": true,
+      "vacancies_interest": null,
+      "email": null,
+      "created_at": "2025-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "users.telegramuser",
+    "pk": 45,
+    "fields": {
+      "username": "valeria_kovaleva",
+      "first_name": "Валерия",
+      "last_name": "Ковалева",
+      "position": "IT-рекрутер",
+      "workplace": "Городские сервисы",
+      "is_expert": true,
+      "data_processing_agreement": true,
+      "vacancies_interest": null,
+      "email": null,
+      "created_at": "2025-01-01T00:00:00Z"
+    }
+  }
+]

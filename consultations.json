@@ -1,0 +1,2225 @@
+{
+  "20 ноября": {
+    "16:30-17:00": [
+      {
+        "username": "Logixqt",
+        "first_name": "Муслим",
+        "last_name": "Бабаев",
+        "type": "hiring",
+        "topics": ["Общие карьерные консультации"]
+      },
+      {
+        "username": "reverserun",
+        "first_name": "Ирина",
+        "last_name": "Андреева",
+        "type": "hiring",
+        "topics": ["Общие карьерные консультации"]
+      },
+      {
+        "username": "Antoin34",
+        "first_name": "Антон",
+        "last_name": "Акимов",
+        "type": "hiring",
+        "topics": ["Общие карьерные консультации"]
+      },
+      {
+        "username": "cm335",
+        "first_name": "Алексей",
+        "last_name": "Гожев",
+        "type": "hiring",
+        "topics": ["Общие карьерные консультации"]
+      },
+      {
+        "username": "osa47",
+        "first_name": "Ольга",
+        "last_name": "Самоволик",
+        "type": "hiring",
+        "topics": ["Общие карьерные консультации"]
+      },
+      {
+        "username": "iiggy",
+        "first_name": "Игорь",
+        "last_name": "Каргин",
+        "type": "hiring",
+        "topics": ["Общие карьерные консультации"]
+      },
+      {
+        "username": "metro18g",
+        "first_name": "Амбарян",
+        "last_name": "Гарник",
+        "type": "hiring",
+        "topics": ["Общие карьерные консультации"]
+      },
+      {
+        "username": "Nastyamaximowa",
+        "first_name": "Анастасия",
+        "last_name": "Максимова",
+        "type": "recruiter",
+        "topics": ["Особенности найма", "Прожарка резюме"]
+      },
+      {
+        "username": "Popovaelizaveta_hr",
+        "first_name": "Елизавета",
+        "last_name": "Попова",
+        "type": "recruiter",
+        "topics": ["Особенности найма", "Прожарка резюме"]
+      },
+      {
+        "username": "maydaily",
+        "first_name": "Анастасия",
+        "last_name": "Дедюлина",
+        "type": "recruiter",
+        "topics": ["Особенности найма", "Прожарка резюме"]
+      },
+      {
+        "username": "koroskotoh",
+        "first_name": "Цивань",
+        "last_name": "Дарья",
+        "type": "recruiter",
+        "topics": ["Особенности найма", "Прожарка резюме"]
+      },
+      {
+        "username": "ingafas",
+        "first_name": "Инга",
+        "last_name": "Березникер",
+        "type": "recruiter",
+        "topics": ["Особенности найма", "Прожарка резюме"]
+      }
+    ],
+    "14:30-15:00": [
+      {
+        "username": "sdormidontov",
+        "first_name": "Сергей",
+        "last_name": "Дормидонтов",
+        "type": "hiring",
+        "topics": ["Общие карьерные консультации"]
+      },
+      {
+        "username": "katushiz",
+        "first_name": "Екатерина",
+        "last_name": "Бровикова",
+        "type": "hiring",
+        "topics": ["Общие карьерные консультации"]
+      },
+      {
+        "username": "akuptsov_ydx",
+        "first_name": "Александр",
+        "last_name": "Купцов",
+        "type": "hiring",
+        "topics": ["Общие карьерные консультации"]
+      },
+      {
+        "username": "alchubukov",
+        "first_name": "Алексей",
+        "last_name": "Чубуков",
+        "type": "hiring",
+        "topics": ["Общие карьерные консультации"]
+      },
+      {
+        "username": "ankatyandrey",
+        "first_name": "Екатерина",
+        "last_name": "Анашкина",
+        "type": "hiring",
+        "topics": ["Общие карьерные консультации"]
+      },
+      {
+        "username": "yemakhneva",
+        "first_name": "Елизавета",
+        "last_name": "Махнева",
+        "type": "hiring",
+        "topics": ["Общие карьерные консультации"]
+      },
+      {
+        "username": "Eliseev_Ruslan",
+        "first_name": "Елисеев",
+        "last_name": "Руслан",
+        "type": "hiring",
+        "topics": ["Общие карьерные консультации"]
+      },
+      {
+        "username": "polino4",
+        "first_name": "Полина",
+        "last_name": "Потапочкина",
+        "type": "recruiter",
+        "topics": ["Особенности найма", "Прожарка резюме"]
+      },
+      {
+        "username": "rusik_pusichka",
+        "first_name": "Руслан",
+        "last_name": "Ерофеев",
+        "type": "recruiter",
+        "topics": ["Особенности найма", "Прожарка резюме"]
+      },
+      {
+        "username": "rubyasti",
+        "first_name": "Дарья",
+        "last_name": "Астанкова",
+        "type": "recruiter",
+        "topics": ["Особенности найма", "Прожарка резюме"]
+      },
+      {
+        "username": "anastasilex",
+        "first_name": "Анастасия",
+        "last_name": "Воробьева",
+        "type": "recruiter",
+        "topics": ["Особенности найма", "Прожарка резюме"]
+      },
+      {
+        "username": "rah_ekaterina",
+        "first_name": "Екатерина",
+        "last_name": "Рахманинова",
+        "type": "recruiter",
+        "topics": ["Особенности найма", "Прожарка резюме"]
+      }
+    ],
+    "13:00-13:30": [
+      {
+        "username": "yemakhneva",
+        "first_name": "Елизавета",
+        "last_name": "Махнева",
+        "type": "hiring",
+        "topics": ["Общие карьерные консультации"]
+      },
+      {
+        "username": "se_maksimov",
+        "first_name": "Сергей",
+        "last_name": "Максимов",
+        "type": "hiring",
+        "topics": ["Общие карьерные консультации"]
+      },
+      {
+        "username": "a_andrew",
+        "first_name": "Андрей",
+        "last_name": "Арсеев",
+        "type": "hiring",
+        "topics": ["Общие карьерные консультации"]
+      },
+      {
+        "username": "alchubukov",
+        "first_name": "Алексей",
+        "last_name": "Чубуков",
+        "type": "hiring",
+        "topics": ["Общие карьерные консультации"]
+      },
+      {
+        "username": "ankatyandrey",
+        "first_name": "Екатерина",
+        "last_name": "Анашкина",
+        "type": "hiring",
+        "topics": ["Общие карьерные консультации"]
+      },
+      {
+        "username": "degtevis",
+        "first_name": "Иван",
+        "last_name": "Дёгтев",
+        "type": "hiring",
+        "topics": ["Общие карьерные консультации"]
+      },
+      {
+        "username": "yanarooar",
+        "first_name": "Яна",
+        "last_name": "Арестова",
+        "type": "recruiter",
+        "topics": ["Особенности найма", "Прожарка резюме"]
+      },
+      {
+        "username": "ChekmaHR",
+        "first_name": "Екатерина",
+        "last_name": "Чекмарева",
+        "type": "recruiter",
+        "topics": ["Особенности найма", "Прожарка резюме"]
+      },
+      {
+        "username": "e_murochkina",
+        "first_name": "Елена",
+        "last_name": "Ковалева",
+        "type": "recruiter",
+        "topics": ["Особенности найма", "Прожарка резюме"]
+      },
+      {
+        "username": "anastasilex",
+        "first_name": "Анастасия",
+        "last_name": "Воробьева",
+        "type": "recruiter",
+        "topics": ["Особенности найма", "Прожарка резюме"]
+      },
+      {
+        "username": "vaakaaa",
+        "first_name": "Валерия",
+        "last_name": "Ангарова",
+        "type": "recruiter",
+        "topics": ["Особенности найма", "Прожарка резюме"]
+      },
+      {
+        "username": "ingafas",
+        "first_name": "Инга",
+        "last_name": "Березникер",
+        "type": "recruiter",
+        "topics": ["Особенности найма", "Прожарка резюме"]
+      }
+    ],
+    "13:30-14:00": [
+      {
+        "username": "akuptsov_ydx",
+        "first_name": "Александр",
+        "last_name": "Купцов",
+        "type": "hiring",
+        "topics": ["Общие карьерные консультации"]
+      },
+      {
+        "username": "a_andrew",
+        "first_name": "Андрей",
+        "last_name": "Арсеев",
+        "type": "hiring",
+        "topics": ["Общие карьерные консультации"]
+      },
+      {
+        "username": "alchubukov",
+        "first_name": "Алексей",
+        "last_name": "Чубуков",
+        "type": "hiring",
+        "topics": ["Общие карьерные консультации"]
+      },
+      {
+        "username": "ankatyandrey",
+        "first_name": "Екатерина",
+        "last_name": "Анашкина",
+        "type": "hiring",
+        "topics": ["Общие карьерные консультации"]
+      },
+      {
+        "username": "freeman5355",
+        "first_name": "Денис",
+        "last_name": "Крживокольский",
+        "type": "hiring",
+        "topics": ["Общие карьерные консультации"]
+      },
+      {
+        "username": "yanarooar",
+        "first_name": "Яна",
+        "last_name": "Арестова",
+        "type": "recruiter",
+        "topics": ["Особенности найма", "Прожарка резюме"]
+      },
+      {
+        "username": "ChekmaHR",
+        "first_name": "Екатерина",
+        "last_name": "Чекмарева",
+        "type": "recruiter",
+        "topics": ["Особенности найма", "Прожарка резюме"]
+      },
+      {
+        "username": "rubyasti",
+        "first_name": "Дарья",
+        "last_name": "Астанкова",
+        "type": "recruiter",
+        "topics": ["Особенности найма", "Прожарка резюме"]
+      },
+      {
+        "username": "rah_ekaterina",
+        "first_name": "Екатерина",
+        "last_name": "Рахманинова",
+        "type": "recruiter",
+        "topics": ["Особенности найма", "Прожарка резюме"]
+      },
+      {
+        "username": "ingafas",
+        "first_name": "Инга",
+        "last_name": "Березникер",
+        "type": "recruiter",
+        "topics": ["Особенности найма", "Прожарка резюме"]
+      }
+    ],
+    "14:00-14:30": [
+      {
+        "username": "sdormidontov",
+        "first_name": "Сергей",
+        "last_name": "Дормидонтов",
+        "type": "hiring",
+        "topics": ["Общие карьерные консультации"]
+      },
+      {
+        "username": "katushiz",
+        "first_name": "Екатерина",
+        "last_name": "Бровикова",
+        "type": "hiring",
+        "topics": ["Общие карьерные консультации"]
+      },
+      {
+        "username": "akuptsov_ydx",
+        "first_name": "Александр",
+        "last_name": "Купцов",
+        "type": "hiring",
+        "topics": ["Общие карьерные консультации"]
+      },
+      {
+        "username": "alchubukov",
+        "first_name": "Алексей",
+        "last_name": "Чубуков",
+        "type": "hiring",
+        "topics": ["Общие карьерные консультации"]
+      },
+      {
+        "username": "ankatyandrey",
+        "first_name": "Екатерина",
+        "last_name": "Анашкина",
+        "type": "hiring",
+        "topics": ["Общие карьерные консультации"]
+      },
+      {
+        "username": "freeman5355",
+        "first_name": "Денис",
+        "last_name": "Крживокольский",
+        "type": "hiring",
+        "topics": ["Общие карьерные консультации"]
+      },
+      {
+        "username": "Ivan_Wasilievich",
+        "first_name": "Рычагов",
+        "last_name": "Дмитрий",
+        "type": "hiring",
+        "topics": ["Общие карьерные консультации"]
+      },
+      {
+        "username": "polino4",
+        "first_name": "Полина",
+        "last_name": "Потапочкина",
+        "type": "recruiter",
+        "topics": ["Особенности найма", "Прожарка резюме"]
+      },
+      {
+        "username": "rusik_pusichka",
+        "first_name": "Руслан",
+        "last_name": "Ерофеев",
+        "type": "recruiter",
+        "topics": ["Особенности найма", "Прожарка резюме"]
+      },
+      {
+        "username": "rubyasti",
+        "first_name": "Дарья",
+        "last_name": "Астанкова",
+        "type": "recruiter",
+        "topics": ["Особенности найма", "Прожарка резюме"]
+      },
+      {
+        "username": "rah_ekaterina",
+        "first_name": "Екатерина",
+        "last_name": "Рахманинова",
+        "type": "recruiter",
+        "topics": ["Особенности найма", "Прожарка резюме"]
+      }
+    ],
+    "17:30-18:00": [
+      {
+        "username": "Logixqt",
+        "first_name": "Муслим",
+        "last_name": "Бабаев",
+        "type": "hiring",
+        "topics": ["Общие карьерные консультации"]
+      },
+      {
+        "username": "reverserun",
+        "first_name": "Ирина",
+        "last_name": "Андреева",
+        "type": "hiring",
+        "topics": ["Общие карьерные консультации"]
+      },
+      {
+        "username": "akuptsov_ydx",
+        "first_name": "Александр",
+        "last_name": "Купцов",
+        "type": "hiring",
+        "topics": ["Общие карьерные консультации"]
+      },
+      {
+        "username": "ankatyandrey",
+        "first_name": "Екатерина",
+        "last_name": "Анашкина",
+        "type": "hiring",
+        "topics": ["Общие карьерные консультации"]
+      },
+      {
+        "username": "antropaa",
+        "first_name": "Анна",
+        "last_name": "Антропова",
+        "type": "hiring",
+        "topics": ["Общие карьерные консультации"]
+      },
+      {
+        "username": "iiggy",
+        "first_name": "Игорь",
+        "last_name": "Каргин",
+        "type": "hiring",
+        "topics": ["Общие карьерные консультации"]
+      },
+      {
+        "username": "degtevis",
+        "first_name": "Иван",
+        "last_name": "Дёгтев",
+        "type": "hiring",
+        "topics": ["Общие карьерные консультации"]
+      },
+      {
+        "username": "Nastyamaximowa",
+        "first_name": "Анастасия",
+        "last_name": "Максимова",
+        "type": "recruiter",
+        "topics": ["Особенности найма", "Прожарка резюме"]
+      },
+      {
+        "username": "Popovaelizaveta_hr",
+        "first_name": "Елизавета",
+        "last_name": "Попова",
+        "type": "recruiter",
+        "topics": ["Особенности найма", "Прожарка резюме"]
+      },
+      {
+        "username": "maydaily",
+        "first_name": "Анастасия",
+        "last_name": "Дедюлина",
+        "type": "recruiter",
+        "topics": ["Особенности найма", "Прожарка резюме"]
+      },
+      {
+        "username": "koroskotoh",
+        "first_name": "Цивань",
+        "last_name": "Дарья",
+        "type": "recruiter",
+        "topics": ["Особенности найма", "Прожарка резюме"]
+      }
+    ],
+    "16:00-16:30": [
+      {
+        "username": "Logixqt",
+        "first_name": "Муслим",
+        "last_name": "Бабаев",
+        "type": "hiring",
+        "topics": ["Общие карьерные консультации"]
+      },
+      {
+        "username": "reverserun",
+        "first_name": "Ирина",
+        "last_name": "Андреева",
+        "type": "hiring",
+        "topics": ["Общие карьерные консультации"]
+      },
+      {
+        "username": "Antoin34",
+        "first_name": "Антон",
+        "last_name": "Акимов",
+        "type": "hiring",
+        "topics": ["Общие карьерные консультации"]
+      },
+      {
+        "username": "cm335",
+        "first_name": "Алексей",
+        "last_name": "Гожев",
+        "type": "hiring",
+        "topics": ["Общие карьерные консультации"]
+      },
+      {
+        "username": "osa47",
+        "first_name": "Ольга",
+        "last_name": "Самоволик",
+        "type": "hiring",
+        "topics": ["Общие карьерные консультации"]
+      },
+      {
+        "username": "DeramerC",
+        "first_name": "Арсений",
+        "last_name": "Нестюк",
+        "type": "hiring",
+        "topics": ["Общие карьерные консультации"]
+      },
+      {
+        "username": "Ivan_Wasilievich",
+        "first_name": "Рычагов",
+        "last_name": "Дмитрий",
+        "type": "hiring",
+        "topics": ["Общие карьерные консультации"]
+      },
+      {
+        "username": "Popovaelizaveta_hr",
+        "first_name": "Елизавета",
+        "last_name": "Попова",
+        "type": "recruiter",
+        "topics": ["Особенности найма", "Прожарка резюме"]
+      },
+      {
+        "username": "ChekmaHR",
+        "first_name": "Екатерина",
+        "last_name": "Чекмарева",
+        "type": "recruiter",
+        "topics": ["Особенности найма", "Прожарка резюме"]
+      },
+      {
+        "username": "maydaily",
+        "first_name": "Анастасия",
+        "last_name": "Дедюлина",
+        "type": "recruiter",
+        "topics": ["Особенности найма", "Прожарка резюме"]
+      },
+      {
+        "username": "anastasilex",
+        "first_name": "Анастасия",
+        "last_name": "Воробьева",
+        "type": "recruiter",
+        "topics": ["Особенности найма", "Прожарка резюме"]
+      },
+      {
+        "username": "vaakaaa",
+        "first_name": "Валерия",
+        "last_name": "Ангарова",
+        "type": "recruiter",
+        "topics": ["Особенности найма", "Прожарка резюме"]
+      },
+      {
+        "username": "ingafas",
+        "first_name": "Инга",
+        "last_name": "Березникер",
+        "type": "recruiter",
+        "topics": ["Особенности найма", "Прожарка резюме"]
+      }
+    ],
+    "17:00-17:30": [
+      {
+        "username": "Logixqt",
+        "first_name": "Муслим",
+        "last_name": "Бабаев",
+        "type": "hiring",
+        "topics": ["Общие карьерные консультации"]
+      },
+      {
+        "username": "reverserun",
+        "first_name": "Ирина",
+        "last_name": "Андреева",
+        "type": "hiring",
+        "topics": ["Общие карьерные консультации"]
+      },
+      {
+        "username": "akuptsov_ydx",
+        "first_name": "Александр",
+        "last_name": "Купцов",
+        "type": "hiring",
+        "topics": ["Общие карьерные консультации"]
+      },
+      {
+        "username": "ankatyandrey",
+        "first_name": "Екатерина",
+        "last_name": "Анашкина",
+        "type": "hiring",
+        "topics": ["Общие карьерные консультации"]
+      },
+      {
+        "username": "antropaa",
+        "first_name": "Анна",
+        "last_name": "Антропова",
+        "type": "hiring",
+        "topics": ["Общие карьерные консультации"]
+      },
+      {
+        "username": "iiggy",
+        "first_name": "Игорь",
+        "last_name": "Каргин",
+        "type": "hiring",
+        "topics": ["Общие карьерные консультации"]
+      },
+      {
+        "username": "metro18g",
+        "first_name": "Амбарян",
+        "last_name": "Гарник",
+        "type": "hiring",
+        "topics": ["Общие карьерные консультации"]
+      },
+      {
+        "username": "Nastyamaximowa",
+        "first_name": "Анастасия",
+        "last_name": "Максимова",
+        "type": "recruiter",
+        "topics": ["Особенности найма", "Прожарка резюме"]
+      },
+      {
+        "username": "Popovaelizaveta_hr",
+        "first_name": "Елизавета",
+        "last_name": "Попова",
+        "type": "recruiter",
+        "topics": ["Особенности найма", "Прожарка резюме"]
+      },
+      {
+        "username": "maydaily",
+        "first_name": "Анастасия",
+        "last_name": "Дедюлина",
+        "type": "recruiter",
+        "topics": ["Особенности найма", "Прожарка резюме"]
+      }
+    ],
+    "12:30-13:00": [
+      {
+        "username": "yemakhneva",
+        "first_name": "Елизавета",
+        "last_name": "Махнева",
+        "type": "hiring",
+        "topics": ["Общие карьерные консультации"]
+      },
+      {
+        "username": "cm335",
+        "first_name": "Алексей",
+        "last_name": "Гожев",
+        "type": "hiring",
+        "topics": ["Общие карьерные консультации"]
+      },
+      {
+        "username": "a_andrew",
+        "first_name": "Андрей",
+        "last_name": "Арсеев",
+        "type": "hiring",
+        "topics": ["Общие карьерные консультации"]
+      },
+      {
+        "username": "antondiden",
+        "first_name": "Антон",
+        "last_name": "Диденко",
+        "type": "hiring",
+        "topics": ["Общие карьерные консультации"]
+      },
+      {
+        "username": "Antoin34",
+        "first_name": "Антон",
+        "last_name": "Акимов",
+        "type": "hiring",
+        "topics": ["Общие карьерные консультации"]
+      },
+      {
+        "username": "degtevis",
+        "first_name": "Иван",
+        "last_name": "Дёгтев",
+        "type": "hiring",
+        "topics": ["Общие карьерные консультации"]
+      },
+      {
+        "username": "vik0ovka",
+        "first_name": "Виктория",
+        "last_name": "Овсюкова",
+        "type": "recruiter",
+        "topics": ["Особенности найма", "Прожарка резюме"]
+      },
+      {
+        "username": "ChekmaHR",
+        "first_name": "Екатерина",
+        "last_name": "Чекмарева",
+        "type": "recruiter",
+        "topics": ["Особенности найма", "Прожарка резюме"]
+      },
+      {
+        "username": "e_murochkina",
+        "first_name": "Елена",
+        "last_name": "Ковалева",
+        "type": "recruiter",
+        "topics": ["Особенности найма", "Прожарка резюме"]
+      },
+      {
+        "username": "anastasilex",
+        "first_name": "Анастасия",
+        "last_name": "Воробьева",
+        "type": "recruiter",
+        "topics": ["Особенности найма", "Прожарка резюме"]
+      },
+      {
+        "username": "ingafas",
+        "first_name": "Инга",
+        "last_name": "Березникер",
+        "type": "recruiter",
+        "topics": ["Особенности найма", "Прожарка резюме"]
+      }
+    ],
+    "15:30-16:00": [
+      {
+        "username": "antropaa",
+        "first_name": "Анна",
+        "last_name": "Антропова",
+        "type": "hiring",
+        "topics": ["Общие карьерные консультации"]
+      },
+      {
+        "username": "reverserun",
+        "first_name": "Ирина",
+        "last_name": "Андреева",
+        "type": "hiring",
+        "topics": ["Общие карьерные консультации"]
+      },
+      {
+        "username": "akuptsov_ydx",
+        "first_name": "Александр",
+        "last_name": "Купцов",
+        "type": "hiring",
+        "topics": ["Общие карьерные консультации"]
+      },
+      {
+        "username": "cm335",
+        "first_name": "Алексей",
+        "last_name": "Гожев",
+        "type": "hiring",
+        "topics": ["Общие карьерные консультации"]
+      },
+      {
+        "username": "osa47",
+        "first_name": "Ольга",
+        "last_name": "Самоволик",
+        "type": "hiring",
+        "topics": ["Общие карьерные консультации"]
+      },
+      {
+        "username": "sdormidontov",
+        "first_name": "Сергей",
+        "last_name": "Дормидонтов",
+        "type": "hiring",
+        "topics": ["Общие карьерные консультации"]
+      },
+      {
+        "username": "DeramerC",
+        "first_name": "Арсений",
+        "last_name": "Нестюк",
+        "type": "hiring",
+        "topics": ["Общие карьерные консультации"]
+      },
+      {
+        "username": "Ivan_Wasilievich",
+        "first_name": "Рычагов",
+        "last_name": "Дмитрий",
+        "type": "hiring",
+        "topics": ["Общие карьерные консультации"]
+      },
+      {
+        "username": "polino4",
+        "first_name": "Полина",
+        "last_name": "Потапочкина",
+        "type": "recruiter",
+        "topics": ["Особенности найма", "Прожарка резюме"]
+      },
+      {
+        "username": "ChekmaHR",
+        "first_name": "Екатерина",
+        "last_name": "Чекмарева",
+        "type": "recruiter",
+        "topics": ["Особенности найма", "Прожарка резюме"]
+      },
+      {
+        "username": "rubyasti",
+        "first_name": "Дарья",
+        "last_name": "Астанкова",
+        "type": "recruiter",
+        "topics": ["Особенности найма", "Прожарка резюме"]
+      },
+      {
+        "username": "anastasilex",
+        "first_name": "Анастасия",
+        "last_name": "Воробьева",
+        "type": "recruiter",
+        "topics": ["Особенности найма", "Прожарка резюме"]
+      },
+      {
+        "username": "rah_ekaterina",
+        "first_name": "Екатерина",
+        "last_name": "Рахманинова",
+        "type": "recruiter",
+        "topics": ["Особенности найма", "Прожарка резюме"]
+      },
+      {
+        "username": "ingafas",
+        "first_name": "Инга",
+        "last_name": "Березникер",
+        "type": "recruiter",
+        "topics": ["Особенности найма", "Прожарка резюме"]
+      }
+    ],
+    "12:00-12:30": [
+      {
+        "username": "cm335",
+        "first_name": "Алексей",
+        "last_name": "Гожев",
+        "type": "hiring",
+        "topics": ["Общие карьерные консультации"]
+      },
+      {
+        "username": "a_andrew",
+        "first_name": "Андрей",
+        "last_name": "Арсеев",
+        "type": "hiring",
+        "topics": ["Общие карьерные консультации"]
+      },
+      {
+        "username": "antondiden",
+        "first_name": "Антон",
+        "last_name": "Диденко",
+        "type": "hiring",
+        "topics": ["Общие карьерные консультации"]
+      },
+      {
+        "username": "Antoin34",
+        "first_name": "Антон",
+        "last_name": "Акимов",
+        "type": "hiring",
+        "topics": ["Общие карьерные консультации"]
+      },
+      {
+        "username": "degtevis",
+        "first_name": "Иван",
+        "last_name": "Дёгтев",
+        "type": "hiring",
+        "topics": ["Общие карьерные консультации"]
+      },
+      {
+        "username": "vik0ovka",
+        "first_name": "Виктория",
+        "last_name": "Овсюкова",
+        "type": "recruiter",
+        "topics": ["Особенности найма", "Прожарка резюме"]
+      },
+      {
+        "username": "ChekmaHR",
+        "first_name": "Екатерина",
+        "last_name": "Чекмарева",
+        "type": "recruiter",
+        "topics": ["Особенности найма", "Прожарка резюме"]
+      },
+      {
+        "username": "e_murochkina",
+        "first_name": "Елена",
+        "last_name": "Ковалева",
+        "type": "recruiter",
+        "topics": ["Особенности найма", "Прожарка резюме"]
+      },
+      {
+        "username": "anastasilex",
+        "first_name": "Анастасия",
+        "last_name": "Воробьева",
+        "type": "recruiter",
+        "topics": ["Особенности найма", "Прожарка резюме"]
+      },
+      {
+        "username": "vaakaaa",
+        "first_name": "Валерия",
+        "last_name": "Ангарова",
+        "type": "recruiter",
+        "topics": ["Особенности найма", "Прожарка резюме"]
+      },
+      {
+        "username": "ingafas",
+        "first_name": "Инга",
+        "last_name": "Березникер",
+        "type": "recruiter",
+        "topics": ["Особенности найма", "Прожарка резюме"]
+      }
+    ],
+    "11:00-11:30": [
+      {
+        "username": "alchubukov",
+        "first_name": "Алексей",
+        "last_name": "Чубуков",
+        "type": "hiring",
+        "topics": ["Общие карьерные консультации"]
+      },
+      {
+        "username": "katushiz",
+        "first_name": "Екатерина",
+        "last_name": "Бровикова",
+        "type": "hiring",
+        "topics": ["Общие карьерные консультации"]
+      },
+      {
+        "username": "cm335",
+        "first_name": "Алексей",
+        "last_name": "Гожев",
+        "type": "hiring",
+        "topics": ["Общие карьерные консультации"]
+      },
+      {
+        "username": "antondiden",
+        "first_name": "Антон",
+        "last_name": "Диденко",
+        "type": "hiring",
+        "topics": ["Общие карьерные консультации"]
+      },
+      {
+        "username": "Antoin34",
+        "first_name": "Антон",
+        "last_name": "Акимов",
+        "type": "hiring",
+        "topics": ["Общие карьерные консультации"]
+      },
+      {
+        "username": "iiggy",
+        "first_name": "Игорь",
+        "last_name": "Каргин",
+        "type": "hiring",
+        "topics": ["Общие карьерные консультации"]
+      },
+      {
+        "username": "vik0ovka",
+        "first_name": "Виктория",
+        "last_name": "Овсюкова",
+        "type": "recruiter",
+        "topics": ["Особенности найма", "Прожарка резюме"]
+      },
+      {
+        "username": "rusik_pusichka",
+        "first_name": "Руслан",
+        "last_name": "Ерофеев",
+        "type": "recruiter",
+        "topics": ["Особенности найма", "Прожарка резюме"]
+      },
+      {
+        "username": "e_murochkina",
+        "first_name": "Елена",
+        "last_name": "Ковалева",
+        "type": "recruiter",
+        "topics": ["Особенности найма", "Прожарка резюме"]
+      },
+      {
+        "username": "anastasilex",
+        "first_name": "Анастасия",
+        "last_name": "Воробьева",
+        "type": "recruiter",
+        "topics": ["Особенности найма", "Прожарка резюме"]
+      }
+    ],
+    "11:30-12:00": [
+      {
+        "username": "alchubukov",
+        "first_name": "Алексей",
+        "last_name": "Чубуков",
+        "type": "hiring",
+        "topics": ["Общие карьерные консультации"]
+      },
+      {
+        "username": "katushiz",
+        "first_name": "Екатерина",
+        "last_name": "Бровикова",
+        "type": "hiring",
+        "topics": ["Общие карьерные консультации"]
+      },
+      {
+        "username": "cm335",
+        "first_name": "Алексей",
+        "last_name": "Гожев",
+        "type": "hiring",
+        "topics": ["Общие карьерные консультации"]
+      },
+      {
+        "username": "antondiden",
+        "first_name": "Антон",
+        "last_name": "Диденко",
+        "type": "hiring",
+        "topics": ["Общие карьерные консультации"]
+      },
+      {
+        "username": "Antoin34",
+        "first_name": "Антон",
+        "last_name": "Акимов",
+        "type": "hiring",
+        "topics": ["Общие карьерные консультации"]
+      },
+      {
+        "username": "iiggy",
+        "first_name": "Игорь",
+        "last_name": "Каргин",
+        "type": "hiring",
+        "topics": ["Общие карьерные консультации"]
+      },
+      {
+        "username": "vik0ovka",
+        "first_name": "Виктория",
+        "last_name": "Овсюкова",
+        "type": "recruiter",
+        "topics": ["Особенности найма", "Прожарка резюме"]
+      },
+      {
+        "username": "rusik_pusichka",
+        "first_name": "Руслан",
+        "last_name": "Ерофеев",
+        "type": "recruiter",
+        "topics": ["Особенности найма", "Прожарка резюме"]
+      },
+      {
+        "username": "e_murochkina",
+        "first_name": "Елена",
+        "last_name": "Ковалева",
+        "type": "recruiter",
+        "topics": ["Особенности найма", "Прожарка резюме"]
+      },
+      {
+        "username": "anastasilex",
+        "first_name": "Анастасия",
+        "last_name": "Воробьева",
+        "type": "recruiter",
+        "topics": ["Особенности найма", "Прожарка резюме"]
+      }
+    ],
+    "15:00-15:30": [
+      {
+        "username": "antropaa",
+        "first_name": "Анна",
+        "last_name": "Антропова",
+        "type": "hiring",
+        "topics": ["Общие карьерные консультации"]
+      },
+      {
+        "username": "katushiz",
+        "first_name": "Екатерина",
+        "last_name": "Бровикова",
+        "type": "hiring",
+        "topics": ["Общие карьерные консультации"]
+      },
+      {
+        "username": "akuptsov_ydx",
+        "first_name": "Александр",
+        "last_name": "Купцов",
+        "type": "hiring",
+        "topics": ["Общие карьерные консультации"]
+      },
+      {
+        "username": "cm335",
+        "first_name": "Алексей",
+        "last_name": "Гожев",
+        "type": "hiring",
+        "topics": ["Общие карьерные консультации"]
+      },
+      {
+        "username": "osa47",
+        "first_name": "Ольга",
+        "last_name": "Самоволик",
+        "type": "hiring",
+        "topics": ["Общие карьерные консультации"]
+      },
+      {
+        "username": "sdormidontov",
+        "first_name": "Сергей",
+        "last_name": "Дормидонтов",
+        "type": "hiring",
+        "topics": ["Общие карьерные консультации"]
+      },
+      {
+        "username": "ekornilina",
+        "first_name": "Корнилина",
+        "last_name": "Елена",
+        "type": "hiring",
+        "topics": ["Общие карьерные консультации"]
+      },
+      {
+        "username": "polino4",
+        "first_name": "Полина",
+        "last_name": "Потапочкина",
+        "type": "recruiter",
+        "topics": ["Особенности найма", "Прожарка резюме"]
+      },
+      {
+        "username": "yanarooar",
+        "first_name": "Яна",
+        "last_name": "Арестова",
+        "type": "recruiter",
+        "topics": ["Особенности найма", "Прожарка резюме"]
+      },
+      {
+        "username": "rubyasti",
+        "first_name": "Дарья",
+        "last_name": "Астанкова",
+        "type": "recruiter",
+        "topics": ["Особенности найма", "Прожарка резюме"]
+      },
+      {
+        "username": "anastasilex",
+        "first_name": "Анастасия",
+        "last_name": "Воробьева",
+        "type": "recruiter",
+        "topics": ["Особенности найма", "Прожарка резюме"]
+      },
+      {
+        "username": "rah_ekaterina",
+        "first_name": "Екатерина",
+        "last_name": "Рахманинова",
+        "type": "recruiter",
+        "topics": ["Особенности найма", "Прожарка резюме"]
+      },
+      {
+        "username": "ingafas",
+        "first_name": "Инга",
+        "last_name": "Березникер",
+        "type": "recruiter",
+        "topics": ["Особенности найма", "Прожарка резюме"]
+      }
+    ]
+  },
+  "21 ноября": {
+    "16:30-17:00": [
+      {
+        "username": "alchubukov",
+        "first_name": "Алексей",
+        "last_name": "Чубуков",
+        "type": "hiring",
+        "topics": ["Общие карьерные консультации"]
+      },
+      {
+        "username": "reverserun",
+        "first_name": "Ирина",
+        "last_name": "Андреева",
+        "type": "hiring",
+        "topics": ["Общие карьерные консультации"]
+      },
+      {
+        "username": "osa47",
+        "first_name": "Ольга",
+        "last_name": "Самоволик",
+        "type": "hiring",
+        "topics": ["Общие карьерные консультации"]
+      },
+      {
+        "username": "se_maksimov",
+        "first_name": "Сергей",
+        "last_name": "Максимов",
+        "type": "hiring",
+        "topics": ["Общие карьерные консультации"]
+      },
+      {
+        "username": "antondiden",
+        "first_name": "Антон",
+        "last_name": "Диденко",
+        "type": "hiring",
+        "topics": ["Общие карьерные консультации"]
+      },
+      {
+        "username": "goo_olesya",
+        "first_name": "Олеся",
+        "last_name": "Гординская",
+        "type": "hiring",
+        "topics": ["Общие карьерные консультации"]
+      },
+      {
+        "username": "revonenkod",
+        "first_name": "Дмитрий",
+        "last_name": "Ревоненко",
+        "type": "hiring",
+        "topics": ["Общие карьерные консультации"]
+      },
+      {
+        "username": "DeramerC",
+        "first_name": "Арсений",
+        "last_name": "Нестюк",
+        "type": "hiring",
+        "topics": ["Общие карьерные консультации"]
+      },
+      {
+        "username": "Ivan_Wasilievich",
+        "first_name": "Рычагов",
+        "last_name": "Дмитрий",
+        "type": "hiring",
+        "topics": ["Общие карьерные консультации"]
+      },
+      {
+        "username": "maydaily",
+        "first_name": "Анастасия",
+        "last_name": "Дедюлина",
+        "type": "recruiter",
+        "topics": ["Особенности найма", "Прожарка резюме"]
+      },
+      {
+        "username": "yanarooar",
+        "first_name": "Яна",
+        "last_name": "Арестова",
+        "type": "recruiter",
+        "topics": ["Особенности найма", "Прожарка резюме"]
+      },
+      {
+        "username": "Popovaelizaveta_hr",
+        "first_name": "Елизавета",
+        "last_name": "Попова",
+        "type": "recruiter",
+        "topics": ["Особенности найма", "Прожарка резюме"]
+      },
+      {
+        "username": "ingafas",
+        "first_name": "Инга",
+        "last_name": "Березникер",
+        "type": "recruiter",
+        "topics": ["Особенности найма", "Прожарка резюме"]
+      }
+    ],
+    "14:30-15:00": [
+      {
+        "username": "irogov2",
+        "first_name": "Иван",
+        "last_name": "Рогов",
+        "type": "hiring",
+        "topics": ["Общие карьерные консультации"]
+      },
+      {
+        "username": "katushiz",
+        "first_name": "Екатерина",
+        "last_name": "Бровикова",
+        "type": "hiring",
+        "topics": ["Общие карьерные консультации"]
+      },
+      {
+        "username": "se_maksimov",
+        "first_name": "Сергей",
+        "last_name": "Максимов",
+        "type": "hiring",
+        "topics": ["Общие карьерные консультации"]
+      },
+      {
+        "username": "ksuabr",
+        "first_name": "Ксения",
+        "last_name": "Колесникова",
+        "type": "hiring",
+        "topics": ["Общие карьерные консультации"]
+      },
+      {
+        "username": "antropaa",
+        "first_name": "Анна",
+        "last_name": "Антропова",
+        "type": "hiring",
+        "topics": ["Общие карьерные консультации"]
+      },
+      {
+        "username": "sdormidontov",
+        "first_name": "Сергей",
+        "last_name": "Дормидонтов",
+        "type": "hiring",
+        "topics": ["Общие карьерные консультации"]
+      },
+      {
+        "username": "alexander_osadchiy",
+        "first_name": "Александр",
+        "last_name": "Осадчий",
+        "type": "hiring",
+        "topics": ["Общие карьерные консультации"]
+      },
+      {
+        "username": "rubyasti",
+        "first_name": "Дарья",
+        "last_name": "Астанкова",
+        "type": "recruiter",
+        "topics": ["Особенности найма", "Прожарка резюме"]
+      },
+      {
+        "username": "ChekmaHR",
+        "first_name": "Екатерина",
+        "last_name": "Чекмарева",
+        "type": "recruiter",
+        "topics": ["Особенности найма", "Прожарка резюме"]
+      },
+      {
+        "username": "rah_ekaterina",
+        "first_name": "Екатерина",
+        "last_name": "Рахманинова",
+        "type": "recruiter",
+        "topics": ["Особенности найма", "Прожарка резюме"]
+      }
+    ],
+    "13:00-13:30": [
+      {
+        "username": "ankatyandrey",
+        "first_name": "Екатерина",
+        "last_name": "Анашкина",
+        "type": "hiring",
+        "topics": ["Общие карьерные консультации"]
+      },
+      {
+        "username": "antondiden",
+        "first_name": "Антон",
+        "last_name": "Диденко",
+        "type": "hiring",
+        "topics": ["Общие карьерные консультации"]
+      },
+      {
+        "username": "Antoin34",
+        "first_name": "Антон",
+        "last_name": "Акимов",
+        "type": "hiring",
+        "topics": ["Общие карьерные консультации"]
+      },
+      {
+        "username": "osa47",
+        "first_name": "Ольга",
+        "last_name": "Самоволик",
+        "type": "hiring",
+        "topics": ["Общие карьерные консультации"]
+      },
+      {
+        "username": "antropaa",
+        "first_name": "Анна",
+        "last_name": "Антропова",
+        "type": "hiring",
+        "topics": ["Общие карьерные консультации"]
+      },
+      {
+        "username": "iiggy",
+        "first_name": "Игорь",
+        "last_name": "Каргин",
+        "type": "hiring",
+        "topics": ["Общие карьерные консультации"]
+      },
+      {
+        "username": "Ivan_Wasilievich",
+        "first_name": "Рычагов",
+        "last_name": "Дмитрий",
+        "type": "hiring",
+        "topics": ["Общие карьерные консультации"]
+      },
+      {
+        "username": "rubyasti",
+        "first_name": "Дарья",
+        "last_name": "Астанкова",
+        "type": "recruiter",
+        "topics": ["Особенности найма", "Прожарка резюме"]
+      },
+      {
+        "username": "ChekmaHR",
+        "first_name": "Екатерина",
+        "last_name": "Чекмарева",
+        "type": "recruiter",
+        "topics": ["Особенности найма", "Прожарка резюме"]
+      },
+      {
+        "username": "valeria_kovaleva",
+        "first_name": "Валерия",
+        "last_name": "Ковалева",
+        "type": "recruiter",
+        "topics": ["Особенности найма", "Прожарка резюме"]
+      },
+      {
+        "username": "ingafas",
+        "first_name": "Инга",
+        "last_name": "Березникер",
+        "type": "recruiter",
+        "topics": ["Особенности найма", "Прожарка резюме"]
+      }
+    ],
+    "13:30-14:00": [
+      {
+        "username": "ankatyandrey",
+        "first_name": "Екатерина",
+        "last_name": "Анашкина",
+        "type": "hiring",
+        "topics": ["Общие карьерные консультации"]
+      },
+      {
+        "username": "osa47",
+        "first_name": "Ольга",
+        "last_name": "Самоволик",
+        "type": "hiring",
+        "topics": ["Общие карьерные консультации"]
+      },
+      {
+        "username": "se_maksimov",
+        "first_name": "Сергей",
+        "last_name": "Максимов",
+        "type": "hiring",
+        "topics": ["Общие карьерные консультации"]
+      },
+      {
+        "username": "Antoin34",
+        "first_name": "Антон",
+        "last_name": "Акимов",
+        "type": "hiring",
+        "topics": ["Общие карьерные консультации"]
+      },
+      {
+        "username": "antropaa",
+        "first_name": "Анна",
+        "last_name": "Антропова",
+        "type": "hiring",
+        "topics": ["Общие карьерные консультации"]
+      },
+      {
+        "username": "iiggy",
+        "first_name": "Игорь",
+        "last_name": "Каргин",
+        "type": "hiring",
+        "topics": ["Общие карьерные консультации"]
+      },
+      {
+        "username": "RealityWanderer",
+        "first_name": "Егор",
+        "last_name": "Гридасов",
+        "type": "hiring",
+        "topics": ["Общие карьерные консультации"]
+      },
+      {
+        "username": "rubyasti",
+        "first_name": "Дарья",
+        "last_name": "Астанкова",
+        "type": "recruiter",
+        "topics": ["Особенности найма", "Прожарка резюме"]
+      },
+      {
+        "username": "rah_ekaterina",
+        "first_name": "Екатерина",
+        "last_name": "Рахманинова",
+        "type": "recruiter",
+        "topics": ["Особенности найма", "Прожарка резюме"]
+      },
+      {
+        "username": "ingafas",
+        "first_name": "Инга",
+        "last_name": "Березникер",
+        "type": "recruiter",
+        "topics": ["Особенности найма", "Прожарка резюме"]
+      }
+    ],
+    "14:00-14:30": [
+      {
+        "username": "irogov2",
+        "first_name": "Иван",
+        "last_name": "Рогов",
+        "type": "hiring",
+        "topics": ["Общие карьерные консультации"]
+      },
+      {
+        "username": "katushiz",
+        "first_name": "Екатерина",
+        "last_name": "Бровикова",
+        "type": "hiring",
+        "topics": ["Общие карьерные консультации"]
+      },
+      {
+        "username": "se_maksimov",
+        "first_name": "Сергей",
+        "last_name": "Максимов",
+        "type": "hiring",
+        "topics": ["Общие карьерные консультации"]
+      },
+      {
+        "username": "Antoin34",
+        "first_name": "Антон",
+        "last_name": "Акимов",
+        "type": "hiring",
+        "topics": ["Общие карьерные консультации"]
+      },
+      {
+        "username": "antropaa",
+        "first_name": "Анна",
+        "last_name": "Антропова",
+        "type": "hiring",
+        "topics": ["Общие карьерные консультации"]
+      },
+      {
+        "username": "sdormidontov",
+        "first_name": "Сергей",
+        "last_name": "Дормидонтов",
+        "type": "hiring",
+        "topics": ["Общие карьерные консультации"]
+      },
+      {
+        "username": "Ivan_Wasilievich",
+        "first_name": "Рычагов",
+        "last_name": "Дмитрий",
+        "type": "hiring",
+        "topics": ["Общие карьерные консультации"]
+      },
+      {
+        "username": "RealityWanderer",
+        "first_name": "Егор",
+        "last_name": "Гридасов",
+        "type": "hiring",
+        "topics": ["Общие карьерные консультации"]
+      },
+      {
+        "username": "rubyasti",
+        "first_name": "Дарья",
+        "last_name": "Астанкова",
+        "type": "recruiter",
+        "topics": ["Особенности найма", "Прожарка резюме"]
+      },
+      {
+        "username": "ChekmaHR",
+        "first_name": "Екатерина",
+        "last_name": "Чекмарева",
+        "type": "recruiter",
+        "topics": ["Особенности найма", "Прожарка резюме"]
+      },
+      {
+        "username": "rah_ekaterina",
+        "first_name": "Екатерина",
+        "last_name": "Рахманинова",
+        "type": "recruiter",
+        "topics": ["Особенности найма", "Прожарка резюме"]
+      }
+    ],
+    "17:30-18:00": [
+      {
+        "username": "revonenkod",
+        "first_name": "Дмитрий",
+        "last_name": "Ревоненко",
+        "type": "hiring",
+        "topics": ["Общие карьерные консультации"]
+      },
+      {
+        "username": "reverserun",
+        "first_name": "Ирина",
+        "last_name": "Андреева",
+        "type": "hiring",
+        "topics": ["Общие карьерные консультации"]
+      },
+      {
+        "username": "osa47",
+        "first_name": "Ольга",
+        "last_name": "Самоволик",
+        "type": "hiring",
+        "topics": ["Общие карьерные консультации"]
+      },
+      {
+        "username": "Antoin34",
+        "first_name": "Антон",
+        "last_name": "Акимов",
+        "type": "hiring",
+        "topics": ["Общие карьерные консультации"]
+      },
+      {
+        "username": "ankatyandrey",
+        "first_name": "Екатерина",
+        "last_name": "Анашкина",
+        "type": "hiring",
+        "topics": ["Общие карьерные консультации"]
+      },
+      {
+        "username": "Ivan_Wasilievich",
+        "first_name": "Рычагов",
+        "last_name": "Дмитрий",
+        "type": "hiring",
+        "topics": ["Общие карьерные консультации"]
+      },
+      {
+        "username": "maydaily",
+        "first_name": "Анастасия",
+        "last_name": "Дедюлина",
+        "type": "recruiter",
+        "topics": ["Особенности найма", "Прожарка резюме"]
+      },
+      {
+        "username": "ChekmaHR",
+        "first_name": "Екатерина",
+        "last_name": "Чекмарева",
+        "type": "recruiter",
+        "topics": ["Особенности найма", "Прожарка резюме"]
+      },
+      {
+        "username": "Popovaelizaveta_hr",
+        "first_name": "Елизавета",
+        "last_name": "Попова",
+        "type": "recruiter",
+        "topics": ["Особенности найма", "Прожарка резюме"]
+      }
+    ],
+    "16:00-16:30": [
+      {
+        "username": "alchubukov",
+        "first_name": "Алексей",
+        "last_name": "Чубуков",
+        "type": "hiring",
+        "topics": ["Общие карьерные консультации"]
+      },
+      {
+        "username": "reverserun",
+        "first_name": "Ирина",
+        "last_name": "Андреева",
+        "type": "hiring",
+        "topics": ["Общие карьерные консультации"]
+      },
+      {
+        "username": "osa47",
+        "first_name": "Ольга",
+        "last_name": "Самоволик",
+        "type": "hiring",
+        "topics": ["Общие карьерные консультации"]
+      },
+      {
+        "username": "se_maksimov",
+        "first_name": "Сергей",
+        "last_name": "Максимов",
+        "type": "hiring",
+        "topics": ["Общие карьерные консультации"]
+      },
+      {
+        "username": "antondiden",
+        "first_name": "Антон",
+        "last_name": "Диденко",
+        "type": "hiring",
+        "topics": ["Общие карьерные консультации"]
+      },
+      {
+        "username": "goo_olesya",
+        "first_name": "Олеся",
+        "last_name": "Гординская",
+        "type": "hiring",
+        "topics": ["Общие карьерные консультации"]
+      },
+      {
+        "username": "revonenkod",
+        "first_name": "Дмитрий",
+        "last_name": "Ревоненко",
+        "type": "hiring",
+        "topics": ["Общие карьерные консультации"]
+      },
+      {
+        "username": "DeramerC",
+        "first_name": "Арсений",
+        "last_name": "Нестюк",
+        "type": "hiring",
+        "topics": ["Общие карьерные консультации"]
+      },
+      {
+        "username": "maydaily",
+        "first_name": "Анастасия",
+        "last_name": "Дедюлина",
+        "type": "recruiter",
+        "topics": ["Особенности найма", "Прожарка резюме"]
+      },
+      {
+        "username": "ChekmaHR",
+        "first_name": "Екатерина",
+        "last_name": "Чекмарева",
+        "type": "recruiter",
+        "topics": ["Особенности найма", "Прожарка резюме"]
+      },
+      {
+        "username": "Popovaelizaveta_hr",
+        "first_name": "Елизавета",
+        "last_name": "Попова",
+        "type": "recruiter",
+        "topics": ["Особенности найма", "Прожарка резюме"]
+      },
+      {
+        "username": "yanarooar",
+        "first_name": "Яна",
+        "last_name": "Арестова",
+        "type": "recruiter",
+        "topics": ["Особенности найма", "Прожарка резюме"]
+      },
+      {
+        "username": "ingafas",
+        "first_name": "Инга",
+        "last_name": "Березникер",
+        "type": "recruiter",
+        "topics": ["Особенности найма", "Прожарка резюме"]
+      }
+    ],
+    "17:00-17:30": [
+      {
+        "username": "revonenkod",
+        "first_name": "Дмитрий",
+        "last_name": "Ревоненко",
+        "type": "hiring",
+        "topics": ["Общие карьерные консультации"]
+      },
+      {
+        "username": "reverserun",
+        "first_name": "Андреева",
+        "last_name": "Ирина",
+        "type": "hiring",
+        "topics": ["Общие карьерные консультации"]
+      },
+      {
+        "username": "osa47",
+        "first_name": "Ольга",
+        "last_name": "Самоволик",
+        "type": "hiring",
+        "topics": ["Общие карьерные консультации"]
+      },
+      {
+        "username": "Antoin34",
+        "first_name": "Антон",
+        "last_name": "Акимов",
+        "type": "hiring",
+        "topics": ["Общие карьерные консультации"]
+      },
+      {
+        "username": "ankatyandrey",
+        "first_name": "Екатерина",
+        "last_name": "Анашкина",
+        "type": "hiring",
+        "topics": ["Общие карьерные консультации"]
+      },
+      {
+        "username": "maydaily",
+        "first_name": "Анастасия",
+        "last_name": "Дедюлина",
+        "type": "recruiter",
+        "topics": ["Особенности найма", "Прожарка резюме"]
+      },
+      {
+        "username": "ChekmaHR",
+        "first_name": "Екатерина",
+        "last_name": "Чекмарева",
+        "type": "recruiter",
+        "topics": ["Особенности найма", "Прожарка резюме"]
+      },
+      {
+        "username": "Popovaelizaveta_hr",
+        "first_name": "Елизавета",
+        "last_name": "Попова",
+        "type": "recruiter",
+        "topics": ["Особенности найма", "Прожарка резюме"]
+      }
+    ],
+    "12:30-13:00": [
+      {
+        "username": "irogov2",
+        "first_name": "Иван",
+        "last_name": "Рогов",
+        "type": "hiring",
+        "topics": ["Общие карьерные консультации"]
+      },
+      {
+        "username": "reverserun",
+        "first_name": "Ирина",
+        "last_name": "Андреева",
+        "type": "hiring",
+        "topics": ["Общие карьерные консультации"]
+      },
+      {
+        "username": "Antoin34",
+        "first_name": "Антон",
+        "last_name": "Акимов",
+        "type": "hiring",
+        "topics": ["Общие карьерные консультации"]
+      },
+      {
+        "username": "a_andrew",
+        "first_name": "Андрей",
+        "last_name": "Арсеев",
+        "type": "hiring",
+        "topics": ["Общие карьерные консультации"]
+      },
+      {
+        "username": "akuptsov_ydx",
+        "first_name": "Александр",
+        "last_name": "Купцов",
+        "type": "hiring",
+        "topics": ["Общие карьерные консультации"]
+      },
+      {
+        "username": "sdormidontov",
+        "first_name": "Сергей",
+        "last_name": "Дормидонтов",
+        "type": "hiring",
+        "topics": ["Общие карьерные консультации"]
+      },
+      {
+        "username": "albertbariev",
+        "first_name": "Альберт",
+        "last_name": "Бариев",
+        "type": "hiring",
+        "topics": ["Общие карьерные консультации"]
+      },
+      {
+        "username": "Nastyamaximowa",
+        "first_name": "Анастасия",
+        "last_name": "Максимова",
+        "type": "recruiter",
+        "topics": ["Особенности найма", "Прожарка резюме"]
+      },
+      {
+        "username": "ChekmaHR",
+        "first_name": "Екатерина",
+        "last_name": "Чекмарева",
+        "type": "recruiter",
+        "topics": ["Особенности найма", "Прожарка резюме"]
+      },
+      {
+        "username": "valeria_kovaleva",
+        "first_name": "Валерия",
+        "last_name": "Ковалева",
+        "type": "recruiter",
+        "topics": ["Особенности найма", "Прожарка резюме"]
+      },
+      {
+        "username": "ingafas",
+        "first_name": "Инга",
+        "last_name": "Березникер",
+        "type": "recruiter",
+        "topics": ["Особенности найма", "Прожарка резюме"]
+      }
+    ],
+    "15:30-16:00": [
+      {
+        "username": "alchubukov",
+        "first_name": "Алексей",
+        "last_name": "Чубуков",
+        "type": "hiring",
+        "topics": ["Общие карьерные консультации"]
+      },
+      {
+        "username": "katushiz",
+        "first_name": "Екатерина",
+        "last_name": "Бровикова",
+        "type": "hiring",
+        "topics": ["Общие карьерные консультации"]
+      },
+      {
+        "username": "ankatyandrey",
+        "first_name": "Екатерина",
+        "last_name": "Анашкина",
+        "type": "hiring",
+        "topics": ["Общие карьерные консультации"]
+      },
+      {
+        "username": "ksuabr",
+        "first_name": "Ксения",
+        "last_name": "Колесникова",
+        "type": "hiring",
+        "topics": ["Общие карьерные консультации"]
+      },
+      {
+        "username": "antondiden",
+        "first_name": "Антон",
+        "last_name": "Диденко",
+        "type": "hiring",
+        "topics": ["Общие карьерные консультации"]
+      },
+      {
+        "username": "iiggy",
+        "first_name": "Игорь",
+        "last_name": "Каргин",
+        "type": "hiring",
+        "topics": ["Общие карьерные консультации"]
+      },
+      {
+        "username": "yanarooar",
+        "first_name": "Яна",
+        "last_name": "Арестова",
+        "type": "recruiter",
+        "topics": ["Особенности найма", "Прожарка резюме"]
+      },
+      {
+        "username": "ChekmaHR",
+        "first_name": "Екатерина",
+        "last_name": "Чекмарева",
+        "type": "recruiter",
+        "topics": ["Особенности найма", "Прожарка резюме"]
+      },
+      {
+        "username": "rah_ekaterina",
+        "first_name": "Екатерина",
+        "last_name": "Рахманинова",
+        "type": "recruiter",
+        "topics": ["Особенности найма", "Прожарка резюме"]
+      },
+      {
+        "username": "ingafas",
+        "first_name": "Инга",
+        "last_name": "Березникер",
+        "type": "recruiter",
+        "topics": ["Особенности найма", "Прожарка резюме"]
+      }
+    ],
+    "12:00-12:30": [
+      {
+        "username": "irogov2",
+        "first_name": "Иван",
+        "last_name": "Рогов",
+        "type": "hiring",
+        "topics": ["Общие карьерные консультации"]
+      },
+      {
+        "username": "reverserun",
+        "first_name": "Ирина",
+        "last_name": "Андреева",
+        "type": "hiring",
+        "topics": ["Общие карьерные консультации"]
+      },
+      {
+        "username": "Antoin34",
+        "first_name": "Антон",
+        "last_name": "Акимов",
+        "type": "hiring",
+        "topics": ["Общие карьерные консультации"]
+      },
+      {
+        "username": "a_andrew",
+        "first_name": "Андрей",
+        "last_name": "Арсеев",
+        "type": "hiring",
+        "topics": ["Общие карьерные консультации"]
+      },
+      {
+        "username": "akuptsov_ydx",
+        "first_name": "Александр",
+        "last_name": "Купцов",
+        "type": "hiring",
+        "topics": ["Общие карьерные консультации"]
+      },
+      {
+        "username": "sdormidontov",
+        "first_name": "Сергей",
+        "last_name": "Дормидонтов",
+        "type": "hiring",
+        "topics": ["Общие карьерные консультации"]
+      },
+      {
+        "username": "albertbariev",
+        "first_name": "Альберт",
+        "last_name": "Бариев",
+        "type": "hiring",
+        "topics": ["Общие карьерные консультации"]
+      },
+      {
+        "username": "Nastyamaximowa",
+        "first_name": "Анастасия",
+        "last_name": "Максимова",
+        "type": "recruiter",
+        "topics": ["Особенности найма", "Прожарка резюме"]
+      },
+      {
+        "username": "valeria_kovaleva",
+        "first_name": "Валерия",
+        "last_name": "Ковалева",
+        "type": "recruiter",
+        "topics": ["Особенности найма", "Прожарка резюме"]
+      },
+      {
+        "username": "vaakaaa",
+        "first_name": "Валерия",
+        "last_name": "Ангарова",
+        "type": "recruiter",
+        "topics": ["Особенности найма", "Прожарка резюме"]
+      },
+      {
+        "username": "ingafas",
+        "first_name": "Инга",
+        "last_name": "Березникер",
+        "type": "recruiter",
+        "topics": ["Особенности найма", "Прожарка резюме"]
+      }
+    ],
+    "11:00-11:30": [
+      {
+        "username": "revonenkod",
+        "first_name": "Дмитрий",
+        "last_name": "Ревоненко",
+        "type": "hiring",
+        "topics": ["Общие карьерные консультации"]
+      },
+      {
+        "username": "antropaa",
+        "first_name": "Анна",
+        "last_name": "Антропова",
+        "type": "hiring",
+        "topics": ["Общие карьерные консультации"]
+      },
+      {
+        "username": "ksuabr",
+        "first_name": "Ксения",
+        "last_name": "Колесникова",
+        "type": "hiring",
+        "topics": ["Общие карьерные консультации"]
+      },
+      {
+        "username": "a_andrew",
+        "first_name": "Андрей",
+        "last_name": "Арсеев",
+        "type": "hiring",
+        "topics": ["Общие карьерные консультации"]
+      },
+      {
+        "username": "akuptsov_ydx",
+        "first_name": "Александр",
+        "last_name": "Купцов",
+        "type": "hiring",
+        "topics": ["Общие карьерные консультации"]
+      },
+      {
+        "username": "goo_olesya",
+        "first_name": "Олеся",
+        "last_name": "Гординская",
+        "type": "hiring",
+        "topics": ["Общие карьерные консультации"]
+      },
+      {
+        "username": "Nastyamaximowa",
+        "first_name": "Анастасия",
+        "last_name": "Максимова",
+        "type": "recruiter",
+        "topics": ["Особенности найма", "Прожарка резюме"]
+      },
+      {
+        "username": "ChekmaHR",
+        "first_name": "Екатерина",
+        "last_name": "Чекмарева",
+        "type": "recruiter",
+        "topics": ["Особенности найма", "Прожарка резюме"]
+      },
+      {
+        "username": "valeria_kovaleva",
+        "first_name": "Валерия",
+        "last_name": "Ковалева",
+        "type": "recruiter",
+        "topics": ["Особенности найма", "Прожарка резюме"]
+      },
+      {
+        "username": "koroskotoh",
+        "first_name": "Цивань",
+        "last_name": "Дарья",
+        "type": "recruiter",
+        "topics": ["Особенности найма", "Прожарка резюме"]
+      }
+    ],
+    "11:30-12:00": [
+      {
+        "username": "revonenkod",
+        "first_name": "Дмитрий",
+        "last_name": "Ревоненко",
+        "type": "hiring",
+        "topics": ["Общие карьерные консультации"]
+      },
+      {
+        "username": "antropaa",
+        "first_name": "Анна",
+        "last_name": "Антропова",
+        "type": "hiring",
+        "topics": ["Общие карьерные консультации"]
+      },
+      {
+        "username": "ksuabr",
+        "first_name": "Ксения",
+        "last_name": "Колесникова",
+        "type": "hiring",
+        "topics": ["Общие карьерные консультации"]
+      },
+      {
+        "username": "a_andrew",
+        "first_name": "Андрей",
+        "last_name": "Арсеев",
+        "type": "hiring",
+        "topics": ["Общие карьерные консультации"]
+      },
+      {
+        "username": "akuptsov_ydx",
+        "first_name": "Александр",
+        "last_name": "Купцов",
+        "type": "hiring",
+        "topics": ["Общие карьерные консультации"]
+      },
+      {
+        "username": "goo_olesya",
+        "first_name": "Олеся",
+        "last_name": "Гординская",
+        "type": "hiring",
+        "topics": ["Общие карьерные консультации"]
+      },
+      {
+        "username": "Ivan_Wasilievich",
+        "first_name": "Рычагов",
+        "last_name": "Дмитрий",
+        "type": "hiring",
+        "topics": ["Общие карьерные консультации"]
+      },
+      {
+        "username": "RealityWanderer",
+        "first_name": "Егор",
+        "last_name": "Гридасов",
+        "type": "hiring",
+        "topics": ["Общие карьерные консультации"]
+      },
+      {
+        "username": "Nastyamaximowa",
+        "first_name": "Анастасия",
+        "last_name": "Максимова",
+        "type": "recruiter",
+        "topics": ["Особенности найма", "Прожарка резюме"]
+      },
+      {
+        "username": "ChekmaHR",
+        "first_name": "Екатерина",
+        "last_name": "Чекмарева",
+        "type": "recruiter",
+        "topics": ["Особенности найма", "Прожарка резюме"]
+      },
+      {
+        "username": "valeria_kovaleva",
+        "first_name": "Валерия",
+        "last_name": "Ковалева",
+        "type": "recruiter",
+        "topics": ["Особенности найма", "Прожарка резюме"]
+      },
+      {
+        "username": "koroskotoh",
+        "first_name": "Цивань",
+        "last_name": "Дарья",
+        "type": "recruiter",
+        "topics": ["Особенности найма", "Прожарка резюме"]
+      }
+    ],
+    "15:00-15:30": [
+      {
+        "username": "alchubukov",
+        "first_name": "Алексей",
+        "last_name": "Чубуков",
+        "type": "hiring",
+        "topics": ["Общие карьерные консультации"]
+      },
+      {
+        "username": "katushiz",
+        "first_name": "Екатерина",
+        "last_name": "Бровикова",
+        "type": "hiring",
+        "topics": ["Общие карьерные консультации"]
+      },
+      {
+        "username": "ankatyandrey",
+        "first_name": "Екатерина",
+        "last_name": "Анашкина",
+        "type": "hiring",
+        "topics": ["Общие карьерные консультации"]
+      },
+      {
+        "username": "ksuabr",
+        "first_name": "Ксения",
+        "last_name": "Колесникова",
+        "type": "hiring",
+        "topics": ["Общие карьерные консультации"]
+      },
+      {
+        "username": "antondiden",
+        "first_name": "Антон",
+        "last_name": "Диденко",
+        "type": "hiring",
+        "topics": ["Общие карьерные консультации"]
+      },
+      {
+        "username": "iiggy",
+        "first_name": "Игорь",
+        "last_name": "Каргин",
+        "type": "hiring",
+        "topics": ["Общие карьерные консультации"]
+      },
+      {
+        "username": "alenaaplotnikova",
+        "first_name": "Алена",
+        "last_name": "Плотникова",
+        "type": "hiring",
+        "topics": ["Общие карьерные консультации"]
+      },
+      {
+        "username": "rubyasti",
+        "first_name": "Дарья",
+        "last_name": "Астанкова",
+        "type": "recruiter",
+        "topics": ["Особенности найма", "Прожарка резюме"]
+      },
+      {
+        "username": "rah_ekaterina",
+        "first_name": "Екатерина",
+        "last_name": "Рахманинова",
+        "type": "recruiter",
+        "topics": ["Особенности найма", "Прожарка резюме"]
+      },
+      {
+        "username": "ingafas",
+        "first_name": "Инга",
+        "last_name": "Березникер",
+        "type": "recruiter",
+        "topics": ["Особенности найма", "Прожарка резюме"]
+      }
+    ]
+  }
+}

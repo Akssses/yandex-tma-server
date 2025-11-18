@@ -3,11 +3,9 @@
 __pycache__/
 db.sqlite3
 .env
-*.json
 *service*
 *sa*.json
 *google*.json
 *key*.json
 .env
-*.json
 
