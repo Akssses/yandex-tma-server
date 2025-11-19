@@ -8,6 +8,8 @@ from aiogram.types import ReplyKeyboardMarkup, KeyboardButton, ReplyKeyboardRemo
 from aiogram.types import WebAppInfo
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 from asgiref.sync import sync_to_async
+from django.utils import timezone
+from zoneinfo import ZoneInfo
 import re
 
 # Настройка Django окружения
@@ -23,6 +25,7 @@ FRONTEND_BASE_URL = 'https://yandex-tma.vercel.app'
 
 # TELEGRAM_BOT_TOKEN = '7986098041:AAG7kR2rxwICzBRvP53yyUMtYonbceyW2Rg'
 # FRONTEND_BASE_URL = 'https://demisable-agueda-cloque.ngrok-free.dev'
+MOSCOW_TZ = ZoneInfo("Europe/Moscow")
 
 
 # Debug: print masked token tail to ensure env consistency (remove in production)
@@ -48,6 +51,20 @@ def _get_user_by_username_or_id(username=None, telegram_id=None):
     return None
 
 
+@sync_to_async
+def _ensure_telegram_id_saved(user, telegram_id):
+    """
+    Гарантирует, что у пользователя сохранён актуальный telegram_id.
+    Раньше эксперты проходили отдельный flow и telegram_id оставался пустым,
+    поэтому уведомления о консультациях не доходили.
+    """
+    if not user or not telegram_id:
+        return
+    if user.telegram_id != telegram_id:
+        user.telegram_id = telegram_id
+        user.save(update_fields=['telegram_id'])
+
+
 async def _ensure_registered_user(message: types.Message):
     """
     Проверяет, что пользователь есть в БД. Если нет — просит пройти регистрацию.
@@ -57,7 +74,9 @@ async def _ensure_registered_user(message: types.Message):
         username=message.from_user.username,
         telegram_id=message.from_user.id,
     )
-    if not user:
+    if user:
+        await _ensure_telegram_id_saved(user, message.from_user.id)
+    else:
         await message.answer(
             "Похоже, вы ещё не авторизованы. Нажмите /start и пройдите короткую регистрацию."
         )
@@ -107,6 +126,8 @@ async def cmd_start(message: types.Message):
     username = message.from_user.username
     tg_id = message.from_user.id
     user = await _get_user_by_username_or_id(username=username, telegram_id=tg_id)
+    if user:
+        await _ensure_telegram_id_saved(user, tg_id)
     if user and user.is_expert:
         first_name = (user.first_name or '').strip()
         last_name = (user.last_name or '').strip()
@@ -136,6 +157,8 @@ async def open_app(message: types.Message):
     username = message.from_user.username
     tg_id = message.from_user.id
     user = await _get_user_by_username_or_id(username=username, telegram_id=tg_id)
+    if user:
+        await _ensure_telegram_id_saved(user, tg_id)
     if user and not user.is_expert:
         ikb = InlineKeyboardMarkup(
             inline_keyboard=[[InlineKeyboardButton(text='Открыть приложение', web_app=WebAppInfo(url=FRONTEND_BASE_URL))]]
@@ -162,6 +185,8 @@ async def show_schedule(message: types.Message):
         username = message.from_user.username
         tg_id = message.from_user.id
         user = await _get_user_by_username_or_id(username=username, telegram_id=tg_id)
+        if user:
+            await _ensure_telegram_id_saved(user, tg_id)
         print(f"User found: {user}, is_expert: {user.is_expert if user else 'No user'}")
         if user and user.is_expert:
             # Build schedule text
@@ -271,6 +296,7 @@ async def vacancies_interest_yes(message: types.Message):
     username = message.from_user.username
     user = await _get_user_by_username_or_id(username=username, telegram_id=tg_id)
     if user:
+        await _ensure_telegram_id_saved(user, tg_id)
         user.vacancies_interest = True
         await sync_to_async(user.save)()
     else:
@@ -290,6 +316,7 @@ async def proceed_without_vacancies(message: types.Message):
     username = message.from_user.username
     user = await _get_user_by_username_or_id(username=username, telegram_id=tg_id)
     if user:
+        await _ensure_telegram_id_saved(user, tg_id)
         user.vacancies_interest = False
         await sync_to_async(user.save)()
     else:
@@ -470,13 +497,19 @@ def get_quiz_top_by_date(quiz_date: str, limit: int = 10):
     top = []
     for result in queryset:
         user = result.user
+        completed_at = result.completed_at
+        if completed_at:
+            completed_at = timezone.localtime(completed_at, MOSCOW_TZ)
+            completed_at_str = completed_at.strftime('%d.%m.%Y %H:%M')
+        else:
+            completed_at_str = '—'
         top.append({
             "first_name": user.first_name,
             "last_name": user.last_name,
             "username": user.username,
             "correct_answers": result.correct_answers,
             "total_questions": result.total_questions,
-            "completed_at": result.completed_at.strftime('%d.%m.%Y %H:%M'),
+            "completed_at": completed_at_str,
         })
     return top
 
