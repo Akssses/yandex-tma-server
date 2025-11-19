@@ -85,9 +85,24 @@ class QuizResultAdmin(admin.ModelAdmin):
 
 @admin.register(Workshop)
 class WorkshopAdmin(admin.ModelAdmin):
-    list_display = ('id', 'title', 'tag', 'start_time', 'end_time', 'created_at')
+    list_display = ('id', 'title', 'tag', 'start_time', 'end_time', 'max_participants', 'registered_count', 'available_slots', 'created_at')
     search_fields = ('title', 'tag')
-    list_filter = ('start_time', 'end_time', 'created_at')
+    list_filter = ('start_time', 'end_time', 'created_at', 'max_participants')
+    fields = ('title', 'tag', 'description', 'start_time', 'end_time', 'max_participants', 'created_at')
+    readonly_fields = ('created_at',)
+    
+    def registered_count(self, obj):
+        """Количество зарегистрированных участников"""
+        return obj.get_registered_count()
+    registered_count.short_description = 'Зарегистрировано'
+    
+    def available_slots(self, obj):
+        """Количество свободных мест"""
+        available = obj.get_available_slots()
+        if available is None:
+            return "Без лимита"
+        return f"{available} из {obj.max_participants}"
+    available_slots.short_description = 'Свободных мест'
 
 
 @admin.register(WorkshopRegistration)

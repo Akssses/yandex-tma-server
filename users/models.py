@@ -77,10 +77,33 @@ class Workshop(models.Model):
     description = models.TextField(blank=True, null=True)
     start_time = models.DateTimeField(null=True, blank=True)
     end_time = models.DateTimeField(null=True, blank=True)
+    max_participants = models.PositiveIntegerField(
+        null=True, 
+        blank=True,
+        help_text="Максимальное количество участников. Если не указано, лимит не действует."
+    )
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return f"{self.title} ({self.start_time} - {self.end_time})"
+    
+    def get_registered_count(self):
+        """Возвращает количество зарегистрированных участников"""
+        return self.registrations.count()
+    
+    def has_available_slots(self):
+        """Проверяет, есть ли свободные места"""
+        if self.max_participants is None:
+            return True  # Лимит не установлен
+        return self.get_registered_count() < self.max_participants
+    
+    def get_available_slots(self):
+        """Возвращает количество свободных мест"""
+        if self.max_participants is None:
+            return None  # Лимит не установлен
+        registered = self.get_registered_count()
+        available = self.max_participants - registered
+        return max(0, available)
 
 
 class WorkshopRegistration(models.Model):

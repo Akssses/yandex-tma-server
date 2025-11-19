@@ -548,7 +548,7 @@ def _get_user_by_init_data(request):
 @csrf_exempt
 @require_http_methods(["GET"])
 def list_workshops(request):
-    workshops = Workshop.objects.all().order_by('start_time')
+    workshops = Workshop.objects.prefetch_related('registrations').all().order_by('start_time')
     def fmt(w):
         try:
             # HH:MM - HH:MM
@@ -558,13 +558,22 @@ def list_workshops(request):
         except Exception:
             return ""
 
-    data = [{
-        'id': w.id,
-        'title': w.title,
-        'tag': w.tag,
-        'description': w.description,
-        'time': fmt(w),
-    } for w in workshops]
+    data = []
+    for w in workshops:
+        registered_count = w.get_registered_count()
+        available_slots = w.get_available_slots()
+        workshop_data = {
+            'id': w.id,
+            'title': w.title,
+            'tag': w.tag,
+            'description': w.description,
+            'time': fmt(w),
+            'max_participants': w.max_participants,
+            'registered_count': registered_count,
+            'available_slots': available_slots,
+            'is_full': not w.has_available_slots() if w.max_participants is not None else False,
+        }
+        data.append(workshop_data)
     return JsonResponse({'success': True, 'workshops': data})
 
 
@@ -604,7 +613,7 @@ def register_workshop(request, workshop_id):
         user, err = _get_user_by_init_data(request)
         if err:
             return err
-        # limit 2
+        # limit 2 workshops per user
         current_count = WorkshopRegistration.objects.filter(user=user).count()
         if current_count >= 2:
             return JsonResponse({'error': 'Registration limit reached (2)'}, status=400)
@@ -612,6 +621,9 @@ def register_workshop(request, workshop_id):
             workshop = Workshop.objects.get(id=workshop_id)
         except Workshop.DoesNotExist:
             return JsonResponse({'error': 'Workshop not found'}, status=404)
+        # Check if workshop has available slots
+        if not workshop.has_available_slots():
+            return JsonResponse({'error': 'Workshop is full'}, status=400)
         reg, created = WorkshopRegistration.objects.get_or_create(user=user, workshop=workshop)
         if not created:
             return JsonResponse({'error': 'Already registered'}, status=400)
